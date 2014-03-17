@@ -13,3 +13,10 @@ Vector3::Vector3(float x, float y, float z)
 	this->y = y;
 	this->z = z;
 }
+
+Vector3::Vector3(Vector3* copy)
+{
+	this->x = copy->x;
+	this->y = copy->y;
+	this->z = copy->z;
+}

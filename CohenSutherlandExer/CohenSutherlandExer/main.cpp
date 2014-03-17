@@ -26,6 +26,7 @@ float _yMax = 0.8f;
 bool setP;
 bool setQ;
 bool setPoints;
+bool clippedLine;
 
 int classifyRegions(Vector3 v)
 {
@@ -52,11 +53,72 @@ int classifyRegions(Vector3 v)
 
 void cohenSutherland(void)
 {
-	int pMask = classifyRegions(*p);
-	int qMask = classifyRegions(*q);
-	printf("%d %d \n", pMask, qMask);
+	Vector3* copyP = new Vector3(p); 
+	Vector3* copyQ = new Vector3(q); 
 
+	while(true)
+	{
+		int pMask = classifyRegions(*copyP);
+		int qMask = classifyRegions(*copyQ);
+		printf("%d %d %d %d\n", pMask, qMask, pMask & qMask, pMask | qMask);
 
+		if(!(pMask | qMask))
+		{
+			cP = copyP;
+			cQ = copyQ;
+			break;
+		}
+		else if(pMask & qMask)
+		{
+			cP = new Vector3(.0f, .0f, .0f);
+			cQ = new Vector3(.0f, .0f, .0f);
+			break;
+		}
+		else
+		{
+			int outCode = pMask ? pMask : qMask;
+			float x, y;
+			float x0 = copyP->x; float y0 = copyP->y;
+			float x1 = copyQ->x; float y1 = copyQ->y;
+
+			//UP DOWN LEFT RIGHT
+			if(outCode & U)
+			{
+				x = x0 + (x1 - x0) * (_yMax - y0) / (y1 - y0);
+				y = _yMax;
+			}
+			else if(outCode & D)
+			{
+				x = x0 + (x1 - x0) * (_yMin - y0) / (y1 - y0);
+				y = _yMin;
+			}
+			else if(outCode & L)
+			{
+				y = y0 + (y1 - y0) * (_xMin - x0) / (x1 - x0);
+				x = _xMin;
+			}
+			else if(outCode & R)
+			{
+				y = y0 + (y1 - y0) * (_xMax - x0) / (x1 - x0);
+				x = _xMax;
+			}
+			
+			if(outCode == pMask)
+			{
+				copyP = new Vector3(x, y, .0f);
+			}
+			else
+			{
+				copyQ = new Vector3(x, y, .0f);
+			}
+		}
+	}
+	cP = new Vector3(copyP);
+	cQ = new Vector3(copyQ);
+
+	clippedLine = true;
+	delete copyP;
+	delete copyQ;
 }
 
 void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) 
@@ -106,7 +168,8 @@ void glfwMouseCallback(GLFWwindow* window, int button, int action, int mods)
 		else
 		if(setPoints)
 		{
-			setP = setQ = setPoints = false;
+			setP = setQ = setPoints = clippedLine = false;
+			printf("Clear\n");
 		}
 	}
 }
@@ -145,16 +208,20 @@ void display(void)
 		glVertex3f(_xMax, _yMin, 0.f);
 	glEnd();
 
+	glBegin(GL_LINES);
 	if(setPoints)
 	{
-		glBegin(GL_LINE_STRIP);
-		glColor3f(0.f, 0.f, 1.f);
-			glVertex3f(p->x, p->y, p->z);
-			glVertex3f(q->x, q->y, q->z);
-		glEnd();
-
-
+		glColor3f(.0f, .0f, 1.f);
+		glVertex3f(p->x, p->y, 0.f);
+		glVertex3f(q->x, q->y, 0.f);
 	}
+	if(clippedLine)
+	{
+		glColor3f(1.f, 1.f, 0.f);
+		glVertex3f(cP->x, cP->y, 0.f);
+		glVertex3f(cQ->x, cQ->y, 0.f);
+	}
+	glEnd();
 
 	glfwSwapBuffers(window);
 	glfwPollEvents();
@@ -166,6 +233,7 @@ int main(void)
 	{
 		return -1;
 	}
+
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glEnable(GL_TEXTURE_2D);
@@ -177,6 +245,7 @@ int main(void)
 	setPoints = false;
 	setP = false;
 	setQ = false;
+	clippedLine = false;
 
 	if (!window)
     {
