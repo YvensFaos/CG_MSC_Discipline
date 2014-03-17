@@ -1,6 +1,7 @@
 #include "GLFW\glfw3.h"
 #include "Vector3.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 //UP DOWN LEFT RIGHT
 int U = 0x08;
@@ -60,18 +61,18 @@ void cohenSutherland(void)
 	{
 		int pMask = classifyRegions(*copyP);
 		int qMask = classifyRegions(*copyQ);
-		printf("%d %d %d %d\n", pMask, qMask, pMask & qMask, pMask | qMask);
+		printf("P_Mask: %d\nQ_Mask: %d\n U: %d\n I: %d\n", pMask, qMask, pMask & qMask, pMask | qMask);
 
 		if(!(pMask | qMask))
 		{
-			cP = copyP;
-			cQ = copyQ;
+			printf("Trivial Accept\n");
 			break;
 		}
 		else if(pMask & qMask)
 		{
-			cP = new Vector3(.0f, .0f, .0f);
-			cQ = new Vector3(.0f, .0f, .0f);
+			printf("Trivial Reject\n");
+			copyP = new Vector3(.0f, .0f, .0f);
+			copyQ = new Vector3(.0f, .0f, .0f);
 			break;
 		}
 		else
@@ -84,37 +85,46 @@ void cohenSutherland(void)
 			//UP DOWN LEFT RIGHT
 			if(outCode & U)
 			{
+				printf("Up clip\n");
 				x = x0 + (x1 - x0) * (_yMax - y0) / (y1 - y0);
 				y = _yMax;
 			}
 			else if(outCode & D)
 			{
+				printf("Down clip\n");
 				x = x0 + (x1 - x0) * (_yMin - y0) / (y1 - y0);
 				y = _yMin;
 			}
 			else if(outCode & L)
 			{
-				y = y0 + (y1 - y0) * (_xMin - x0) / (x1 - x0);
-				x = _xMin;
+				printf("Left clip\n");
+				y = y0 + (y1 - y0) * (_xMax - x0) / (x1 - x0);
+				x = _xMax;
 			}
 			else if(outCode & R)
 			{
-				y = y0 + (y1 - y0) * (_xMax - x0) / (x1 - x0);
-				x = _xMax;
+				printf("Right clip\n");
+				y = y0 + (y1 - y0) * (_xMin - x0) / (x1 - x0);
+				x = _xMin;
 			}
 			
 			if(outCode == pMask)
 			{
+				printf("New P: %f %f\n", x, y);
 				copyP = new Vector3(x, y, .0f);
 			}
 			else
 			{
+				printf("New Q: %f %f\n", x, y);
 				copyQ = new Vector3(x, y, .0f);
 			}
 		}
 	}
+
 	cP = new Vector3(copyP);
 	cQ = new Vector3(copyQ);
+
+	printf("%f %f e %f %f\n", cP->x, cP->y, cQ->x, cQ->y);
 
 	clippedLine = true;
 	delete copyP;
@@ -148,27 +158,32 @@ void glfwMouseCallback(GLFWwindow* window, int button, int action, int mods)
 		y /= 480.f;
 		y -= 1;
 		y *= -1;
-		printf("%f %f\n", x, y);
+
 		if(!setP)
 		{
+			printf("Set P: %f %f\n", x, y);
 			p = new Vector3(x, y, 0.f);
 			setP = true;
-			printf("setP\n");
 		}
 		else
 		if(!setQ)
 		{
+			printf("Set Q: %f %f\n", x, y);
 			q = new Vector3(x, y, 0.f);
 			setQ =  true;
 			setPoints = true;
-			printf("setQ\n");
-
+		}
+		else
+		if(!clippedLine)
+		{
+			printf("Bounds: %f %f %f %f\n", _xMin, _xMax, _yMin, _yMax);
 			cohenSutherland();
 		}
 		else
 		if(setPoints)
 		{
 			setP = setQ = setPoints = clippedLine = false;
+			system("cls");
 			printf("Clear\n");
 		}
 	}
