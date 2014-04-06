@@ -43,10 +43,10 @@ int classifyRegions(Vector3 v)
 
 	if(v.x < _xMin)
 	{
-		vMask |= R;
+		vMask |= L;
 	}else if(v.x > _xMax)
 	{
-		vMask |= L;
+		vMask |= R;
 	}
 
 	return vMask;
@@ -98,14 +98,14 @@ void cohenSutherland(void)
 			else if(outCode & L)
 			{
 				printf("Left clip\n");
-				y = y0 + (y1 - y0) * (_xMax - x0) / (x1 - x0);
-				x = _xMax;
+				y = y0 + (y1 - y0) * (_xMin - x0) / (x1 - x0);
+				x = _xMin;
 			}
 			else if(outCode & R)
 			{
 				printf("Right clip\n");
-				y = y0 + (y1 - y0) * (_xMin - x0) / (x1 - x0);
-				x = _xMin;
+				y = y0 + (y1 - y0) * (_xMax - x0) / (x1 - x0);
+				x = _xMax;
 			}
 			
 			if(outCode == pMask)
