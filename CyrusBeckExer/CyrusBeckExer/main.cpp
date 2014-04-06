@@ -1,5 +1,9 @@
 #include "GLFW\glfw3.h"
+
 #include "Vector3.h"
+#include "Edge2d.h"
+#include "Polygon2d.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 

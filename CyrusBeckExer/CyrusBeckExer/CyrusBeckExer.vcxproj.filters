@@ -21,9 +21,18 @@
     <ClCompile Include="Vector3.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="Edge2d.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Edge2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Polygon2d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
