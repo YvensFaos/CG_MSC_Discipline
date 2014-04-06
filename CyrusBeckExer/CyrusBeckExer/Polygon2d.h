@@ -5,11 +5,15 @@
 
 class Polygon2D
 {
-	int lenght;
+public:
+	int length;
 	Edge2d* edges;
 
 	Polygon2D(void);
-	Polygon2D(int lenght, Edge2d* edges);
+	Polygon2D(int length, Edge2d* edges);
+
+	Polygon2D getBoundBox(void);
+	void printConsole(void);
 };
 
 #endif

@@ -1,10 +1,19 @@
 #include "Vector3.h"
 
+#include <stdio.h>
+
 Vector3::Vector3(void)
 {
 	x = -1;
 	y = -1;
 	z = -1;
+}
+
+Vector3::Vector3(float x, float y)
+{
+	this->x = x;
+	this->y = y;
+	this->z = 0.f;
 }
 
 Vector3::Vector3(float x, float y, float z)
@@ -19,4 +28,9 @@ Vector3::Vector3(Vector3* copy)
 	this->x = copy->x;
 	this->y = copy->y;
 	this->z = copy->z;
+}
+
+void Vector3::printConsole(void)
+{
+	printf("V: %f %f %f\n", x, y, z);
 }

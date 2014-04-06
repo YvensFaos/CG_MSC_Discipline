@@ -1,7 +1,6 @@
 #include "GLFW\glfw3.h"
 
 #include "Vector3.h"
-#include "Edge2d.h"
 #include "Polygon2d.h"
 
 #include <stdio.h>
@@ -13,6 +12,9 @@ Vector3* q;
 
 Vector3* cP;
 Vector3* cQ;
+
+Polygon2D* clipWindow;
+Polygon2D bound;
 
 float _width = 640;
 float _height = 480;
@@ -26,6 +28,29 @@ bool setP;
 bool setQ;
 bool setPoints;
 bool clippedLine;
+bool showBoundingBox;
+
+void defineClipWindow(void)
+{
+	int length = 5;
+	Edge2d* edges = new Edge2d[length];
+
+	edges[0] = new Edge2d(new Vector3(0.15f, 0.55f), 
+						  new Vector3(0.55f, 0.70f));
+	edges[1] = new Edge2d(new Vector3(0.55f, 0.70f), 
+						  new Vector3(0.75f, 0.70f));
+	edges[2] = new Edge2d(new Vector3(0.75f, 0.70f), 
+						  new Vector3(0.75f, 0.30f));
+	edges[3] = new Edge2d(new Vector3(0.75f, 0.30f), 
+						  new Vector3(0.35f, 0.20f));
+	edges[4] = new Edge2d(new Vector3(0.35f, 0.20f), 
+						  new Vector3(0.15f, 0.55f));
+
+	clipWindow = new Polygon2D(length, edges);
+
+	showBoundingBox = false;
+	bound = clipWindow->getBoundBox();
+}
 
 void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) 
 {
@@ -33,7 +58,10 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 		if (key == GLFW_KEY_ESCAPE) {
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
-		
+
+		if (key == GLFW_KEY_A) {
+			showBoundingBox = !showBoundingBox;
+		}
 	}
 }
 
@@ -96,25 +124,32 @@ void display(void)
 	glOrtho(0.f, 1.f, 0.f, 1.f, 1.f, -1.f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	
+	if(showBoundingBox)
+	{
+		
+
+		glBegin(GL_LINES);
+		int length = bound.length;
+		for (int i = 0; i < length; i++)
+		{
+			glColor3f(1.f, .0f, .0f);
+			glVertex3f(bound.edges[i].o.x, bound.edges[i].o.y, 0.f);
+			glVertex3f(bound.edges[i].p.x, bound.edges[i].p.y, 0.f);
+		}
+		glEnd();
+	}
 
 	//Desenhar a área de desenho
-	/*
-	glBegin(GL_QUADS);
-		glColor4f(0.05f, 0.05f, 0.05f, .5f);
-		glVertex3f(0.f, 0.f, 0.f);
-		glVertex3f(0.f,  1.f, 0.f);
-		glVertex3f( 1.f,  1.f, 0.f);
-		glVertex3f( 1.f, 0.f, 0.f);
+	glBegin(GL_LINES);
+	int length = clipWindow->length;
+	for (int i = 0; i < length; i++)
+	{
+		glColor3f(1.f, 1.f, 1.f);
+		glVertex3f(clipWindow->edges[i].o.x, clipWindow->edges[i].o.y, 0.f);
+		glVertex3f(clipWindow->edges[i].p.x, clipWindow->edges[i].p.y, 0.f);
+	}
 	glEnd();
-
-	glBegin(GL_QUADS);
-		glColor4f(0.3f, 0.3f, 0.3f, .5f);
-		glVertex3f(_xMin, _yMin, 0.f);
-		glVertex3f(_xMin, _yMax, 0.f);
-		glVertex3f(_xMax, _yMax, 0.f);
-		glVertex3f(_xMax, _yMin, 0.f);
-	glEnd();
-	*/
 
 	glBegin(GL_LINES);
 	if(setPoints)
@@ -137,6 +172,8 @@ void display(void)
 
 int main(void)
 {
+	defineClipWindow();
+
 	if (!glfwInit())
 	{
 		return -1;

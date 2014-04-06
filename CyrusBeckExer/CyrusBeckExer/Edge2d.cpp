@@ -1,5 +1,7 @@
 #include "Edge2d.h"
 
+#include <stdio.h>
+
 Edge2d::Edge2d(void)
 {
 	o = new Vector3();
@@ -25,4 +27,11 @@ Vector3 Edge2d::parametric(float t)
 	float z = o.z + (p.z - o.z)*t;
 
 	return new Vector3(x,y,z);
+}
+
+void Edge2d::printConsole(void)
+{
+	printf("Edge:\n");
+	o.printConsole();
+	p.printConsole();
 }

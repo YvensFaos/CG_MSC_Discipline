@@ -14,6 +14,7 @@ public:
 	Edge2d(Edge2d* copy);
 
 	Vector3 parametric(float t);
+	void printConsole(void);
 };
 
 #endif

@@ -9,8 +9,11 @@ public:
 	float z;
 
 	Vector3(void);
+	Vector3(float x, float y);
 	Vector3(float x, float y, float z);
 	Vector3(Vector3* copy);
+
+	void printConsole(void);
 };
 
 #endif

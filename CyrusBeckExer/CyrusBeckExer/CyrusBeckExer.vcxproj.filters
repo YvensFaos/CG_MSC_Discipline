@@ -24,6 +24,9 @@
     <ClCompile Include="Edge2d.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="Polygon2d.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3.h">
