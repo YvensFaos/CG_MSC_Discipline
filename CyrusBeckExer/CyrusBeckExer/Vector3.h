@@ -14,6 +14,7 @@ public:
 	Vector3(Vector3* copy);
 
 	void printConsole(void);
+	float dotProduct(Vector3 another);
 };
 
 #endif
