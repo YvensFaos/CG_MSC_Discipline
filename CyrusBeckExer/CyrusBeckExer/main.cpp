@@ -30,14 +30,18 @@ bool setPoints;
 bool clippedLine;
 bool showBoundingBox;
 
-void cyrusBeck(void)
+bool cyrusBeck(void)
 {
 	bool visible = true;
 	
 	//Usar técnica das regiões do CS
 	
-	float t1, t0; t1 = t0 = 0;
-	Vector3 direction;
+	float t, t0, t1; 
+	t = t0 = 0; 
+	t1 = 1;
+	float den, num;
+	Vector3 direction, line;
+	Edge2d drawLine = Edge2d(p, q);
 
 	direction = Vector3(p->x - q->x, p->y - q->y);
 	int i = 0;
@@ -45,7 +49,43 @@ void cyrusBeck(void)
 
 	while(i < length && visible)
 	{
+		line = Vector3(p->x - clipWindow->points[i].x, p->y - clipWindow->points[i].y);
+
+		num = clipWindow->normals[i].dotProduct(line);
+		den = clipWindow->normals[i].dotProduct(direction);
+
+		if(den == 0.0f && num > 0.0f)
+		{
+			visible = false;
+		}
+		else
+		{
+			t = -(num/den);
+			if(den < 0.0f && t <= 1.0f && t > t0)
+			{
+				t0 = t;
+			}
+			else if(t >= 0.f && t < t1)
+			{
+				t1 = t;
+			}
+		}
+		i++;
 	}
+
+	if(t0 <= t1)
+	{
+		printf("t0 = %f t1 = %f\n", t0,t1);
+
+		cP = new Vector3(drawLine.parametric(t0));
+		cQ = new Vector3(drawLine.parametric(t1));
+	}
+	else
+	{
+		visible = false;
+	}
+
+	return visible;
 }
 
 void defineClipWindow(void)
@@ -117,6 +157,9 @@ void glfwMouseCallback(GLFWwindow* window, int button, int action, int mods)
 		{
 			printf("Bounds: %f %f %f %f\n", _xMin, _xMax, _yMin, _yMax);
 			cyrusBeck();
+			cP->printConsole();
+			cQ->printConsole();
+			clippedLine = true;
 		}
 		else
 		if(setPoints)
