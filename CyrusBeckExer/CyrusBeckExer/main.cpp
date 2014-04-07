@@ -6,6 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//UP DOWN LEFT RIGHT
+int U = 0x08;
+int D = 0x04;
+int L = 0x02;
+int R = 0x01;
+
 GLFWwindow* window;
 Vector3* p;
 Vector3* q;
@@ -18,11 +24,6 @@ Polygon2D bound;
 
 float _width = 640;
 float _height = 480;
-
-float _xMin = 0.2f;
-float _xMax = 0.8f;
-float _yMin = 0.2f;
-float _yMax = 0.8f;
 
 bool setP;
 bool setQ;
@@ -40,9 +41,42 @@ float min(float a, float b)
 	return (a < b)? a : b;
 }
 
+int classifyRegions(Vector3 v)
+{
+	int vMask = 0;
+
+	if(v.y > clipWindow->majorDiagonal.y)
+	{
+		vMask |= U;
+	}else if(v.y < clipWindow->minorDiagonal.y)
+	{
+		vMask |= D;
+	}
+
+	if(v.x < clipWindow->minorDiagonal.x)
+	{
+		vMask |= L;
+	}else if(v.x > clipWindow->majorDiagonal.x)
+	{
+		vMask |= R;
+	}
+
+	return vMask;
+}
+
 bool cyrusBeck(void)
 {
 	bool visible = true;
+
+	int pMask = classifyRegions(p);
+	int qMask = classifyRegions(q);
+
+	if(pMask & qMask)
+	{
+		printf("Trivial Reject\n");
+		return false;	
+	}
+
 	Vector3 direction = q->subtract(p);
 	Vector3 w, normal;
 	Edge2d edge;
@@ -166,7 +200,6 @@ void glfwMouseCallback(GLFWwindow* window, int button, int action, int mods)
 		else
 		if(!clippedLine)
 		{
-			printf("Bounds: %f %f %f %f\n", _xMin, _xMax, _yMin, _yMax);
 			bool visible = cyrusBeck();
 			if(!visible)
 			{

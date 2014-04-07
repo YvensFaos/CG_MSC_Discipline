@@ -101,7 +101,8 @@ void Polygon2D::generateBoundBox(void)
 	boundingEdges[3] = Edge2d(new Vector3(maxX, minY), new Vector3(maxX, maxY));
 
 	bounding = new Polygon2D(4, boundingEdges, true);	
-
+	minorDiagonal = Vector3(minX, minY);
+	majorDiagonal = Vector3(maxX, maxY);
 	center = Vector3((maxX + minX)/2.f, (maxY + minY)/2.f);
 }
 

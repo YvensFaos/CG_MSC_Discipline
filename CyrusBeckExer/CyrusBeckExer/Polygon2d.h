@@ -13,6 +13,8 @@ public:
 	Vector3* normals;
 	Vector3 center;
 	Polygon2D* bounding;
+	Vector3 minorDiagonal;
+	Vector3 majorDiagonal;
 
 	Polygon2D(void);
 	Polygon2D(int length, Edge2d* edges);
