@@ -15,6 +15,7 @@ public:
 
 	void printConsole(void);
 	float dotProduct(Vector3 another);
+	bool equals(Vector3 another);
 };
 
 #endif

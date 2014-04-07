@@ -30,6 +30,24 @@ bool setPoints;
 bool clippedLine;
 bool showBoundingBox;
 
+void cyrusBeck(void)
+{
+	bool visible = true;
+	
+	//Usar técnica das regiões do CS
+	
+	float t1, t0; t1 = t0 = 0;
+	Vector3 direction;
+
+	direction = Vector3(p->x - q->x, p->y - q->y);
+	int i = 0;
+	int length = clipWindow->length;
+
+	while(i < length && visible)
+	{
+	}
+}
+
 void defineClipWindow(void)
 {
 	int length = 5;
@@ -50,6 +68,7 @@ void defineClipWindow(void)
 
 	showBoundingBox = false;
 	bound = clipWindow->getBoundBox();
+	clipWindow->calculateOuter();
 }
 
 void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) 
@@ -62,6 +81,10 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 		if (key == GLFW_KEY_A) {
 			showBoundingBox = !showBoundingBox;
 		}
+
+		if (key == GLFW_KEY_S) {
+			clipWindow->printConsole();
+		}
 	}
 }
 
@@ -70,7 +93,6 @@ void glfwMouseCallback(GLFWwindow* window, int button, int action, int mods)
 	if(action == GLFW_PRESS) {
 		double x, y;
 		glfwGetCursorPos(window, &x, &y);
-		//printf("%f %f\n", x, y);
 		x /= 640.f;
 		y /= 480.f;
 		y -= 1;
@@ -94,8 +116,7 @@ void glfwMouseCallback(GLFWwindow* window, int button, int action, int mods)
 		if(!clippedLine)
 		{
 			printf("Bounds: %f %f %f %f\n", _xMin, _xMax, _yMin, _yMax);
-			//cohenSutherland();
-			//algoritmo do cyrus beck
+			cyrusBeck();
 		}
 		else
 		if(setPoints)

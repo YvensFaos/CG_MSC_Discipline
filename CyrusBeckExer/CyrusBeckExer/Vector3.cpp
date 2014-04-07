@@ -34,3 +34,13 @@ void Vector3::printConsole(void)
 {
 	printf("V: %f %f %f\n", x, y, z);
 }
+
+float Vector3::dotProduct(Vector3 another)
+{
+	return x*another.x + y*another.y;
+}
+
+bool Vector3::equals(Vector3 another)
+{
+	return x == another.x && y == another.y;
+}

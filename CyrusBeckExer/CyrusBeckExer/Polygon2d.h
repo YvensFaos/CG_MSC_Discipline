@@ -8,12 +8,15 @@ class Polygon2D
 public:
 	int length;
 	Edge2d* edges;
+	Vector3* points;
+	Vector3* normals;
 
 	Polygon2D(void);
 	Polygon2D(int length, Edge2d* edges);
 
 	Polygon2D getBoundBox(void);
 	void printConsole(void);
+	void calculateOuter(void);
 };
 
 #endif
