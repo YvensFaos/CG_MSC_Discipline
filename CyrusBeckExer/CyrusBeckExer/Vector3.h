@@ -13,9 +13,12 @@ public:
 	Vector3(float x, float y, float z);
 	Vector3(Vector3* copy);
 
+	void normalize(void);
 	void printConsole(void);
 	float dotProduct(Vector3 another);
 	bool equals(Vector3 another);
+	Vector3 subtract(Vector3 another);
+	Vector3 crossProduct(Vector3 another);
 };
 
 #endif

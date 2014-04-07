@@ -10,8 +10,8 @@ GLFWwindow* window;
 Vector3* p;
 Vector3* q;
 
-Vector3* cP;
-Vector3* cQ;
+Vector3 cP;
+Vector3 cQ;
 
 Polygon2D* clipWindow;
 Polygon2D bound;
@@ -30,60 +30,71 @@ bool setPoints;
 bool clippedLine;
 bool showBoundingBox;
 
+float max(float a, float b)
+{
+	return (a > b)? a : b;
+}
+
+float min(float a, float b)
+{
+	return (a < b)? a : b;
+}
+
 bool cyrusBeck(void)
 {
 	bool visible = true;
-	
-	//Usar técnica das regiões do CS
-	
-	float t, t0, t1; 
-	t = t0 = 0; 
-	t1 = 1;
-	float den, num;
-	Vector3 direction, line;
-	Edge2d drawLine = Edge2d(p, q);
+	Vector3 direction = q->subtract(p);
+	Vector3 w, normal;
+	Edge2d edge;
+	Edge2d parametricLine = Edge2d(p, q);
 
-	direction = Vector3(p->x - q->x, p->y - q->y);
-	int i = 0;
+	float dotW, dotD;
+	float t;
+	float t0 = 0;
+	float t1 = 1;
 	int length = clipWindow->length;
 
-	while(i < length && visible)
+	for(int i = 0; i < length; i++)
 	{
-		line = Vector3(p->x - clipWindow->points[i].x, p->y - clipWindow->points[i].y);
+		edge = clipWindow->edges[i];
+		w = p->subtract(edge.o);
+		normal = clipWindow->normals[i];
 
-		num = clipWindow->normals[i].dotProduct(line);
-		den = clipWindow->normals[i].dotProduct(direction);
+		dotD = direction.dotProduct(normal);
+		dotW = w.dotProduct(normal);
 
-		if(den == 0.0f && num > 0.0f)
+		if(dotD != 0)
 		{
-			visible = false;
-		}
-		else
-		{
-			t = -(num/den);
-			if(den < 0.0f && t <= 1.0f && t > t0)
+			t = -(dotW/dotD);
+			if(dotD > 0)
 			{
-				t0 = t;
+				if(t > 1)
+				{
+					visible = false;
+				}
+				else
+				{
+					t0 = max(t, t0);
+				}
 			}
-			else if(t >= 0.f && t < t1)
+			else
 			{
-				t1 = t;
+				if(t < 0)
+				{
+					visible = false;
+				}
+				else
+				{
+					t1 = min(t, t1);
+				}
 			}
 		}
-		i++;
 	}
 
-	if(t0 <= t1)
-	{
-		printf("t0 = %f t1 = %f\n", t0,t1);
+	printf("T0 = %f e T1 = %f\n",t0, t1);
 
-		cP = new Vector3(drawLine.parametric(t0));
-		cQ = new Vector3(drawLine.parametric(t1));
-	}
-	else
-	{
-		visible = false;
-	}
+	cP = parametricLine.parametric(t0);
+	cQ = parametricLine.parametric(t1);
 
 	return visible;
 }
@@ -100,8 +111,8 @@ void defineClipWindow(void)
 	edges[2] = new Edge2d(new Vector3(0.75f, 0.70f), 
 						  new Vector3(0.75f, 0.30f));
 	edges[3] = new Edge2d(new Vector3(0.75f, 0.30f), 
-						  new Vector3(0.35f, 0.20f));
-	edges[4] = new Edge2d(new Vector3(0.35f, 0.20f), 
+						  new Vector3(0.35f, 0.25f));
+	edges[4] = new Edge2d(new Vector3(0.35f, 0.25f),
 						  new Vector3(0.15f, 0.55f));
 
 	clipWindow = new Polygon2D(length, edges);
@@ -156,9 +167,14 @@ void glfwMouseCallback(GLFWwindow* window, int button, int action, int mods)
 		if(!clippedLine)
 		{
 			printf("Bounds: %f %f %f %f\n", _xMin, _xMax, _yMin, _yMax);
-			cyrusBeck();
-			cP->printConsole();
-			cQ->printConsole();
+			bool visible = cyrusBeck();
+			if(!visible)
+			{
+				printf("Invisible\n");
+				cP = Vector3();
+				cQ = Vector3();
+			}
+			
 			clippedLine = true;
 		}
 		else
@@ -191,8 +207,7 @@ void display(void)
 	
 	if(showBoundingBox)
 	{
-		
-
+		//Desenha bounding box
 		glBegin(GL_LINES);
 		int length = bound.length;
 		for (int i = 0; i < length; i++)
@@ -200,6 +215,38 @@ void display(void)
 			glColor3f(1.f, .0f, .0f);
 			glVertex3f(bound.edges[i].o.x, bound.edges[i].o.y, 0.f);
 			glVertex3f(bound.edges[i].p.x, bound.edges[i].p.y, 0.f);
+		}
+		glEnd();
+
+		//Desenha centro
+		glBegin(GL_LINES);
+		Vector3 center = clipWindow->center;
+		glColor3f(1.f, .0f, .0f);
+
+		glVertex3f(center.x, center.y, 0);
+		glVertex3f(center.x + 0.01f, center.y, 0);
+
+		glVertex3f(center.x, center.y, 0);
+		glVertex3f(center.x - 0.01f, center.y, 0);
+
+		glVertex3f(center.x, center.y, 0);
+		glVertex3f(center.x, center.y + 0.01f, 0);
+
+		glVertex3f(center.x, center.y, 0);
+		glVertex3f(center.x, center.y - 0.01f, 0);
+		glEnd();
+
+		//Desenha normais
+		glBegin(GL_LINES);
+		length = clipWindow->length;
+		for (int i = 0; i < length; i++)
+		{
+			glColor3f(0.f, 1.0f, .0f);
+			Vector3 midPoints = clipWindow->edges[i].parametric(0.5f);
+			Vector3 normal = clipWindow->normals[i];
+
+			glVertex3f(midPoints.x, midPoints.y, 0.f);
+			glVertex3f(midPoints.x + normal.x, midPoints.y + normal.y, 0.f);
 		}
 		glEnd();
 	}
@@ -225,8 +272,8 @@ void display(void)
 	if(clippedLine)
 	{
 		glColor3f(1.f, 1.f, 0.f);
-		glVertex3f(cP->x, cP->y, 0.f);
-		glVertex3f(cQ->x, cQ->y, 0.f);
+		glVertex3f(cP.x, cP.y, 0.f);
+		glVertex3f(cQ.x, cQ.y, 0.f);
 	}
 	glEnd();
 
