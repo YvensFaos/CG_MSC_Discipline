@@ -71,6 +71,7 @@ bool cyrusBeck(void)
 	int pMask = classifyRegions(p);
 	int qMask = classifyRegions(q);
 
+	printf("%d && %d\n", pMask, qMask);
 	if(pMask & qMask)
 	{
 		printf("Trivial Reject\n");
@@ -88,10 +89,10 @@ bool cyrusBeck(void)
 	float t1 = 1;
 	int length = clipWindow->length;
 
-	for(int i = 0; i < length; i++)
+	for(int i = 0; i < length && visible; i++)
 	{
 		edge = clipWindow->edges[i];
-		w = p->subtract(edge.o);
+		w = p->subtract(edge.parametric(.5f));
 		normal = clipWindow->normals[i];
 
 		dotD = direction.dotProduct(normal);
@@ -125,8 +126,13 @@ bool cyrusBeck(void)
 		}
 	}
 
-	printf("T0 = %f e T1 = %f\n",t0, t1);
+	if(t0 > t1)
+	{
+		printf("T0 > T1: Invisible \n");
+		return false;
+	}
 
+	printf("T0 = %f e T1 = %f\n",t0, t1);
 	cP = parametricLine.parametric(t0);
 	cQ = parametricLine.parametric(t1);
 
