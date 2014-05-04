@@ -144,16 +144,21 @@ void defineClipWindow(void)
 	int length = 5;
 	Edge2d* edges = new Edge2d[length];
 
-	edges[0] = new Edge2d(new Vector3(0.15f, 0.55f), 
-						  new Vector3(0.55f, 0.70f));
-	edges[1] = new Edge2d(new Vector3(0.55f, 0.70f), 
-						  new Vector3(0.75f, 0.70f));
-	edges[2] = new Edge2d(new Vector3(0.75f, 0.70f), 
-						  new Vector3(0.75f, 0.30f));
-	edges[3] = new Edge2d(new Vector3(0.75f, 0.30f), 
-						  new Vector3(0.35f, 0.25f));
-	edges[4] = new Edge2d(new Vector3(0.35f, 0.25f),
-						  new Vector3(0.15f, 0.55f));
+	int i = 0;
+	edges[i++] = new Edge2d(new Vector3(0.15f, 0.25f), 
+						  new Vector3(0.85f, 0.25f));
+
+	edges[i++] = new Edge2d(new Vector3(0.85f, 0.25f), 
+						  new Vector3(0.85f, 0.90f));
+
+	edges[i++] = new Edge2d(new Vector3(0.85f, 0.90f), 
+						  new Vector3(0.15f, 0.90f));
+
+	edges[i++] = new Edge2d(new Vector3(0.15f, 0.90f), 
+						  new Vector3(0.35f, 0.60f));
+
+	edges[i++] = new Edge2d(new Vector3(0.35f, 0.60f),
+						  new Vector3(0.15f, 0.25f));
 
 	clipWindow = new Polygon2D(length, edges);
 
@@ -182,47 +187,7 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 void glfwMouseCallback(GLFWwindow* window, int button, int action, int mods) 
 {
 	if(action == GLFW_PRESS) {
-		double x, y;
-		glfwGetCursorPos(window, &x, &y);
-		x /= 640.f;
-		y /= 480.f;
-		y -= 1;
-		y *= -1;
 
-		if(!setP)
-		{
-			printf("Set P: %f %f\n", x, y);
-			p = new Vector3(x, y, 0.f);
-			setP = true;
-		}
-		else
-		if(!setQ)
-		{
-			printf("Set Q: %f %f\n", x, y);
-			q = new Vector3(x, y, 0.f);
-			setQ =  true;
-			setPoints = true;
-		}
-		else
-		if(!clippedLine)
-		{
-			bool visible = cyrusBeck();
-			if(!visible)
-			{
-				printf("Invisible\n");
-				cP = Vector3();
-				cQ = Vector3();
-			}
-			
-			clippedLine = true;
-		}
-		else
-		if(setPoints)
-		{
-			setP = setQ = setPoints = clippedLine = false;
-			system("cls");
-			printf("Clear\n");
-		}
 	}
 }
 

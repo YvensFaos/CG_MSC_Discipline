@@ -1,6 +1,10 @@
 #include "Polygon2d.h"
 
 #include <stdio.h>
+#include <math.h>
+#ifndef pi180
+#define pi180 3.1415/180.f
+#endif
 
 Polygon2D::Polygon2D(void)
 {
@@ -150,5 +154,30 @@ void Polygon2D::calculateOuter(void)
 
 		normals[i] = direction.crossProduct(zPerpendicular);
 		normals[i].normalize();
+	}
+}
+
+void Polygon2D::translate(float x, float y)
+{
+	Vector3 point;
+	for(int i = 0; i < length; i++)
+	{
+		point = this->points[i];
+		point.x += x;
+		point.y += y;
+	}
+}
+
+void Polygon2D::rotate(float angle)
+{
+	float cosa = cos(pi180*angle);
+	float sina = sin(pi180*angle);
+
+	Vector3 point;
+	for(int i = 0; i < length; i++)
+	{
+		point = this->points[i];
+		point.x += point.x*cosa - point.y*sina;
+		point.y += point.x*sina + point.y*cosa;
 	}
 }

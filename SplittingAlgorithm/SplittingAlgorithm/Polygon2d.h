@@ -24,6 +24,8 @@ public:
 	void generateBoundBox(void);
 	void printConsole(void);
 	void calculateOuter(void);
+	void translate(float x, float y);
+	void rotate(float angle);
 
 	Polygon2D getBoundBox(void);
 };
