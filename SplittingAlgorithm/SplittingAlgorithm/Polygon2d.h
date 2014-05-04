@@ -28,6 +28,8 @@ public:
 	void rotate(float angle);
 
 	Polygon2D getBoundBox(void);
+private:
+	void updateEdges(void);
 };
 
 #endif

@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <math.h>
 #ifndef pi180
-#define pi180 3.1415/180.f
+//3.14159265359
+#define pi180 3.14159265359/180.f
 #endif
 
 Polygon2D::Polygon2D(void)
@@ -124,23 +125,12 @@ void Polygon2D::printConsole(void)
 		this->edges[i].printConsole();
 	}
 
-	printf("Normals:\n");
-
-	for(int i = 0; i < length; i++)
-	{
-		this->normals[i].printConsole();
-	}
-
 	printf("Points:\n");
 
 	for (int i = 0; i < length; i++)
 	{
 		this->points[i].printConsole();
 	}
-
-	printf("Center:\n");
-
-	this->center.printConsole();
 }
 
 void Polygon2D::calculateOuter(void)
@@ -159,25 +149,39 @@ void Polygon2D::calculateOuter(void)
 
 void Polygon2D::translate(float x, float y)
 {
-	Vector3 point;
+	Vector3* point;
 	for(int i = 0; i < length; i++)
 	{
-		point = this->points[i];
-		point.x += x;
-		point.y += y;
+		point = &this->points[i];
+		point->x += x;
+		point->y += y;
 	}
+
+	updateEdges();
 }
 
 void Polygon2D::rotate(float angle)
 {
-	float cosa = cos(pi180*angle);
-	float sina = sin(pi180*angle);
-
-	Vector3 point;
+	float cosa = cos(angle*pi180);
+	float sina = sin(angle*pi180);
+	Vector3* point;
 	for(int i = 0; i < length; i++)
 	{
-		point = this->points[i];
-		point.x += point.x*cosa - point.y*sina;
-		point.y += point.x*sina + point.y*cosa;
+		point = &this->points[i];
+		float x = point->x;
+		float y = point->y;
+		point->x = x*cosa - y*sina;
+		point->y = x*sina + y*cosa;
+	}
+
+	updateEdges();
+}
+
+void Polygon2D::updateEdges(void)
+{
+	for (int i = 0; i < length; i++)
+	{
+		this->edges[i].o = points[i];
+		this->edges[i].p = points[(i+1)%length];
 	}
 }

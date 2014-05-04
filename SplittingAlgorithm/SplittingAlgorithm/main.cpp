@@ -6,138 +6,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//UP DOWN LEFT RIGHT
-int U = 0x08;
-int D = 0x04;
-int L = 0x02;
-int R = 0x01;
-
 GLFWwindow* window;
-Vector3* p;
-Vector3* q;
 
-Vector3 cP;
-Vector3 cQ;
-
-Polygon2D* clipWindow;
-Polygon2D bound;
+int qtt;
+Polygon2D* polygons;
 
 float _width = 640;
 float _height = 480;
 
-bool setP;
-bool setQ;
-bool setPoints;
-bool clippedLine;
-bool showBoundingBox;
-
-float max(float a, float b)
-{
-	return (a > b)? a : b;
-}
-
-float min(float a, float b)
-{
-	return (a < b)? a : b;
-}
-
-int classifyRegions(Vector3 v)
-{
-	int vMask = 0;
-
-	if(v.y > clipWindow->majorDiagonal.y)
-	{
-		vMask |= U;
-	}else if(v.y < clipWindow->minorDiagonal.y)
-	{
-		vMask |= D;
-	}
-
-	if(v.x < clipWindow->minorDiagonal.x)
-	{
-		vMask |= L;
-	}else if(v.x > clipWindow->majorDiagonal.x)
-	{
-		vMask |= R;
-	}
-
-	return vMask;
-}
-
-bool cyrusBeck(void)
-{
-	bool visible = true;
-
-	int pMask = classifyRegions(p);
-	int qMask = classifyRegions(q);
-
-	printf("%d && %d\n", pMask, qMask);
-	if(pMask & qMask)
-	{
-		printf("Trivial Reject\n");
-		return false;	
-	}
-
-	Vector3 direction = q->subtract(p);
-	Vector3 w, normal;
-	Edge2d edge;
-	Edge2d parametricLine = Edge2d(p, q);
-
-	float dotW, dotD;
-	float t;
-	float t0 = 0;
-	float t1 = 1;
-	int length = clipWindow->length;
-
-	for(int i = 0; i < length && visible; i++)
-	{
-		edge = clipWindow->edges[i];
-		w = p->subtract(edge.parametric(.5f));
-		normal = clipWindow->normals[i];
-
-		dotD = direction.dotProduct(normal);
-		dotW = w.dotProduct(normal);
-
-		if(dotD != 0)
-		{
-			t = -(dotW/dotD);
-			if(dotD > 0)
-			{
-				if(t > 1)
-				{
-					visible = false;
-				}
-				else
-				{
-					t0 = max(t, t0);
-				}
-			}
-			else
-			{
-				if(t < 0)
-				{
-					visible = false;
-				}
-				else
-				{
-					t1 = min(t, t1);
-				}
-			}
-		}
-	}
-
-	if(t0 > t1)
-	{
-		printf("T0 > T1: Invisible \n");
-		return false;
-	}
-
-	printf("T0 = %f e T1 = %f\n",t0, t1);
-	cP = parametricLine.parametric(t0);
-	cQ = parametricLine.parametric(t1);
-
-	return visible;
-}
+#define max(a,b) (a > b)?a:b;
+#define min(a,b) (a < b)?a:b;
 
 void defineClipWindow(void)
 {
@@ -160,26 +38,45 @@ void defineClipWindow(void)
 	edges[i++] = new Edge2d(new Vector3(0.35f, 0.60f),
 						  new Vector3(0.15f, 0.25f));
 
-	clipWindow = new Polygon2D(length, edges);
-
-	showBoundingBox = false;
-	bound = clipWindow->getBoundBox();
-	clipWindow->calculateOuter();
+	polygons = new Polygon2D[1];
+	qtt = 1;
+	polygons[0] = Polygon2D(length, edges);
 }
 
 void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) 
 {
-	if(action == GLFW_PRESS) {
+	float modifier = 1.f;
+	if(mods == GLFW_MOD_SHIFT)
+	{
+		modifier = .1f;
+	}
+	if(action == GLFW_PRESS || action == GLFW_REPEAT) {
 		if (key == GLFW_KEY_ESCAPE) {
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
-
-		if (key == GLFW_KEY_A) {
-			showBoundingBox = !showBoundingBox;
+		if(key == GLFW_KEY_LEFT_SHIFT)
+		{
+		}
+		if (key == GLFW_KEY_UP) {
+			polygons[0].translate(.0f, .05f*modifier);
 		}
 
+		if (key == GLFW_KEY_DOWN) {
+			polygons[0].translate(.0f, -.05f*modifier);
+		}
+
+		if (key == GLFW_KEY_LEFT) {
+			polygons[0].translate(-0.05f*modifier, .0f);
+		}
+
+		if (key == GLFW_KEY_RIGHT) {
+			polygons[0].translate(0.05f*modifier, .0f);
+		}
+		if (key == GLFW_KEY_A) {
+			polygons[0].rotate(5.f*modifier);
+		}
 		if (key == GLFW_KEY_S) {
-			clipWindow->printConsole();
+			polygons[0].rotate(-5.f*modifier);
 		}
 	}
 }
@@ -205,80 +102,32 @@ void display(void)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0.f, 1.f, 0.f, 1.f, 1.f, -1.f);
+	glOrtho(-2.f, 2.f, -2.f, 2.f, 1.f, -1.f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	
-	if(showBoundingBox)
-	{
-		//Desenha bounding box
-		glBegin(GL_LINES);
-		int length = bound.length;
-		for (int i = 0; i < length; i++)
-		{
-			glColor3f(1.f, .0f, .0f);
-			glVertex3f(bound.edges[i].o.x, bound.edges[i].o.y, 0.f);
-			glVertex3f(bound.edges[i].p.x, bound.edges[i].p.y, 0.f);
-		}
-		glEnd();
-
-		//Desenha centro
-		glBegin(GL_LINES);
-		Vector3 center = clipWindow->center;
-		glColor3f(1.f, .0f, .0f);
-
-		glVertex3f(center.x, center.y, 0);
-		glVertex3f(center.x + 0.01f, center.y, 0);
-
-		glVertex3f(center.x, center.y, 0);
-		glVertex3f(center.x - 0.01f, center.y, 0);
-
-		glVertex3f(center.x, center.y, 0);
-		glVertex3f(center.x, center.y + 0.01f, 0);
-
-		glVertex3f(center.x, center.y, 0);
-		glVertex3f(center.x, center.y - 0.01f, 0);
-		glEnd();
-
-		//Desenha normais
-		glBegin(GL_LINES);
-		length = clipWindow->length;
-		for (int i = 0; i < length; i++)
-		{
-			glColor3f(0.f, 1.0f, .0f);
-			Vector3 midPoints = clipWindow->edges[i].parametric(0.5f);
-			Vector3 normal = clipWindow->normals[i];
-
-			glVertex3f(midPoints.x, midPoints.y, 0.f);
-			glVertex3f(midPoints.x + normal.x, midPoints.y + normal.y, 0.f);
-		}
-		glEnd();
-	}
 
 	//Desenhar a área de desenho
 	glBegin(GL_LINES);
-	int length = clipWindow->length;
-	for (int i = 0; i < length; i++)
-	{
-		glColor3f(1.f, 1.f, 1.f);
-		glVertex3f(clipWindow->edges[i].o.x, clipWindow->edges[i].o.y, 0.f);
-		glVertex3f(clipWindow->edges[i].p.x, clipWindow->edges[i].p.y, 0.f);
+	for(int j = 0; j < qtt; j++)
+		{
+			Polygon2D* pol = &polygons[j];
+			int length = pol->length;
+			for (int i = 0; i < length; i++)
+			{
+				glColor3f(1.f, 1.f, 1.f);
+				glVertex3f(pol->edges[i].o.x, pol->edges[i].o.y, 0.f);
+				glVertex3f(pol->edges[i].p.x, pol->edges[i].p.y, 0.f);
+			}
 	}
-	glEnd();
 
-	glBegin(GL_LINES);
-	if(setPoints)
-	{
-		glColor3f(.0f, .0f, 1.f);
-		glVertex3f(p->x, p->y, 0.f);
-		glVertex3f(q->x, q->y, 0.f);
-	}
-	if(clippedLine)
-	{
-		glColor3f(1.f, 1.f, 0.f);
-		glVertex3f(cP.x, cP.y, 0.f);
-		glVertex3f(cQ.x, cQ.y, 0.f);
-	}
+	//Desenhar eixos
+	glColor3f(1.f, 0.f, 0.f);
+	glVertex3f(-2.f, .0f, 0.f);
+	glVertex3f( 2.f, .0f, 0.f);
+
+	glColor3f(0.f, 1.f, 0.f);
+	glVertex3f(.0f, -2.f, 0.f);
+	glVertex3f(.0f,  2.f, 0.f);
 	glEnd();
 
 	glfwSwapBuffers(window);
@@ -301,11 +150,8 @@ int main(void)
 	glDepthFunc(GL_LEQUAL);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	window = glfwCreateWindow(_width, _height, "Cyrus Beck", NULL, NULL);
-	setPoints = false;
-	setP = false;
-	setQ = false;
-	clippedLine = false;
+	window = glfwCreateWindow(_width, _height, "Splitting Polygons", NULL, NULL);
+	qtt = 1;
 
 	if (!window)
     {
