@@ -113,8 +113,6 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 				Vector3* i3 = &pol->points[(i+2)%length];
 				if(i3->y < 0)
 				{
-					printf("concave\n");
-
 					int j = (i+3)%length;
 					int counter = 0;
 					Vector3* i4 = nullptr;
