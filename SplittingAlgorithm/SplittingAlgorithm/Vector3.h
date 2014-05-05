@@ -15,6 +15,7 @@ public:
 
 	void normalize(void);
 	void printConsole(void);
+	float magnitude(void);
 	float dotProduct(Vector3 another);
 	bool equals(Vector3 another);
 	Vector3 subtract(Vector3 another);

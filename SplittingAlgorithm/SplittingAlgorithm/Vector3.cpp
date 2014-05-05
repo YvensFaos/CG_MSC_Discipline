@@ -69,3 +69,10 @@ void Vector3::normalize(void)
 	y = y/mag;
 	z = z/mag;
 }
+
+float Vector3::magnitude(void)
+{
+	float magnitude = sqrt(x*x + y*y + z*z);
+
+	return magnitude;
+}
