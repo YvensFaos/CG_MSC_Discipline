@@ -12,8 +12,8 @@ GLFWwindow* window;
 
 int qtt;
 bool splitLine;
-Vector3* p;
-Vector3* q;
+int selected;
+
 Polygon2D* polygons;
 Polygon2D* points;
 Polygon2D* points2;
@@ -113,6 +113,32 @@ void defineClipWindow(void)
 			polygons[0] = Polygon2D(length, edges);
 		}
 		break;
+		case 3:
+		{
+			int length = 5;
+			Edge2d* edges = new Edge2d[length];
+
+			int i = 0;
+			edges[i++] = new Edge2d(new Vector3(0.15f, 0.25f), 
+								  new Vector3(0.85f, 0.25f));
+
+			edges[i++] = new Edge2d(new Vector3(0.85f, 0.25f), 
+								  new Vector3(0.45f, 0.60f));
+
+			edges[i++] = new Edge2d(new Vector3(0.45f, 0.60f), 
+								  new Vector3(0.85f, 0.90f));
+
+			edges[i++] = new Edge2d(new Vector3(0.85f, 0.90f), 
+								  new Vector3(0.15f, 0.90f));
+
+			edges[i++] = new Edge2d(new Vector3(0.15f, 0.90f), 
+								  new Vector3(0.15f, 0.25f));
+
+			polygons = new Polygon2D[1];
+			qtt = 1;
+			polygons[0] = Polygon2D(length, edges);
+		}
+		break;
 	}
 #pragma endregion
 }
@@ -131,32 +157,34 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 		}
 		if(key == GLFW_KEY_W)
 		{
-			if(splitLine)
-			{
-				points->printConsole();
-			}
+			printf("Imprimindo poligonos, qtt = %d\n",qtt);
+		}
+		if(key == GLFW_KEY_E)
+		{
+			selected = (++selected)%qtt;
+			printf("Selected = %d\n", selected);
 		}
 
 		if (key == GLFW_KEY_UP) {
-			polygons[0].translate(.0f, .05f*modifier);
+			polygons[selected].translate(.0f, .05f*modifier);
 		}
 
 		if (key == GLFW_KEY_DOWN) {
-			polygons[0].translate(.0f, -.05f*modifier);
+			polygons[selected].translate(.0f, -.05f*modifier);
 		}
 
 		if (key == GLFW_KEY_LEFT) {
-			polygons[0].translate(-0.05f*modifier, .0f);
+			polygons[selected].translate(-0.05f*modifier, .0f);
 		}
 
 		if (key == GLFW_KEY_RIGHT) {
-			polygons[0].translate(0.05f*modifier, .0f);
+			polygons[selected].translate(0.05f*modifier, .0f);
 		}
 		if (key == GLFW_KEY_A) {
-			polygons[0].rotate(5.f*modifier);
+			polygons[selected].rotate(5.f*modifier);
 		}
 		if (key == GLFW_KEY_S) {
-			polygons[0].rotate(-5.f*modifier);
+			polygons[selected].rotate(-5.f*modifier);
 		}
 #pragma endregion
 
@@ -205,182 +233,71 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 							{
 								found = true;
 								break;
+
+								j = (j+counter)%length;
 							}
 							counter++;
 						}
-
+					 	
 						if(found)
-						{
-
-							
-#pragma region determinar size1
+						{		
+#pragma region gerar dois polígonos
 							int size1 = 0;
-							int state = 0;
+							int size2 = 0;
 							Vector3* aux = nullptr;
-							for (int k = 0; k < length; k++)
-							{
-								aux = &pol->points[k];
-								switch (state)
-								{
-								case 0:
-									{
-										if(aux->equals(i2))
-										{
-											state++;
-										}
-										size1++;
-									}
-									break;
-								case 1:
-									{
-										if(aux->equals(i4))
-										{
-											size1++;
-											state++;
-										}
-									}
-									break;
-								case 2:
-									{
-										size1++;
-									}
-									break;
-								}
-							}
-#pragma endregion
 
-#pragma region determinar poligono 1
-							state = 0;
-							printf("size1 = %d\n", size1);
-							Vector3* vec1 = new Vector3[size1];
-							int kk = 0;
-							for (int k = 0; k < length; k++)
+							for(int u = 0, uu = j; u < length; u++)
 							{
-								aux = &pol->points[k];
-							
-								switch (state)
+								size1++;
+								if(uu == i+1)
 								{
-								case 0:
-									{
-										vec1[kk++] = Vector3(aux);
-										if(aux->equals(i2))
-										{
-											state++;
-										}
-									}
-									break;
-								case 1:
-									{
-										if(aux->equals(i4))
-										{
-											vec1[kk++] = Vector3(aux);
-											state++;
-										}
-									}
-									break;
-								case 2:
-									{
-										vec1[kk++] = Vector3(aux);
-									}
 									break;
 								}
+								uu = (++uu)%length;
+							}
+							Vector3* vec1 = new Vector3[size1];
+							for(int u = 0, uu = j; u < length; u++)
+							{
+								aux = &pol->points[uu];
+								vec1[u] = aux;
+								if(uu == i+1)
+								{
+									break;
+								}
+								uu = (++uu)%length;
 							}
 							points = new Polygon2D(size1, vec1);
-#pragma endregion
-							p = new Vector3(i2);
-							q = new Vector3(i4);
-							i2->printConsole();
-							i4->printConsole();
-#pragma region determinar size 2
-							int size2 = 0;
-							state = 0;
-							aux = nullptr;
-							bool continued = true;
-							int k = 0;
-							while(continued)
+
+							for(int u = 0, uu = i+1; u < length; u++)
 							{
-								aux = &pol->points[k];
-								aux->printConsole();
-								switch (state)
+								size2++;
+								if(uu == j)			
 								{
-								case 0:
-									{
-										if(aux->equals(i2))
-										{
-											state++;
-											size2++;
-											aux->printConsole();
-										}
-									}
-									break;
-								case 1:
-									{
-										size2++;
-										aux->printConsole();
-										if(aux->equals(i4))
-										{
-											continued = false;
-										}
-									}
 									break;
 								}
-								k++;
-								if(k >= length)
-								{
-									size2++;
-									continued = false;
-								}
+								uu = (++uu)%length;
 							}
-
-#pragma endregion
-
-#pragma region determinar polígono 2
-							state = 0;
-							aux = nullptr;
-							continued = true;
-							k = 0;
 							Vector3* vec2 = new Vector3[size2];
-							kk = 0;
-							while(continued)
+							for(int u = 0, uu = i+1; u < length; u++)
 							{
-								aux = &pol->points[k];
-								switch (state)
+								aux = &pol->points[uu];
+								vec2[u] = aux;
+								if(uu == j)			
 								{
-								case 0:
-									{
-										if(aux->equals(i2))
-										{
-											state++;
-											vec2[kk++] = Vector3(aux);
-										}
-									}
-									break;
-								case 1:
-									{
-										vec2[kk++] = Vector3(aux);
-										if(aux->equals(i4))
-										{
-											continued = false;
-										}
-									}
 									break;
 								}
-								k++;
-								if(k >= length)
-								{
-									vec2[kk++] = Vector3(i4);
-									continued = false;
-								}
+								uu = (++uu)%length;
 							}
-#pragma endregion
 							points2 = new Polygon2D(size2, vec2);
-							points2->printConsole();
+#pragma endregion
+							//printf("i = %d e j = %d (s %d e %d)\n",i+1, j,size1, size2);
+
 							splitLine = true;
 							solved = true;
 
-							qtt++;
-							Polygon2D* newPolygons = new Polygon2D[qtt];
+							printf("size1 = %d size2 = %d\n",size1,size2);
 
+							Polygon2D* newPolygons = new Polygon2D[qtt + 1];
 							int index = 0;
 							for (int m = 0; m < qtt; m++)
 							{
@@ -396,6 +313,8 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 								}
 								index++;
 							}
+							polygons = newPolygons;
+							qtt++;
 						}
 					}
 					i++;
@@ -427,7 +346,7 @@ void display(void)
 {
 	float ratio;
 	int width, height;
-
+	
 	glfwGetFramebufferSize(window, &width, &height);
 
 	ratio = width / (float) height;
@@ -475,10 +394,6 @@ void display(void)
 			glVertex3f(points2->edges[i].o.x, points2->edges[i].o.y, 0.f);
 			glVertex3f(points2->edges[i].p.x, points2->edges[i].p.y, 0.f);
 		}
-
-		glColor3f(1.0f, 1.0f, 1.f);
-		glVertex3f(p->x, p->y, -0.1f);
-		glVertex3f(q->x, q->y, -0.1f);
 	}
 
 	//Desenhar eixos
@@ -497,6 +412,7 @@ void display(void)
 
 int main(void)
 {
+	selected = 0;
 	srand (time(NULL));
 	defineClipWindow();
 
