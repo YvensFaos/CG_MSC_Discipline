@@ -25,7 +25,7 @@ float _height = 480;
 #define max(a,b) (a > b)?a:b;
 #define min(a,b) (a < b)?a:b;
 
-int polygonType = 0;
+int polygonType = 3;
 
 void defineClipWindow(void)
 {
@@ -33,6 +33,7 @@ void defineClipWindow(void)
 	switch (polygonType)
 	{
 	case 0:
+#pragma region case 0
 		{
 			int length = 6;
 			Edge2d* edges = new Edge2d[length];
@@ -60,8 +61,10 @@ void defineClipWindow(void)
 			qtt = 1;
 			polygons[0] = Polygon2D(length, edges);
 		}
+#pragma endregion
 		break;
 	case 1:
+#pragma region case 1
 		{
 			int length = 5;
 			Edge2d* edges = new Edge2d[length];
@@ -86,8 +89,10 @@ void defineClipWindow(void)
 			qtt = 1;
 			polygons[0] = Polygon2D(length, edges);
 		}
+#pragma endregion
 		break;
 	case 2:
+#pragma region case 2
 		{
 			int length = 5;
 			Edge2d* edges = new Edge2d[length];
@@ -112,32 +117,50 @@ void defineClipWindow(void)
 			qtt = 1;
 			polygons[0] = Polygon2D(length, edges);
 		}
+#pragma endregion
 		break;
 		case 3:
+#pragma region case 3
 		{
-			int length = 5;
+			int length = 10;
 			Edge2d* edges = new Edge2d[length];
 
 			int i = 0;
-			edges[i++] = new Edge2d(new Vector3(0.15f, 0.25f), 
-								  new Vector3(0.85f, 0.25f));
+			edges[i++] = new Edge2d(new Vector3(0.0f, 0.30f), 
+								  new Vector3(0.20f, 0.20f));
 
-			edges[i++] = new Edge2d(new Vector3(0.85f, 0.25f), 
-								  new Vector3(0.45f, 0.60f));
+			edges[i++] = new Edge2d(new Vector3(0.20f, 0.20f), 
+								  new Vector3(0.15f, 0.0f));
 
-			edges[i++] = new Edge2d(new Vector3(0.45f, 0.60f), 
-								  new Vector3(0.85f, 0.90f));
+			edges[i++] = new Edge2d(new Vector3(0.15f, 0.0f), 
+								  new Vector3(0.35f, 0.20f));
 
-			edges[i++] = new Edge2d(new Vector3(0.85f, 0.90f), 
-								  new Vector3(0.15f, 0.90f));
+			edges[i++] = new Edge2d(new Vector3(0.35f, 0.20f), 
+								  new Vector3(0.55f, 0.0f));
 
-			edges[i++] = new Edge2d(new Vector3(0.15f, 0.90f), 
-								  new Vector3(0.15f, 0.25f));
+			edges[i++] = new Edge2d(new Vector3(0.55f, 0.0f), 
+								  new Vector3(0.50f, 0.20f));
+			
+			edges[i++] = new Edge2d(new Vector3(0.50f, 0.20f), 
+								  new Vector3(0.70f, 0.30f));
+
+			edges[i++] = new Edge2d(new Vector3(0.70f, 0.30f), 
+								  new Vector3(0.50f, 0.40f));
+
+			edges[i++] = new Edge2d(new Vector3(0.50f, 0.40f), 
+								  new Vector3(0.35f, 0.75f));
+
+			edges[i++] = new Edge2d(new Vector3(0.35f, 0.75f), 
+								  new Vector3(0.20f, 0.40f));
+
+			edges[i++] = new Edge2d(new Vector3(0.20f, 0.40f), 
+								  new Vector3(0.0f, 0.30f));
 
 			polygons = new Polygon2D[1];
 			qtt = 1;
 			polygons[0] = Polygon2D(length, edges);
 		}
+#pragma endregion
 		break;
 	}
 #pragma endregion
