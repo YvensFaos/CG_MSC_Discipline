@@ -166,8 +166,8 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 			int length = 0; 
 			bool solved = false;
 			int i = 0;
-
-			for (int h = 0; h < qtt; h++)
+			int actualQtt = qtt;
+			for (int h = 0; h < actualQtt; h++)
 			{
 				pol =  &polygons[h];
 				length = pol->length;
@@ -211,6 +211,8 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 
 						if(found)
 						{
+
+							
 #pragma region determinar size1
 							int size1 = 0;
 							int state = 0;
@@ -287,6 +289,8 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 #pragma endregion
 							p = new Vector3(i2);
 							q = new Vector3(i4);
+							i2->printConsole();
+							i4->printConsole();
 #pragma region determinar size 2
 							int size2 = 0;
 							state = 0;
@@ -296,6 +300,7 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 							while(continued)
 							{
 								aux = &pol->points[k];
+								aux->printConsole();
 								switch (state)
 								{
 								case 0:
@@ -304,12 +309,14 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 										{
 											state++;
 											size2++;
+											aux->printConsole();
 										}
 									}
 									break;
 								case 1:
 									{
 										size2++;
+										aux->printConsole();
 										if(aux->equals(i4))
 										{
 											continued = false;
@@ -320,11 +327,11 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 								k++;
 								if(k >= length)
 								{
+									size2++;
 									continued = false;
 								}
 							}
 
-							printf("size2 = %d\n", size2);
 #pragma endregion
 
 #pragma region determinar polígono 2
@@ -361,14 +368,34 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 								k++;
 								if(k >= length)
 								{
+									vec2[kk++] = Vector3(i4);
 									continued = false;
 								}
 							}
 #pragma endregion
 							points2 = new Polygon2D(size2, vec2);
-
+							points2->printConsole();
 							splitLine = true;
 							solved = true;
+
+							qtt++;
+							Polygon2D* newPolygons = new Polygon2D[qtt];
+
+							int index = 0;
+							for (int m = 0; m < qtt; m++)
+							{
+								if(m == h)
+								{
+									newPolygons[index] = *points;
+									newPolygons[index+1] = *points2;
+									index++;
+								}
+								else
+								{
+									newPolygons[index] = polygons[m];
+								}
+								index++;
+							}
 						}
 					}
 					i++;
@@ -431,10 +458,6 @@ void display(void)
 
 	if(splitLine)
 	{
-		glColor3f(.0f, .0f, 1.f);
-		glVertex3f(p->x, p->y, 0.f);
-		glVertex3f(q->x, q->y, 0.f);
-
 		int length = points->length;
 		Vector3* color = &points->color;
 		for (int i = 0; i < length; i++)
@@ -452,6 +475,10 @@ void display(void)
 			glVertex3f(points2->edges[i].o.x, points2->edges[i].o.y, 0.f);
 			glVertex3f(points2->edges[i].p.x, points2->edges[i].p.y, 0.f);
 		}
+
+		glColor3f(1.0f, 1.0f, 1.f);
+		glVertex3f(p->x, p->y, -0.1f);
+		glVertex3f(q->x, q->y, -0.1f);
 	}
 
 	//Desenhar eixos
