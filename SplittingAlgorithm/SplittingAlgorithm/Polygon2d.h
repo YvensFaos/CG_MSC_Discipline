@@ -15,9 +15,11 @@ public:
 	Polygon2D* bounding;
 	Vector3 minorDiagonal;
 	Vector3 majorDiagonal;
+	Vector3 color;
 
 	Polygon2D(void);
 	Polygon2D(int length, Edge2d* edges);
+	Polygon2D(int length, Vector3* points);
 	Polygon2D(int length, Edge2d* edges, bool bounding);
 
 	void defaultConstructor(int length, Edge2d* edges);

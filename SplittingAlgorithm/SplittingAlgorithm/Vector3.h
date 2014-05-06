@@ -20,6 +20,8 @@ public:
 	bool equals(Vector3 another);
 	Vector3 subtract(Vector3 another);
 	Vector3 crossProduct(Vector3 another);
+
+	static Vector3 randomColor(void);
 };
 
 #endif

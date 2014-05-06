@@ -19,6 +19,20 @@ Polygon2D::Polygon2D(int length, Edge2d* edges)
 	generateBoundBox();
 }
 
+Polygon2D::Polygon2D(int length, Vector3* points)
+{
+	this->length = length;
+	this->points = points;
+	this->edges = new Edge2d[length];
+	for (int i = 0; i < length; i++)
+	{
+		this->edges[i] = new Edge2d(points[i], points[(i+1)%length]);
+	}
+
+	isBoundingBox = false;
+	color = Vector3::randomColor();
+}
+
 Polygon2D::Polygon2D(int length, Edge2d* edges, bool bounding)
 {
 	defaultConstructor(length, edges);
@@ -45,6 +59,7 @@ void Polygon2D::defaultConstructor(int length, Edge2d* edges)
 	}
 
 	isBoundingBox = false;
+	color = Vector3::randomColor();
 }
 
 void Polygon2D::generateBoundBox(void)

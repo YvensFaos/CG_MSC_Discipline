@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <random>
 
 Vector3::Vector3(void)
 {
@@ -75,4 +76,13 @@ float Vector3::magnitude(void)
 	float magnitude = sqrt(x*x + y*y + z*z);
 
 	return magnitude;
+}
+
+Vector3 Vector3::randomColor(void)
+{
+	float r = (rand() % 101)/100.f;
+	float g = (rand() % 101)/100.f;
+	float b = (rand() % 101)/100.f;
+
+	return Vector3(r,g,b);
 }
