@@ -25,37 +25,101 @@ float _height = 480;
 #define max(a,b) (a > b)?a:b;
 #define min(a,b) (a < b)?a:b;
 
+int polygonType = 0;
+
 void defineClipWindow(void)
 {
-	int length = 6;
-	Edge2d* edges = new Edge2d[length];
+#pragma region initialPolygon
+	switch (polygonType)
+	{
+	case 0:
+		{
+			int length = 6;
+			Edge2d* edges = new Edge2d[length];
 
-	int i = 0;
-	edges[i++] = new Edge2d(new Vector3(0.15f, 0.25f), 
-						  new Vector3(0.85f, 0.25f));
+			int i = 0;
+			edges[i++] = new Edge2d(new Vector3(0.15f, 0.25f), 
+								  new Vector3(0.85f, 0.25f));
 
-	edges[i++] = new Edge2d(new Vector3(0.85f, 0.25f), 
-						  new Vector3(0.55f, 0.60f));
+			edges[i++] = new Edge2d(new Vector3(0.85f, 0.25f), 
+								  new Vector3(0.55f, 0.60f));
 
-	edges[i++] = new Edge2d(new Vector3(0.55f, 0.60f), 
-						  new Vector3(0.85f, 0.90f));
+			edges[i++] = new Edge2d(new Vector3(0.55f, 0.60f), 
+								  new Vector3(0.85f, 0.90f));
 
-	edges[i++] = new Edge2d(new Vector3(0.85f, 0.90f), 
-						  new Vector3(0.15f, 0.90f));
+			edges[i++] = new Edge2d(new Vector3(0.85f, 0.90f), 
+								  new Vector3(0.15f, 0.90f));
 
-	edges[i++] = new Edge2d(new Vector3(0.15f, 0.90f), 
-						  new Vector3(0.35f, 0.60f));
+			edges[i++] = new Edge2d(new Vector3(0.15f, 0.90f), 
+								  new Vector3(0.35f, 0.60f));
 
-	edges[i++] = new Edge2d(new Vector3(0.35f, 0.60f),
-						  new Vector3(0.15f, 0.25f));
+			edges[i++] = new Edge2d(new Vector3(0.35f, 0.60f),
+								  new Vector3(0.15f, 0.25f));
 
-	polygons = new Polygon2D[1];
-	qtt = 1;
-	polygons[0] = Polygon2D(length, edges);
+			polygons = new Polygon2D[1];
+			qtt = 1;
+			polygons[0] = Polygon2D(length, edges);
+		}
+		break;
+	case 1:
+		{
+			int length = 5;
+			Edge2d* edges = new Edge2d[length];
+
+			int i = 0;
+			edges[i++] = new Edge2d(new Vector3(0.15f, 0.25f), 
+								  new Vector3(0.85f, 0.25f));
+
+			edges[i++] = new Edge2d(new Vector3(0.85f, 0.25f), 
+								  new Vector3(0.65f, 0.60f));
+
+			edges[i++] = new Edge2d(new Vector3(0.65f, 0.60f), 
+								  new Vector3(0.85f, 0.90f));
+
+			edges[i++] = new Edge2d(new Vector3(0.85f, 0.90f), 
+								  new Vector3(0.15f, 0.90f));
+
+			edges[i++] = new Edge2d(new Vector3(0.15f, 0.90f), 
+								  new Vector3(0.15f, 0.25f));
+
+			polygons = new Polygon2D[1];
+			qtt = 1;
+			polygons[0] = Polygon2D(length, edges);
+		}
+		break;
+	case 2:
+		{
+			int length = 5;
+			Edge2d* edges = new Edge2d[length];
+
+			int i = 0;
+			edges[i++] = new Edge2d(new Vector3(0.15f, 0.25f), 
+								  new Vector3(0.85f, 0.25f));
+
+			edges[i++] = new Edge2d(new Vector3(0.85f, 0.25f), 
+								  new Vector3(0.45f, 0.60f));
+
+			edges[i++] = new Edge2d(new Vector3(0.45f, 0.60f), 
+								  new Vector3(0.85f, 0.90f));
+
+			edges[i++] = new Edge2d(new Vector3(0.85f, 0.90f), 
+								  new Vector3(0.15f, 0.90f));
+
+			edges[i++] = new Edge2d(new Vector3(0.15f, 0.90f), 
+								  new Vector3(0.15f, 0.25f));
+
+			polygons = new Polygon2D[1];
+			qtt = 1;
+			polygons[0] = Polygon2D(length, edges);
+		}
+		break;
+	}
+#pragma endregion
 }
 
 void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) 
 {
+#pragma region movimentos e controles
 	float modifier = 1.f;
 	if(mods == GLFW_MOD_SHIFT)
 	{
@@ -72,6 +136,7 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 				points->printConsole();
 			}
 		}
+
 		if (key == GLFW_KEY_UP) {
 			polygons[0].translate(.0f, .05f*modifier);
 		}
@@ -93,6 +158,7 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 		if (key == GLFW_KEY_S) {
 			polygons[0].rotate(-5.f*modifier);
 		}
+#pragma endregion
 
 		if(key == GLFW_KEY_D)
 		{
@@ -107,6 +173,7 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 				length = pol->length;
 				solved = false;
 				i = 0;
+				//Resolve de polígono em polígono
 				while(!solved)
 				{
 					Vector3* i1 = &pol->points[i];
@@ -129,19 +196,22 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 					{
 						int j = (i+3)%length;
 						int counter = 0;
+						bool found = false;
 						Vector3* i4 = nullptr;
 						while(counter < length)
 						{
-							i4 = &pol->points[j];
+							i4 = &pol->points[(j+counter)%length];
 							if(i4->y >= 0)
 							{
+								found = true;
 								break;
 							}
 							counter++;
 						}
 
-						if(counter != length)
+						if(found)
 						{
+#pragma region determinar size1
 							int size1 = 0;
 							int state = 0;
 							Vector3* aux = nullptr;
@@ -175,7 +245,9 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 									break;
 								}
 							}
+#pragma endregion
 
+#pragma region determinar poligono 1
 							state = 0;
 							printf("size1 = %d\n", size1);
 							Vector3* vec1 = new Vector3[size1];
@@ -212,12 +284,10 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 								}
 							}
 							points = new Polygon2D(size1, vec1);
-
-							/*i2->printConsole();
-							i4->printConsole();*/
+#pragma endregion
 							p = new Vector3(i2);
 							q = new Vector3(i4);
-
+#pragma region determinar size 2
 							int size2 = 0;
 							state = 0;
 							aux = nullptr;
@@ -255,7 +325,9 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 							}
 
 							printf("size2 = %d\n", size2);
+#pragma endregion
 
+#pragma region determinar polígono 2
 							state = 0;
 							aux = nullptr;
 							continued = true;
@@ -292,13 +364,13 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 									continued = false;
 								}
 							}
+#pragma endregion
 							points2 = new Polygon2D(size2, vec2);
 
 							splitLine = true;
 							solved = true;
 						}
 					}
-
 					i++;
 					if(i == length)
 					{
