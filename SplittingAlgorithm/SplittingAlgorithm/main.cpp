@@ -25,7 +25,7 @@ float _height = 480;
 #define max(a,b) (a > b)?a:b;
 #define min(a,b) (a < b)?a:b;
 
-int polygonType = 3;
+int polygonType = 1;
 
 void defineClipWindow(void)
 {
