@@ -25,7 +25,7 @@ float _height = 480;
 #define max(a,b) (a > b)?a:b;
 #define min(a,b) (a < b)?a:b;
 
-int polygonType = 1;
+int polygonType = 3;
 
 void defineClipWindow(void)
 {
@@ -119,7 +119,7 @@ void defineClipWindow(void)
 		}
 #pragma endregion
 		break;
-		case 3:
+	case 3:
 #pragma region case 3
 		{
 			int length = 10;
