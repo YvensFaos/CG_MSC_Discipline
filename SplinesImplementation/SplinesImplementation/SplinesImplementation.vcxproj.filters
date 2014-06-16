@@ -30,6 +30,9 @@
     <ClCompile Include="EDSpline.cpp">
       <Filter>Splines</Filter>
     </ClCompile>
+    <ClCompile Include="CubicHermitecpp.cpp">
+      <Filter>Splines</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3.h">
@@ -39,6 +42,9 @@
       <Filter>Splines</Filter>
     </ClInclude>
     <ClInclude Include="QuadraticHermiteSpline.h">
+      <Filter>Splines</Filter>
+    </ClInclude>
+    <ClInclude Include="CubicHermite.h">
       <Filter>Splines</Filter>
     </ClInclude>
   </ItemGroup>

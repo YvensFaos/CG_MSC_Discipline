@@ -80,12 +80,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CubicHermitecpp.cpp" />
     <ClCompile Include="EDSpline.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="QuadraticHermite.cpp" />
     <ClCompile Include="Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CubicHermite.h" />
     <ClInclude Include="EDSpline.h" />
     <ClInclude Include="QuadraticHermiteSpline.h" />
     <ClInclude Include="Vector3.h" />

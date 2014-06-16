@@ -1,6 +1,6 @@
 #include "GLFW\glfw3.h"
 #include "Vector3.h"
-#include "QuadraticHermiteSpline.h"
+#include "CubicHermite.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,10 +8,7 @@
 #include <time.h> 
 
 GLFWwindow* window;
-QuadraticHermite* spline;
-QuadraticHermite* spline1;
-QuadraticHermite* spline2;
-QuadraticHermite* spline3;
+CubicHermite* spline;
 
 GLfloat  _width = 640;
 GLfloat _height = 400;
@@ -74,9 +71,6 @@ void display(void)
 	glEnd();
 
 	spline->drawSpline(50);
-	spline1->drawSpline(50);
-	spline2->drawSpline(50);
-	spline3->drawSpline(50);
 
 	glfwSwapBuffers(window);
 	glfwPollEvents();
@@ -97,21 +91,10 @@ int main(void)
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	window = glfwCreateWindow(_width, _height, "Splitting Polygons", NULL, NULL);
-	Vector3 points[] = {Vector3(0.f,0.f,0), Vector3(1.f,0.f,0), Vector3(1.f,4.f,0)};
-	spline = new QuadraticHermite();
-	spline->setPoints(points, 3);
+	Vector3 points[] = {Vector3(-1.8f,0.5f,0), Vector3(1.8f,0.f,0), Vector3(0.f,4.f,0), Vector3(-1.f,10.f,0)};
+	spline = new CubicHermite();
+	spline->setPoints(points, 4);
 
-	Vector3 points1[] = {Vector3(1.f,0.f,0), Vector3(2.f,0.f,0), Vector3(1.f,-4.f,0)};
-	spline2 = new QuadraticHermite();
-	spline2->setPoints(points1, 3);
-
-	Vector3 points2[] = {Vector3(-1.f,0.f,0), Vector3(0.f,0.f,0), Vector3(1.f,-4.f,0)};
-	spline1 = new QuadraticHermite();
-	spline1->setPoints(points2, 3);
-
-	Vector3 points3[] = {Vector3(-2.f,0.f,0), Vector3(-1.f,0.f,0), Vector3(1.f,4.f,0)};
-	spline3 = new QuadraticHermite();
-	spline3->setPoints(points3, 3);
 	if (!window)
     {
         glfwTerminate();
