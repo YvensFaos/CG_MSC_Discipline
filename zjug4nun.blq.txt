@@ -1,0 +1,44 @@
+﻿Merging
+
+Conflicts:
+	SplinesImplementation/SplinesImplementation/CubicHermite.h
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 2 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#   (use "git commit" to conclude merge)
+#
+# Changes to be committed:
+#
+#	new file:   ShadersStudy/ShadersStudy.sln
+#	new file:   ShadersStudy/ShadersStudy/GLFW/glew.h
+#	new file:   ShadersStudy/ShadersStudy/GLFW/glfw3.h
+#	new file:   ShadersStudy/ShadersStudy/GLFW/glfw3.lib
+#	new file:   ShadersStudy/ShadersStudy/GLFW/glfw3native.h
+#	new file:   ShadersStudy/ShadersStudy/GLFW/glxew.h
+#	new file:   ShadersStudy/ShadersStudy/GLFW/wglew.h
+#	new file:   ShadersStudy/ShadersStudy/ShadersStudy.vcxproj
+#	new file:   ShadersStudy/ShadersStudy/ShadersStudy.vcxproj.filters
+#	new file:   ShadersStudy/ShadersStudy/main.cpp
+#	modified:   SplinesImplementation/SplinesImplementation/CubicHermite.h
+#	new file:   SplinesImplementation/SplinesImplementation/CubicHermitecpp.cpp
+#	modified:   SplinesImplementation/SplinesImplementation/SplinesImplementation.vcxproj
+#	modified:   SplinesImplementation/SplinesImplementation/SplinesImplementation.vcxproj.filters
+#	modified:   SplinesImplementation/SplinesImplementation/main.cpp
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	u3cipuzc.l2m.txt
+
