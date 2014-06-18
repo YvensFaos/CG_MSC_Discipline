@@ -24,10 +24,10 @@
     <ClCompile Include="Vector3.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuadraticHermite.cpp">
+    <ClCompile Include="EDSpline.cpp">
       <Filter>Splines</Filter>
     </ClCompile>
-    <ClCompile Include="EDSpline.cpp">
+    <ClCompile Include="QuadraticHermiteSpline.cpp">
       <Filter>Splines</Filter>
     </ClCompile>
   </ItemGroup>
@@ -39,6 +39,9 @@
       <Filter>Splines</Filter>
     </ClInclude>
     <ClInclude Include="QuadraticHermiteSpline.h">
+      <Filter>Splines</Filter>
+    </ClInclude>
+    <ClInclude Include="CubicHermite.h">
       <Filter>Splines</Filter>
     </ClInclude>
   </ItemGroup>

@@ -82,10 +82,11 @@
   <ItemGroup>
     <ClCompile Include="EDSpline.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="QuadraticHermite.cpp" />
+    <ClCompile Include="QuadraticHermiteSpline.cpp" />
     <ClCompile Include="Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CubicHermite.h" />
     <ClInclude Include="EDSpline.h" />
     <ClInclude Include="QuadraticHermiteSpline.h" />
     <ClInclude Include="Vector3.h" />
