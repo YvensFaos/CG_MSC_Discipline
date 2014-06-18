@@ -30,7 +30,7 @@
     <ClCompile Include="QuadraticHermiteSpline.cpp">
       <Filter>Splines</Filter>
     </ClCompile>
-    <ClCompile Include="CubicHermitecpp.cpp">
+    <ClCompile Include="CubicHermite.cpp">
       <Filter>Splines</Filter>
     </ClCompile>
   </ItemGroup>
