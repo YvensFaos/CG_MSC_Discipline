@@ -1,25 +1,32 @@
 #include "GLFW\glfw3.h"
-#include "Vector3.h"
-#include "CubicHermite.h"
+#include "GLFW\glew.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-#include <time.h> 
 
 GLFWwindow* window;
-CubicHermite* spline;
+GLuint shader_programme;
 
-GLfloat  _width = 640;
-GLfloat _height = 400;
+float _width = 640;
+float _height = 480;
 
-#define pi 3.14159265359
-#define max(a,b) (a > b)?a:b;
-#define min(a,b) (a < b)?a:b;
+const char* vertex_shader =
+"#version 400\n"
+"in vec3 vp;"
+"void main () {"
+"  gl_Position = vec4 (vp, 1.0);"
+"}";
+
+const char* fragment_shader =
+"#version 400\n"
+"out vec4 frag_colour;"
+"void main () {"
+"  frag_colour = vec4 (0.5, 0.0, 0.5, 1.0);"
+"}";
 
 void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) 
 {
-	if(action == GLFW_PRESS || action == GLFW_REPEAT) {
+	if(action == GLFW_PRESS) {
 		if (key == GLFW_KEY_ESCAPE) {
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
@@ -29,14 +36,7 @@ void glfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int 
 void glfwMouseCallback(GLFWwindow* window, int button, int action, int mods) 
 {
 	if(action == GLFW_PRESS) {
-		double x, y;
-		glfwGetCursorPos(window, &x, &y);
-		x /= 640.f;
-		y /= 480.f;
-		y -= 1;
-		y *= -1;
-
-		printf("Mouse = x[%f] e y[%f]\n",x,y);
+		
 	}
 }
 
@@ -44,7 +44,7 @@ void display(void)
 {
 	float ratio;
 	int width, height;
-	
+
 	glfwGetFramebufferSize(window, &width, &height);
 
 	ratio = width / (float) height;
@@ -54,23 +54,14 @@ void display(void)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-2.f, 2.f, -2.f, 2.f, 1.f, -1.f);
+	glOrtho(0.f, 1.f, 0.f, 1.f, 1.f, -1.f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	//Desenhar a área de desenho
-	glBegin(GL_LINES);
-	//Desenhar eixos
-	glColor3f(1.f, 0.f, 0.f);
-	glVertex3f(-2.f, .0f, 0.f);
-	glVertex3f( 2.f, .0f, 0.f);
+	glUseProgram (shader_programme);
 
-	glColor3f(0.f, 1.f, 0.f);
-	glVertex3f(.0f, -2.f, 0.f);
-	glVertex3f(.0f,  2.f, 0.f);
-	glEnd();
-
-	spline->drawSpline(50);
+	//glbegin
+	
 
 	glfwSwapBuffers(window);
 	glfwPollEvents();
@@ -90,21 +81,30 @@ int main(void)
 	glDepthFunc(GL_LEQUAL);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	window = glfwCreateWindow(_width, _height, "Splitting Polygons", NULL, NULL);
-	Vector3 points[] = {Vector3(-1.8f,0.5f,0), Vector3(1.8f,0.f,0), Vector3(0.f,4.f,0), Vector3(-1.f,10.f,0)};
-	spline = new CubicHermite();
-	spline->setPoints(points, 4);
+	window = glfwCreateWindow(_width, _height, "Shaders Study", NULL, NULL);
 
 	if (!window)
     {
         glfwTerminate();
         return 0;
     }
-	
+
 	glfwMakeContextCurrent(window);
 	glfwSetWindowPos(window, 620, 120);
 	glfwSetKeyCallback(window, glfwKeyCallback);
 	glfwSetMouseButtonCallback(window, glfwMouseCallback);
+
+	GLuint vs = glCreateShader (GL_VERTEX_SHADER);
+	glShaderSource (vs, 1, &vertex_shader, NULL);
+	glCompileShader (vs);
+	GLuint fs = glCreateShader (GL_FRAGMENT_SHADER);
+	glShaderSource (fs, 1, &fragment_shader, NULL);
+	glCompileShader (fs);
+
+	shader_programme = glCreateProgram ();
+	glAttachShader (shader_programme, fs);
+	glAttachShader (shader_programme, vs);
+	glLinkProgram (shader_programme);
 
 	if(window != 0)
 	{

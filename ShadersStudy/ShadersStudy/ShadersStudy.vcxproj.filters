@@ -13,39 +13,10 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Splines">
-      <UniqueIdentifier>{2b7881fb-f22a-4248-80e4-46586a97d976}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vector3.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EDSpline.cpp">
-      <Filter>Splines</Filter>
-    </ClCompile>
-    <ClCompile Include="QuadraticHermiteSpline.cpp">
-      <Filter>Splines</Filter>
-    </ClCompile>
-    <ClCompile Include="CubicHermitecpp.cpp">
-      <Filter>Splines</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Vector3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EDSpline.h">
-      <Filter>Splines</Filter>
-    </ClInclude>
-    <ClInclude Include="QuadraticHermiteSpline.h">
-      <Filter>Splines</Filter>
-    </ClInclude>
-    <ClInclude Include="CubicHermite.h">
-      <Filter>Splines</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
