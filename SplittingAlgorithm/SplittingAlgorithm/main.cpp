@@ -25,7 +25,7 @@ float _height = 480;
 #define max(a,b) (a > b)?a:b;
 #define min(a,b) (a < b)?a:b;
 
-int polygonType = 3;
+int polygonType = 4;
 
 void defineClipWindow(void)
 {
@@ -155,6 +155,31 @@ void defineClipWindow(void)
 
 			edges[i++] = new Edge2d(new Vector3(0.20f, 0.40f), 
 								  new Vector3(0.0f, 0.30f));
+
+			polygons = new Polygon2D[1];
+			qtt = 1;
+			polygons[0] = Polygon2D(length, edges);
+		}
+#pragma endregion
+		break;
+		case 4:
+#pragma region case 4
+		{
+			int length = 4;
+			Edge2d* edges = new Edge2d[length];
+
+			int i = 0;
+			edges[i++] = new Edge2d(new Vector3(0.2f, 0.7f), 
+								  new Vector3(0.4f, 0.5f));
+
+			edges[i++] = new Edge2d(new Vector3(0.4f, 0.5f), 
+								  new Vector3(0.5f, 0.5f));
+
+			edges[i++] = new Edge2d(new Vector3(0.5f, 0.5f), 
+								  new Vector3(0.7f, 0.7f));
+
+			edges[i++] = new Edge2d(new Vector3(0.7f, 0.7f), 
+								  new Vector3(0.2f, 0.7f));
 
 			polygons = new Polygon2D[1];
 			qtt = 1;
