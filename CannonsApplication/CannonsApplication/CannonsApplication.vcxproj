@@ -85,6 +85,8 @@
     <ClCompile Include="player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="edgeom.h" />
+    <ClInclude Include="GeometricObjects.h" />
     <ClInclude Include="GLFWWrapper.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="scenario.h" />
