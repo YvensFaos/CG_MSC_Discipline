@@ -2,31 +2,63 @@
 #define __GEOMETRIC_OBJECTS__
 
 #include "edgeom.h"
+#include "GLFW\glfw3.h"
 
-class GPlane
+class GObject
 {
-	public:
-		float height;
-		float width;
-		EDPoint* position;
-		EDPlane* plane;
+public:
+	static GLfloat baseAmbientMaterial[];
+	static GLfloat baseDiffuseMaterial[];
 
-		GPlane(void);
-		GPlane(float height, float width, EDPoint* position, EDPlane* plane);
-		~GPlane(void);
+	const char* identifier;
+	GObject(const char* identifier)
+	{
+		this->identifier = identifier;
+	}
+	~GObject(void)
+	{
+		if(identifier)
+		{
+			delete identifier;
+		}
+	}
 
-		void initialize(float height, float width, EDPoint* position, EDPlane* plane);
-		void draw(void);
+	virtual void draw(void) = 0;
+	virtual void update(float elapsedTime) = 0;
 };
 
-class GLine
+class GPlane : GObject
 {
-	public:
+public:
+	float height;
+	float width;
+	EDPoint* position;
+	EDPlane* plane;
+
+	GPlane(const char* identifier);
+	GPlane(const char* identifier, float height, float width, EDPoint* position, EDPlane* plane);
+	~GPlane(void);
+
+	void initialize(float height, float width, EDPoint* position, EDPlane* plane);
+	void draw(void);
+	void update(float elapsedTime);
 };
 
-class GSPhere
+/*
+class GLine : GObject
 {
-	public:
+public:
 };
 
+class GSPhere : GObject
+{
+public:
+};
+
+
+class GMesh : GObject
+{
+public:
+};
+*/
 #endif

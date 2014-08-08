@@ -19,6 +19,8 @@ public:
 	bool running();
 	void error(int e, const char* description);
 	void keyboard(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+	float getTime(void);
 };
 
 #endif

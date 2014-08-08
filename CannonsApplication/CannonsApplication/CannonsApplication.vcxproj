@@ -85,6 +85,7 @@
     <ClCompile Include="GLFWWrapper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="scenario.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="edgeom.h" />

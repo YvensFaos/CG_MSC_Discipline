@@ -1,6 +1,7 @@
 #include "player.h"
 
 #include <stdio.h>
+#include <time.h>
 
 Player::Player(void)
 {
@@ -10,8 +11,27 @@ Player::~Player(void)
 {
 }
 
+float Player::getTime(void)
+{
+	return 0.0f;
+}
+
 void Player::callBack()
 {
+	float timeNow = 0;
+	float timeAfter = 0;
+	float elapsedTime = 0;
+	while(running())
+	{
+		timeNow = getTime();
+
+		timeAfter = getTime();
+		elapsedTime = timeAfter - timeNow;
+		if(elapsedTime <= 0.016f)
+		{
+			elapsedTime = 0.016f;
+		}
+	}
 }
 
 bool Player::running()
