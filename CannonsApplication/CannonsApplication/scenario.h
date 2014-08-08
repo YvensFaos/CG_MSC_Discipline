@@ -8,7 +8,7 @@
 class Scenario
 {
 public:
-	std::list<GObject> objects;
+	std::list<GObject*> objects;
 
 	Scenario(void);
 	~Scenario(void);

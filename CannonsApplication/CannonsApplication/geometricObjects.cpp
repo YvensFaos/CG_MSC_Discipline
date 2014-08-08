@@ -1,7 +1,9 @@
 #include "geometricObjects.h"
 
-GLfloat GObject::baseAmbientMaterial[] = {.9f, .1f,  .3f, 0.1f};
-GLfloat GObject::baseDiffuseMaterial[] = {.9f, .05f, .3f, 0.1f};
+#include <stdio.h>
+
+GLfloat GObject::baseAmbientMaterial[] = {.9f, .1f,  .3f, 1.0f};
+GLfloat GObject::baseDiffuseMaterial[] = {.9f, .05f, .3f, 1.0f};
 
 GPlane::GPlane(const char* identifier) : GObject(identifier)
 {
@@ -41,6 +43,10 @@ void GPlane::draw(void)
 	z = position->z;
 
 	glBegin(GL_QUADS);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, baseAmbientMaterial);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, baseDiffuseMaterial);
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 20.0f);
+
 		glVertex3f(x, y, z);
 		glVertex3f(x + width, y, z);
 		glVertex3f(x + width, y, z + height);
