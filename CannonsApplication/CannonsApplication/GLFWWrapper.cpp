@@ -1,7 +1,6 @@
 #include "glfwWrapper.h"
 
-#include <stdio.h>
-#include <GL\glut.h>
+#include "GLFW\glfw3.h"
 
 float GLFWWrapper::ratio;
 GLFWwindow* GLFWWrapper::window;
