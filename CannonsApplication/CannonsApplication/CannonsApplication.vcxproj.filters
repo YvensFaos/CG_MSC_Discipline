@@ -19,6 +19,9 @@
     <Filter Include="GLFW">
       <UniqueIdentifier>{8d83cf06-f2d3-4e2b-85f4-4c2bfb88e9b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{c7889c06-a64b-4e03-ba91-3af9827f05df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,6 +42,12 @@
     <ClCompile Include="scenario.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="edcamera.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="cannonsScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="edgeom.h">
@@ -55,6 +64,15 @@
     </ClInclude>
     <ClInclude Include="scenario.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="edcamera.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="cannonsScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

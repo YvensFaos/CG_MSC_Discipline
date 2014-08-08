@@ -80,6 +80,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cannonsScene.cpp" />
+    <ClCompile Include="edcamera.cpp" />
     <ClCompile Include="edgeom.cpp" />
     <ClCompile Include="geometricObjects.cpp" />
     <ClCompile Include="GLFWWrapper.cpp" />
@@ -88,11 +90,14 @@
     <ClCompile Include="scenario.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cannonsScene.h" />
+    <ClInclude Include="edcamera.h" />
     <ClInclude Include="edgeom.h" />
     <ClInclude Include="geometricObjects.h" />
     <ClInclude Include="GLFWWrapper.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="scenario.h" />
+    <ClInclude Include="scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

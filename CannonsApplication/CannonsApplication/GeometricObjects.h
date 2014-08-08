@@ -15,19 +15,15 @@ public:
 	{
 		this->identifier = identifier;
 	}
+
 	~GObject(void)
-	{
-		if(identifier)
-		{
-			delete identifier;
-		}
-	}
+	{ }
 
 	virtual void draw(void) = 0;
 	virtual void update(float elapsedTime) = 0;
 };
 
-class GPlane : GObject
+class GPlane : public GObject
 {
 public:
 	float height;
@@ -39,9 +35,10 @@ public:
 	GPlane(const char* identifier, float height, float width, EDPoint* position, EDPlane* plane);
 	~GPlane(void);
 
-	void initialize(float height, float width, EDPoint* position, EDPlane* plane);
 	void draw(void);
 	void update(float elapsedTime);
+private:
+	void initialize(float height, float width, EDPoint* position, EDPlane* plane);
 };
 
 /*

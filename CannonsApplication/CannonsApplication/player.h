@@ -3,17 +3,22 @@
 
 #include "GLFW\glfw3.h"
 #include "scenario.h"
+#include "edcamera.h"
+#include "scene.h"
 
 class Player
 {
 private:
 	Scenario* scenario;
+	EDCamera* camera;
 
 public:
 	Player(void);
 	~Player(void);
 
-	void setUpScenario(void);
+	void initializeLights(void);
+	void setUpScenario(Scene* scene);
+	void setUpScenario(EDCamera* camera, Scenario* scenario);
 
 	void callBack();
 	bool running();

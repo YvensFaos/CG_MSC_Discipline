@@ -8,16 +8,18 @@ Scenario::~Scenario(void)
 
 void Scenario::update(float elapsedTime)
 {
-	for (std::list<GObject>::iterator it = objects.begin(); it != objects.end(); it++)
+	std::list<GObject*>::iterator i;
+	for (i = objects.begin(); i != objects.end(); i++)
 	{
-		it->update(elapsedTime);
+		(*i)->update(elapsedTime);
 	}
 }
 
 void Scenario::draw(void)
 {
-	for (std::list<GObject>::iterator it = objects.begin(); it != objects.end(); it++)
+	std::list<GObject*>::iterator i;
+	for (i = objects.begin(); i != objects.end(); i++)
 	{
-		it->draw();
+		(*i)->draw();
 	}
 }
