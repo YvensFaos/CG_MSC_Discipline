@@ -21,27 +21,33 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
+    <ClCompile Include="edgeom.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="geometricObjects.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="GLFWWrapper.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GLFWWrapper.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
+    <ClInclude Include="edgeom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scenario.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeometricObjects.h">
+    <ClInclude Include="player.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="edgeom.h">
+    <ClInclude Include="GLFWWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="geometricObjects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
