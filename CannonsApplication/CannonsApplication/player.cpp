@@ -57,7 +57,7 @@ void Player::keyboard(GLFWwindow* window, int key, int scancode, int action, int
 		{
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
-			if(key == GLFW_KEY_UP)
+		if(key == GLFW_KEY_UP)
 		{
 			camera->move(BACKWARD);
 		}
@@ -97,6 +97,10 @@ void Player::keyboard(GLFWwindow* window, int key, int scancode, int action, int
 		{
 			camera->move(RRIGHT);
 		}
+		if(key == GLFW_KEY_1)
+		{
+			initializeLights();
+		}
 		if(key == GLFW_KEY_5)
 		{
 			camera->print();
@@ -109,43 +113,52 @@ void Player::initializeLights(void)
 	GLfloat lightAmbient[] = {1.f, 1.f, 1.f, 1.f} ;
 	GLfloat lightDiffuse[] = {1.f, 1.f, 1.f, 1.f} ;
 
-	GLfloat lightPos1[] = { 20.0, 20.0, 20.0, 1.0 };
-	GLfloat lightPos2[] = { -20.0, 20.0, 20.0, 1.0 };
-	GLfloat lightPos3[] = { 20.0, 20.0, -20.0, 1.0 };
-	GLfloat lightPos4[] = { -20.0, 20.0, -20.0, 1.0 };
-	GLfloat spotDir1[] =  { -0.5f, -0.5f, -0.5f };
-	GLfloat spotDir2[] =  { 0.5f, -0.5f, -0.5f };
-	GLfloat spotDir3[] =  { -0.5f, -0.5f, 0.5f };
-	GLfloat spotDir4[] =  { 0.5f, -0.5f, 0.5f };
+	float basePos = 20.0f;
+	float baseDir = 0.5f;
+
+	GLfloat lightPos1[] = { basePos, basePos, basePos, 1.0 };
+	GLfloat lightPos2[] = { -basePos, basePos, basePos, 1.0 };
+	GLfloat lightPos3[] = { basePos, basePos, -basePos, 1.0 };
+	GLfloat lightPos4[] = { -basePos, basePos, -basePos, 1.0 };
+
+	GLfloat spotDir1[] =  { -baseDir, -baseDir, -baseDir };
+	GLfloat spotDir2[] =  {  baseDir, -baseDir, -baseDir };
+	GLfloat spotDir3[] =  { -baseDir, -baseDir,  baseDir };
+	GLfloat spotDir4[] =  {  baseDir, -baseDir,  baseDir };
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
+
+	float expoent = 30.0f;
+	float spotCutoff = 40.0f;
 
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightDiffuse);
 	glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmbient);
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
 	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spotDir1);
-	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 40.0);
-	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 30.0);
+	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, spotCutoff);
+	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, expoent);
+
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightDiffuse);
 	glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmbient);
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPos2);
 	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spotDir2);
-	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 40.0);
-	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 30.0);
+	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, spotCutoff);
+	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, expoent);
 
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightDiffuse);
 	glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmbient);
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPos3);
 	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spotDir3);
-	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 40.0);
-	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 30.0);
+	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, spotCutoff);
+	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, expoent);
+
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightDiffuse);
 	glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmbient);
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPos4);
 	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spotDir4);	
-	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 40.0);
-	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 30.0);
+	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, spotCutoff);
+	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, expoent);
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);

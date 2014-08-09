@@ -42,11 +42,16 @@ void GPlane::draw(void)
 	y = position->y;
 	z = position->z;
 
-	glBegin(GL_QUADS);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, baseAmbientMaterial);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, baseDiffuseMaterial);
-		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 20.0f);
+	GLfloat ambient[] = {.3f, .9f, .1f, 1.f};
+	GLfloat diffuse[] = {.7f, .7f, .1f, 1.f};
 
+	glBegin(GL_QUADS);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 90.0f);
+
+		//glColor3f(0.2f, 0.2f, 0.4f);
 		glVertex3f(x, y, z);
 		glVertex3f(x + width, y, z);
 		glVertex3f(x + width, y, z + height);

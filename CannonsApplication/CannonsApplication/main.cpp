@@ -24,10 +24,10 @@ void keyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 int main()
 {
 	player = new Player();
-	player->initializeLights();
 	player->setUpScenario(new CannonsScene());
 
 	GLFWWrapper::initialize(callBack);
+	player->initializeLights();
 	GLFWWrapper::running_callback(running);
 	GLFWWrapper::keyboard_callback(keyboard);
 
