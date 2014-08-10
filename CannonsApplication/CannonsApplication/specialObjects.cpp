@@ -56,7 +56,12 @@ void CannonBall::draw(void)
 
 void CannonBall::update(float elapsedTime)
 {
-	if(position->almostEquals(&targets[index], 0.1f))
+	float dx = position->x - targets[index].x;
+	if(dx < 0) dx *= -1;
+	float dz = position->z - targets[index].z;
+	if(dz < 0) dz *= -1;
+
+	if(dx <= 0.1f && dz <= 0.1f)
 	{
 		actualPosition = new EDPoint(targets[index].x, targets[index].y, targets[index].z);
 		index = (++index)%length;
@@ -70,7 +75,6 @@ void CannonBall::update(float elapsedTime)
 		z = actualPosition->z + (targets[index].z - actualPosition->z)*floatCounter;
 
 		floatCounter += elapsedTime*0.05f;
-		printf("pos: %f %f %f\n", x,y,z);
 
 		EDPoint* min = new EDPoint(x,y,z);
 		position = new EDPoint(x,y,z);
