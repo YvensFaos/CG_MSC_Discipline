@@ -30,6 +30,10 @@ void CannonBall::initialize(EDPoint* targets, int length, float size)
 		this->targets[i] = EDPoint(targets[i].x, targets[i].y, targets[i].z);
 	}
 	actualPosition = new EDPoint(targets[0].x, targets[0].y, targets[0].z);
+	params = new float[2];
+	//Posição inicial
+	params[0] = actualPosition->y;
+	params[1] = 4.0f;
 
 	EDPoint* min = &this->targets[0];
 	float x,y,z;
@@ -66,15 +70,24 @@ void CannonBall::update(float elapsedTime)
 		actualPosition = new EDPoint(targets[index].x, targets[index].y, targets[index].z);
 		index = (++index)%length;
 		this->floatCounter = 0.0f;
+
+		params[0] = actualPosition->y;
 	}
 	else
 	{
 		float x,y,z;
+
+		float s = 0.0f;
+		//s = s0 + v0*t + a/2 * t^2
+		s = params[0] + params[1]*floatCounter - 4.0f*(floatCounter);
+
 		x = actualPosition->x + (targets[index].x - actualPosition->x)*floatCounter;
-		y = actualPosition->y + (targets[index].y - actualPosition->y)*floatCounter;
+		y = s;
 		z = actualPosition->z + (targets[index].z - actualPosition->z)*floatCounter;
 
 		floatCounter += elapsedTime*0.05f;
+
+		printf("s = %f\n",s);
 
 		EDPoint* min = new EDPoint(x,y,z);
 		position = new EDPoint(x,y,z);
