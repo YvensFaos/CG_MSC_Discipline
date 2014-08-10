@@ -5,23 +5,53 @@
 #include "GLFW\glfw3.h"
 #include <GL\glut.h>
 
+class GObject;
+
+typedef void (*updateCallbackFunction)(float elapsedTime, GObject* object);
+
 class GObject
 {
+protected:
+	updateCallbackFunction updateCallback;
 public:
+	int intCounter;
+	float floatCounter;
+
 	static GLfloat baseAmbientMaterial[];
 	static GLfloat baseDiffuseMaterial[];
 
-	const char* identifier;
-	GObject(const char* identifier)
-	{
-		this->identifier = identifier;
-	}
+	GLfloat* ambientMaterial;
+	GLfloat* diffuseMaterial;
 
+	EDPoint* position;
+	
+	const char* identifier;
+
+	GObject(const char* identifier);
 	~GObject(void)
 	{ }
 
 	virtual void draw(void) = 0;
 	virtual void update(float elapsedTime) = 0;
+
+	void callUpdate(float elapsedTime, GObject* object)
+	{
+		(updateCallback)(elapsedTime, object);
+	}
+
+	void setCallUpdate(updateCallbackFunction function)
+	{
+		updateCallback = function;
+	}
+
+	void setMaterial(GLfloat* ambient, GLfloat* diffuse)
+	{
+		for(int i = 0; i < 4; i++)
+		{
+			ambientMaterial[i] = ambient[i];
+			diffuseMaterial[i] = diffuse[i];
+		}
+	}
 };
 
 class GPlane : public GObject
@@ -29,9 +59,8 @@ class GPlane : public GObject
 public:
 	float height;
 	float width;
-	EDPoint* position;
+	
 	EDPlane* plane;
-
 	GPlane(const char* identifier);
 	GPlane(const char* identifier, float height, float width, EDPoint* position, EDPlane* plane);
 	~GPlane(void);

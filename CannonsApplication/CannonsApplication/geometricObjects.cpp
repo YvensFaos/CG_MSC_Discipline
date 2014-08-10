@@ -2,8 +2,24 @@
 
 #include <stdio.h>
 
-GLfloat GObject::baseAmbientMaterial[] = {.9f, .1f,  .3f, 1.0f};
-GLfloat GObject::baseDiffuseMaterial[] = {.9f, .05f, .3f, 1.0f};
+GLfloat GObject::baseAmbientMaterial[] = {.4f, .4f, .3f, 1.0f};
+GLfloat GObject::baseDiffuseMaterial[] = {.2f, .2f, .3f, 1.0f};
+
+void emptyFunction(float elapsedTime, GObject* object) { }
+
+GObject::GObject(const char* identifier)
+{
+	this->identifier = identifier;
+	intCounter = 0;
+	floatCounter = 0.0f;
+	ambientMaterial = new GLfloat[4];
+	diffuseMaterial = new GLfloat[4];
+	setMaterial(baseAmbientMaterial, baseDiffuseMaterial);
+
+	position = new EDPoint(0.0f, 0.0f, 0.0f);
+
+	setCallUpdate(emptyFunction);
+}
 
 GPlane::GPlane(const char* identifier) : GObject(identifier)
 {
@@ -42,16 +58,12 @@ void GPlane::draw(void)
 	y = position->y;
 	z = position->z;
 
-	GLfloat ambient[] = {.3f, .9f, .1f, 1.f};
-	GLfloat diffuse[] = {.7f, .7f, .1f, 1.f};
-
 	glBegin(GL_QUADS);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientMaterial);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseMaterial);
 		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 90.0f);
 
-		//glColor3f(0.2f, 0.2f, 0.4f);
 		glVertex3f(x, y, z);
 		glVertex3f(x + width, y, z);
 		glVertex3f(x + width, y, z + height);

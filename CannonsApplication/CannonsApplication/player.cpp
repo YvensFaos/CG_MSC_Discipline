@@ -5,7 +5,9 @@
 #include <GL\glut.h>
 
 Player::Player(void)
-{ }
+{ 
+	elapsedTime = 0.0f;
+}
 
 Player::~Player(void)
 { }
@@ -22,7 +24,6 @@ void Player::callBack()
 
 	float timeNow = 0;
 	float timeAfter = 0;
-	float elapsedTime = 0;
 
 	timeNow = getTime();
 		

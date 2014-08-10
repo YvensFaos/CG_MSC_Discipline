@@ -12,6 +12,7 @@ void Scenario::update(float elapsedTime)
 	for (i = objects.begin(); i != objects.end(); i++)
 	{
 		(*i)->update(elapsedTime);
+		(*i)->callUpdate(elapsedTime, *i);
 	}
 }
 

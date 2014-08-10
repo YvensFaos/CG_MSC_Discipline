@@ -12,6 +12,7 @@ private:
 	Scenario* scenario;
 	EDCamera* camera;
 
+	float elapsedTime;
 public:
 	Player(void);
 	~Player(void);
