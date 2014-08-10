@@ -8,22 +8,23 @@ void floatingOnY(float elapsedTime, GObject* object)
 
 void mru(float elapsedTime, GObject* object)
 {
-	if(object->intCounter == 0)
+	if(object->position->y >= 1.8f)
 	{
-		object->intCounter = 1;
-	}
+		object->position->x += object->intCounter*elapsedTime;
 
-	object->position->x += object->intCounter*elapsedTime;
-	if(object->position->x >= 10.0f)
-	{
-		object->intCounter = -1;
-	}
-	else if(object->position->x <= -10.0f)
-	{
-		object->intCounter = 1;
-	}
+		//s = s0 + v0t + at^2/2
+		float s = 0.0f;
+		s = object->params[0] + object->params[1]*object->params[2] + object->params[3]*4.0f*(object->params[2]*object->params[2]);
+		object->params[2] += elapsedTime*0.05f;
+		object->position->y = s;
 
-	//s = s0 + v0t + at^2/2
+		object->position->print();
+	}
+	else
+	{
+		object->position = new EDPoint(30.0f, 2.0f, -1.0f);
+		object->params[2] = 0.0f;
+	}
 }
 
 CannonsScene::CannonsScene(void) : Scene()
@@ -41,11 +42,15 @@ CannonsScene::CannonsScene(void) : Scene()
 
 	scenario->objects.push_back(movingPlane);
 
-	GPlane* ballPlane = new GPlane("plano3", 5.0f, 5.0f, new EDPoint(-10.0f, 2.0f, -1.0f), new EDPlane());
+	GPlane* ballPlane = new GPlane("plano3", 5.0f, 5.0f, new EDPoint(30.0f, 2.0f, -1.0f), new EDPlane());
 	GLfloat ambientMaterial2[] = {.2f, .4f, .6f, 1.0f};
 	GLfloat diffuseMaterial2[] = {1.f, 1.f, 1.f, 1.0f};
+	ballPlane->intCounter = -1;
 	ballPlane->params = new float[4];
 	ballPlane->params[0] = ballPlane->position->y;
+	ballPlane->params[1] = 6.0f;
+	ballPlane->params[2] = 0.0f;
+	ballPlane->params[3] = -1.0f;
 	ballPlane->setMaterial(ambientMaterial2, diffuseMaterial2);
 	ballPlane->setCallUpdate(mru);
 
