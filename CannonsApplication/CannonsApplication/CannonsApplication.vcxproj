@@ -88,6 +88,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="scenario.cpp" />
+    <ClCompile Include="specialObjects.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cannonsScene.h" />
@@ -98,6 +99,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="scenario.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="specialObjects.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -45,7 +45,7 @@ public:
 		updateCallback = function;
 	}
 
-	void setMaterial(GLfloat* ambient, GLfloat* diffuse)
+	virtual void setMaterial(GLfloat* ambient, GLfloat* diffuse)
 	{
 		for(int i = 0; i < 4; i++)
 		{
@@ -70,6 +70,24 @@ public:
 	void update(float elapsedTime);
 private:
 	void initialize(float height, float width, EDPoint* position, EDPlane* plane);
+};
+
+class GCube : public GObject
+{
+public:
+	EDPoint* min;
+	EDPoint* max;
+
+	GCube(const char* identifier);
+	GCube(const char* identifier, EDPoint* min, EDPoint* max);
+	~GCube(void);
+
+	void draw(void);
+	void update(float elapsedTime);
+
+	void updateMinMax(EDPoint* min, EDPoint* max);
+private:
+	void initialize(EDPoint* min, EDPoint* max);
 };
 
 /*

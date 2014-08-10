@@ -48,6 +48,9 @@
     <ClCompile Include="cannonsScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="specialObjects.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="edgeom.h">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="scene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="specialObjects.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

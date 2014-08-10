@@ -41,6 +41,11 @@ bool EDPoint::equals(EDPoint* b)
 
 bool EDPoint::almostEquals(EDPoint* b)
 {
+	return almostEquals(b, 0.001f);
+}
+
+bool EDPoint::almostEquals(EDPoint* b, float precision)
+{
 	float dx = b->x - x;
 	float dy = b->y - y;
 	float dz = b->z - z;
@@ -50,7 +55,7 @@ bool EDPoint::almostEquals(EDPoint* b)
 		dy *= -1.0f;
 	if (dz < 0)
 		dz *= -1.0f;
-	const float delta = 0.0001f;
+	const float delta = precision;
 	return dx < delta && dy < delta && dz < delta;
 }
 

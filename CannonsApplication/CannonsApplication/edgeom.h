@@ -51,6 +51,7 @@ public:
 	float signedAngle(EDPoint* u, EDPoint* v);
 	bool equals(EDPoint* b);
 	bool almostEquals(EDPoint* b);
+	bool almostEquals(EDPoint* b, float precision);
 	void print();
 };
 
