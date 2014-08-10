@@ -79,6 +79,7 @@ public:
 	EDPoint* max;
 
 	GCube(const char* identifier);
+	GCube(const char* identifier, EDPoint* min, float size);
 	GCube(const char* identifier, EDPoint* min, EDPoint* max);
 	~GCube(void);
 

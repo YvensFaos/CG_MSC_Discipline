@@ -28,18 +28,31 @@ void mru(float elapsedTime, GObject* object)
 
 CannonsScene::CannonsScene(void) : Scene()
 {
-	camera = new EDCamera(new EDPoint(20.0f, 33.0f, -20.0f), new EDPoint(20.0f, 20.0f, -5.0f), 0.05f, 300.0f, 45.0f);
+	camera = new EDCamera(new EDPoint(20.0f, 14.0f, 70.0f), new EDPoint(20.0f, 10.0f, 55.0f), 0.05f, 300.0f, 45.0f);
 
 	scenario = new Scenario();
-	scenario->objects.push_back(new GPlane("plano1", 40.0f, 40.0f, new EDPoint(0.0f, -3.0f, -1.0f), new EDPlane()));
+	scenario->objects.push_back(new GPlane("plano1", 45.0f, 45.0f, new EDPoint(0.0f, -3.0f, -1.0f), new EDPlane()));
 
-	EDPoint targets[] = {EDPoint(35.0f, 2.f, 0.f), EDPoint(5.0f, 2.f, 0.f), EDPoint(20.0f, 2.f, 30.f)};
+	EDPoint targets[] = {EDPoint(5.0f, -1.5f, 30.f), EDPoint(35.0f, -1.5f, 30.f), EDPoint(20.0f, -1.5f, 0.f)};
 	CannonBall* cannonBall = new CannonBall("bola1", targets, 3, 2.0f);
-	GLfloat ambientMaterial4[] = {.2f, .2f, .4f, 1.0f};
-	GLfloat diffuseMaterial4[] = {.0f, .8f, .3f, 1.0f};
-	cannonBall->setMaterial(ambientMaterial4, diffuseMaterial4);
-
+	GLfloat ambientMaterial1[] = {.2f, .2f, .4f, 1.0f};
+	GLfloat diffuseMaterial1[] = {.0f, .8f, .3f, 1.0f};
+	cannonBall->setMaterial(ambientMaterial1, diffuseMaterial1);
 	scenario->objects.push_back(cannonBall);
+
+	GCube* cannon1 = new GCube("canhao1", new EDPoint(5.0f, -2.5f, 30.f), 5.0f);
+	GLfloat cannonAmbientMaterial[] =  {.4f, .4f, .4f, 0.5f};
+	GLfloat cannonDiffuseMaterial[] = {.8f, .8f, .8f, 0.5f};
+	cannon1->setMaterial(cannonAmbientMaterial, cannonDiffuseMaterial);
+	scenario->objects.push_back(cannon1);
+
+	GCube* cannon2 = new GCube("canhao2", new EDPoint(32.5f, -2.5f, 30.f), 5.0f);
+	cannon2->setMaterial(cannonAmbientMaterial, cannonDiffuseMaterial);
+	scenario->objects.push_back(cannon2);
+
+	GCube* cannon3 = new GCube("canhao3", new EDPoint(18.5f, -2.5f, 5.f), 5.0f);
+	cannon3->setMaterial(cannonAmbientMaterial, cannonDiffuseMaterial);
+	scenario->objects.push_back(cannon3);
 }
 
 CannonsScene::~CannonsScene(void)

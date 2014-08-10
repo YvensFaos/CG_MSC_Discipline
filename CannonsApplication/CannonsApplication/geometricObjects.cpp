@@ -82,6 +82,11 @@ GCube::GCube(const char* identifier, EDPoint* min, EDPoint* max) : GObject(ident
 	initialize(min, max);
 }
 
+GCube::GCube(const char* identifier, EDPoint* min, float size) : GObject(identifier)
+{
+	initialize(min, new EDPoint(min->x + size, min->y + size, min->z + size));
+}
+
 void GCube::initialize(EDPoint* min, EDPoint* max)
 {
 	this->min = new EDPoint(min->x, min->y, min->z);

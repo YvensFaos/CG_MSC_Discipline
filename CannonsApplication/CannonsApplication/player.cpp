@@ -60,11 +60,11 @@ void Player::keyboard(GLFWwindow* window, int key, int scancode, int action, int
 		}
 		if(key == GLFW_KEY_UP)
 		{
-			camera->move(BACKWARD);
+			camera->move(FORWARD);
 		}
 		if(key == GLFW_KEY_DOWN)
 		{
-			camera->move(FORWARD);
+			camera->move(BACKWARD);
 		}
 		if(key == GLFW_KEY_LEFT)
 		{
