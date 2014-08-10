@@ -16,6 +16,7 @@ protected:
 public:
 	int intCounter;
 	float floatCounter;
+	float* params;
 
 	static GLfloat baseAmbientMaterial[];
 	static GLfloat baseDiffuseMaterial[];
