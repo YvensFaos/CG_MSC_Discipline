@@ -43,27 +43,33 @@ CannonsScene::CannonsScene(void) : Scene()
 	terrain->setMaterial(ambientMaterial, diffuseMaterial);
 	scenario->objects.push_back(terrain);
 
-	EDPoint targets[] = {EDPoint(5.0f, -1.5f, 30.f), EDPoint(35.0f, -1.5f, 30.f), EDPoint(20.0f, -1.5f, 0.f)};
-	CannonBall* cannonBall = new CannonBall("bola1", targets, 3, 2.0f);
+	EDPoint targets1[] = {EDPoint(5.0f, -1.5f, 30.f), EDPoint(35.0f, -1.5f, 30.f), EDPoint(20.0f, -1.5f, 0.f)};
+	CannonBall* cannonBall1 = new CannonBall("bola1", targets1, 3, 2.0f);
 	GLfloat ambientMaterial1[] = {.2f, .2f, .4f, 0.5f};
 	GLfloat diffuseMaterial1[] = {.0f, .8f, .3f, 0.4f};
-	cannonBall->setMaterial(ambientMaterial1, diffuseMaterial1);
-	scenario->objects.push_back(cannonBall);
+	cannonBall1->setMaterial(ambientMaterial1, diffuseMaterial1);
+	scenario->objects.push_back(cannonBall1);
+
+	EDPoint targets2[] = {EDPoint(35.0f, -1.5f, 30.f), EDPoint(20.0f, -1.5f, 0.f), EDPoint(5.0f, -1.5f, 30.f)};
+	CannonBall* cannonBall2 = new CannonBall("bola2", targets2, 3, 2.0f);
+	GLfloat ambientMaterial2[] = {.4f, .2f, .2f, 0.5f};
+	GLfloat diffuseMaterial2[] = {.8f, .0f, .3f, 0.4f};
+	cannonBall2->setMaterial(ambientMaterial2, diffuseMaterial2);
+	scenario->objects.push_back(cannonBall2);
+
+	EDPoint targets3[] = {EDPoint(20.0f, -1.5f, 0.f), EDPoint(5.0f, -1.5f, 30.f), EDPoint(35.0f, -1.5f, 30.f)};
+	CannonBall* cannonBall3 = new CannonBall("bola3", targets3, 3, 2.0f);
+	GLfloat ambientMaterial3[] = {.0f, .2f, .4f, 0.5f};
+	GLfloat diffuseMaterial3[] = {.0f, .3f, .8f, 0.4f};
+	cannonBall3->setMaterial(ambientMaterial3, diffuseMaterial3);
+	scenario->objects.push_back(cannonBall3);
 
 	GLfloat cannonAmbientMaterial[] =   {.1f, .1f, .1f, 0.8f};
 	GLfloat cannonDiffuseMaterial[] =   {.4f, .4f, .4f, 0.5f};
 
-	GLfloat triggerAmbientMaterial[] =  {1.f, .0f, .2f, 1.0f};
-	GLfloat triggerDiffuseMaterial[] =  {.6f, .0f, .0f, 1.0f};
-	
 	GCube* cannon1 = new GCube("canhao1", new EDPoint(5.0f, -2.5f, 28.5f), 5.0f);
 	cannon1->setMaterial(cannonAmbientMaterial, cannonDiffuseMaterial);
 	scenario->objects.push_back(cannon1);
-
-	GCube* trigger1 = new GCube("trigger1", new EDPoint(8.0f, -1.5f, 30.f), 2.0f);
-	trigger1->setMaterial(triggerAmbientMaterial, triggerDiffuseMaterial);
-	trigger1->setCallUpdate(floatingOnX);
-	scenario->objects.push_back(trigger1);
 
 	GCube* cannon2 = new GCube("canhao2", new EDPoint(32.5f, -2.5f, 28.5f), 5.0f);
 	cannon2->setMaterial(cannonAmbientMaterial, cannonDiffuseMaterial);
