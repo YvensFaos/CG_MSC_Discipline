@@ -77,6 +77,7 @@ CannonsScene::CannonsScene(void) : Scene()
 
 	GCube* cannon3 = new GCube("canhao3", new EDPoint(18.5f, -2.5f, 0.f), 5.0f);
 	cannon3->setMaterial(cannonAmbientMaterial, cannonDiffuseMaterial);
+	cannon3->setCallUpdate(floatingOnY);
 	scenario->objects.push_back(cannon3);
 
 
