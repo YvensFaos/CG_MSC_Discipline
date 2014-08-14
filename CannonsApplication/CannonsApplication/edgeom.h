@@ -53,7 +53,8 @@ public:
 	bool almostEquals(float p);
 	bool almostEquals(EDPoint* b);
 	bool almostEquals(EDPoint* b, float precision);
-	void print();
+	void print(void);
+	void toVertex3f(void);
 };
 
 class EDSphere

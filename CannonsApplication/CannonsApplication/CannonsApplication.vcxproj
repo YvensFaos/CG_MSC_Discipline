@@ -89,6 +89,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="scenario.cpp" />
     <ClCompile Include="specialObjects.cpp" />
+    <ClCompile Include="transformScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cannonsScene.h" />
@@ -100,6 +101,7 @@
     <ClInclude Include="scenario.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="specialObjects.h" />
+    <ClInclude Include="transformScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -51,6 +51,9 @@
     <ClCompile Include="specialObjects.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="transformScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="edgeom.h">
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="specialObjects.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="transformScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

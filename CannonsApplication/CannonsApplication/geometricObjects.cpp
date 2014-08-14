@@ -5,6 +5,15 @@
 GLfloat GObject::baseAmbientMaterial[] = {.4f, .4f, .3f, 1.0f};
 GLfloat GObject::baseDiffuseMaterial[] = {.2f, .2f, .3f, 1.0f};
 
+int GCube::LBN = 0;
+int GCube::LTN = 1;
+int GCube::RBN = 2;
+int GCube::RTN = 3;
+int GCube::LBF = 4;
+int GCube::LTF = 5;
+int GCube::RBF = 6;
+int GCube::RTF = 7;
+
 void emptyFunction(float elapsedTime, GObject* object) { }
 
 GObject::GObject(const char* identifier)
@@ -92,6 +101,17 @@ void GCube::initialize(EDPoint* min, EDPoint* max)
 	this->min = new EDPoint(min->x, min->y, min->z);
 	this->position = this->min;
 	this->max = new EDPoint(max->x, max->y, max->z);
+
+	points = new EDPoint[8];
+	int i = 0;
+	points[LBN] = *this->min;
+	points[RBN] = EDPoint(max->x, min->y, min->z);
+	points[RTN] = EDPoint(max->x, max->y, min->z);
+	points[LTN] = EDPoint(min->x, max->y, min->z);
+	points[LBF] = EDPoint(min->x, min->y, max->z);
+	points[RBF] = EDPoint(max->x, min->y, max->z);
+	points[RTF] = *this->max;
+	points[LTF] = EDPoint(min->x, max->y, max->z);
 }
 
 GCube::~GCube(void)
@@ -125,37 +145,94 @@ void GCube::draw(void)
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseMaterial);
 		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 90.0f);
 
-		glVertex3f(xm, ym, zm);
-		glVertex3f(xm, yx, zm);
-		glVertex3f(xm, yx, zx);
-		glVertex3f(xm, ym, zx);
+		points[LBN].toVertex3f();
+		points[LTN].toVertex3f();
+		points[LTF].toVertex3f();
+		points[LBF].toVertex3f();
 
-		glVertex3f(xx, ym, zm);
-		glVertex3f(xx, yx, zm);
-		glVertex3f(xx, yx, zx);
-		glVertex3f(xx, ym, zx);
+		points[RBN].toVertex3f();
+		points[RTN].toVertex3f();
+		points[RTF].toVertex3f();
+		points[RBF].toVertex3f();
 
-		glVertex3f(xm, ym, zm);
-		glVertex3f(xx, ym, zm);
-		glVertex3f(xx, ym, zx);
-		glVertex3f(xm, ym, zx);
+		points[LBN].toVertex3f();
+		points[RBN].toVertex3f();
+		points[RBF].toVertex3f();
+		points[LBF].toVertex3f();
 
-		glVertex3f(xm, yx, zm);
-		glVertex3f(xx, yx, zm);
-		glVertex3f(xx, yx, zx);
-		glVertex3f(xm, yx, zx);
+		points[LTN].toVertex3f();
+		points[RTN].toVertex3f();
+		points[RTF].toVertex3f();
+		points[LTF].toVertex3f();
 
-		glVertex3f(xm, ym, zm);
-		glVertex3f(xx, ym, zm);
-		glVertex3f(xx, yx, zm);
-		glVertex3f(xm, yx, zm);
+		points[LBN].toVertex3f();
+		points[RBN].toVertex3f();
+		points[RTN].toVertex3f();
+		points[LTN].toVertex3f();
 
-		glVertex3f(xm, ym, zx);
-		glVertex3f(xx, ym, zx);
-		glVertex3f(xx, yx, zx);
-		glVertex3f(xm, yx, zx);
+		points[LBF].toVertex3f();
+		points[RBF].toVertex3f();
+		points[RTF].toVertex3f();
+		points[LTF].toVertex3f();
 	glEnd();
 }
 
 void GCube::update(float elapsedTime)
 { }
+
+void GCube::translate(EDPoint* toTranslate)
+{ 
+	for(int i = 0; i < 8; i++)
+	{
+		points[i].x += toTranslate->x;
+		points[i].y += toTranslate->y;
+		points[i].z += toTranslate->z;
+	}
+}
+
+void GCube::rotate(EDPoint* axis, float angle)
+{ 
+	if(axis->x != 0)
+	{
+
+	}
+	if(axis->y != 0)
+	{
+
+	}
+	if(axis->z != 0)
+	{
+
+	}
+}
+
+void GCube::scale(EDPoint* axis, float factor)
+{ 
+	EDPoint* minInitial = new EDPoint(points[LBN].x, points[LBN].y, points[LBN].z);
+	translate(new EDPoint(-1*minInitial->x, -1*minInitial->y, -1*minInitial->z));
+
+	for(int i = 0; i < 8; i++)
+	{
+		if(axis->x != 0)
+		{
+			points[i].x *= factor;
+		}
+		if(axis->y != 0)
+		{
+			points[i].y *= factor;
+		}
+		if(axis->z != 0)
+		{
+			points[i].z *= factor;
+		}
+	}
+	translate(new EDPoint(minInitial->x, minInitial->y, minInitial->z));
+}
+
+void GCube::print(void)
+{
+	for(int i = 0; i < 8; i++)
+	{
+		points[i].print();
+	}
+}

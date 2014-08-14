@@ -59,6 +59,11 @@ bool EDPoint::almostEquals(EDPoint* b, float precision)
 	return dx < delta && dy < delta && dz < delta;
 }
 
+void EDPoint::toVertex3f()
+{
+	glVertex3f(x, y, z);
+}
+
 float EDPoint::isMultiple(EDPoint* v)
 {
 	//Busca a primeira componente não nula

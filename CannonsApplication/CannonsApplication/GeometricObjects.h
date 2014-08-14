@@ -75,8 +75,18 @@ private:
 class GCube : public GObject
 {
 public:
+	static int LBN;
+	static int LTN;
+	static int RBN;
+	static int RTN;
+	static int LBF;
+	static int LTF;
+	static int RBF;
+	static int RTF;
+
 	EDPoint* min;
 	EDPoint* max;
+	EDPoint* points;
 
 	GCube(const char* identifier);
 	GCube(const char* identifier, EDPoint* min, float size);
@@ -86,7 +96,13 @@ public:
 	void draw(void);
 	void update(float elapsedTime);
 
+	void translate(EDPoint* toTranslate);
+	void rotate(EDPoint* axis, float angle);
+	void scale(EDPoint* axis, float factor);
+
 	void updateMinMax(EDPoint* min, EDPoint* max);
+
+	void print(void);
 private:
 	void initialize(EDPoint* min, EDPoint* max);
 };

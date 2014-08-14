@@ -3,6 +3,7 @@
 #include "GLFWWrapper.h"
 #include "player.h"
 #include "cannonsScene.h"
+#include "transformScene.h"
 
 Player* player;
 
@@ -24,7 +25,7 @@ void keyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 int main()
 {
 	player = new Player();
-	player->setUpScenario(new CannonsScene());
+	player->setUpScenario(new TransformScene());
 
 	GLFWWrapper::initialize(callBack);
 	player->initializeLights();
