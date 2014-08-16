@@ -32,7 +32,7 @@ void rotateOnXYZ(float elapsedTime, GObject* object)
 	float factor = 2.f; //0.5f + sin(object->floatCounter);
 
 	printf("rotate factor: %f\n", factor);
-	cube->rotate(new EDPoint(0.0f, 1.0f, 0.0f), factor);
+	cube->rotate(new EDPoint(0.0f, 0.0f, 1.0f), factor);
 }
 
 TransformScene::TransformScene(void) : Scene()

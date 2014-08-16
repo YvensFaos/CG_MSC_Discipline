@@ -214,7 +214,7 @@ void GCube::rotate(EDPoint* axis, float angle)
 		if(axis->x != 0)
 		{
 			points[i].y = cosa*yx - sina*zx;
-			points[i].z = sina*yx + sina*zx;
+			points[i].z = sina*yx + cosa*zx;
 		}
 		if(axis->y != 0)
 		{
@@ -224,7 +224,7 @@ void GCube::rotate(EDPoint* axis, float angle)
 		if(axis->z != 0)
 		{
 			points[i].x = cosa*xx - sina*yx;
-			points[i].y = sina*xx + sina*yx;
+			points[i].y = sina*xx + cosa*yx;
 		}
 	}
 	printf("x\n");
