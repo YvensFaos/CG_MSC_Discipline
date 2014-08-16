@@ -2,14 +2,37 @@
 
 #include "specialObjects.h"
 
-void scaleOnX(float elapsedTime, GObject* object)
+void scaleOnXYZ(float elapsedTime, GObject* object)
 {
 	GCube* cube = (GCube*)object;
-	cube->print();
-	object->floatCounter += elapsedTime*0.5;
+	object->floatCounter += (elapsedTime*0.5);
+	
+	float factor = 1.0005f; //0.5f + sin(object->floatCounter);
 
-	cube->scale(new EDPoint(1.0f, 1.0f, 1.0f), object->floatCounter);
-	cube->print();
+	printf("scale factor: %f\n", factor);
+	cube->scale(new EDPoint(1.0f, 1.0f, 1.0f), factor);
+}
+
+void translateOnXYZ(float elapsedTime, GObject* object)
+{
+	GCube* cube = (GCube*)object;
+	object->floatCounter += (elapsedTime*0.5);
+	
+	float factor = 0.05f; //0.5f + sin(object->floatCounter);
+
+	printf("translate factor: %f\n", factor);
+	cube->translate(new EDPoint(factor, factor, factor));
+}
+
+void rotateOnXYZ(float elapsedTime, GObject* object)
+{
+	GCube* cube = (GCube*)object;
+	object->floatCounter += (elapsedTime*0.5);
+	
+	float factor = 2.f; //0.5f + sin(object->floatCounter);
+
+	printf("rotate factor: %f\n", factor);
+	cube->rotate(new EDPoint(0.0f, 1.0f, 0.0f), factor);
 }
 
 TransformScene::TransformScene(void) : Scene()
@@ -27,7 +50,8 @@ TransformScene::TransformScene(void) : Scene()
 	GLfloat ambientMaterial1[] = {.6f, .2f, .0f, 0.5f};
 	GLfloat diffuseMaterial1[] = {.6f, .1f, .3f, 0.4f};
 	cube->setMaterial(ambientMaterial1, diffuseMaterial1);
-	cube->setCallUpdate(scaleOnX);
+	cube->setCallUpdate(rotateOnXYZ);
+	cube->floatCounter = 0.0f;
 	scenario->objects.push_back(cube);
 }
 

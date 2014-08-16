@@ -192,18 +192,47 @@ void GCube::translate(EDPoint* toTranslate)
 
 void GCube::rotate(EDPoint* axis, float angle)
 { 
-	if(axis->x != 0)
-	{
+	angle = angle*pi180;
 
-	}
-	if(axis->y != 0)
-	{
+	float cosa = cos(angle);
+	float sina = sin(angle);
 
-	}
-	if(axis->z != 0)
-	{
+	printf("x\n");
+	print();
+	EDPoint* minInitial = new EDPoint(points[LBN].x, points[LBN].y, points[LBN].z);
+	translate(new EDPoint(-1*minInitial->x, -1*minInitial->y, -1*minInitial->z));
 
+	printf("x\n");
+	print();
+	float xx = 0, yx = 0, zx = 0;
+	for(int i = 0; i < 8; i++)
+	{
+		xx = points[i].x;
+		yx = points[i].y;
+		zx = points[i].z;
+
+		if(axis->x != 0)
+		{
+			points[i].y = cosa*yx - sina*zx;
+			points[i].z = sina*yx + sina*zx;
+		}
+		if(axis->y != 0)
+		{
+			points[i].x = cosa*xx + sina*zx;
+			points[i].z = -sina*xx + cosa*zx;
+		}
+		if(axis->z != 0)
+		{
+			points[i].x = cosa*xx - sina*yx;
+			points[i].y = sina*xx + sina*yx;
+		}
 	}
+	printf("x\n");
+	print();
+
+	translate(new EDPoint(minInitial->x, minInitial->y, minInitial->z));
+	printf("x\n");
+	print();
 }
 
 void GCube::scale(EDPoint* axis, float factor)
