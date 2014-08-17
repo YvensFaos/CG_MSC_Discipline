@@ -2,8 +2,11 @@
 
 #include <stdio.h>
 
+#pragma region Cannon Ball
+
 CannonBall::CannonBall(const char* identifier) : GObject(identifier) 
 { }
+
 
 CannonBall::CannonBall(const char* identifier, EDPoint* targets, int length, float size) : GObject(identifier)
 {
@@ -101,3 +104,72 @@ void CannonBall::update(float elapsedTime)
 
 	}
 }
+
+#pragma endregion
+
+#pragma region Kicking Ball
+
+KickingBall::KickingBall(const char* identifier) : GObject(identifier) 
+{ }
+
+
+KickingBall::KickingBall(const char* identifier, GCube* cube, float velocity) : GObject(identifier) 
+{
+	initialize(cube, velocity);
+}
+
+KickingBall::~KickingBall(void)
+{
+	if(cube)
+		delete cube;
+}
+
+void KickingBall::initialize(GCube* cube, float velocity)
+{
+	this->cube = cube;
+	this->velocity = velocity;
+	this->initialVelocity = velocity;
+
+	floatCounter = 0;
+	intCounter = 0;
+}
+
+void KickingBall::setMaterial(GLfloat* ambient, GLfloat* diffuse)
+{
+	cube->setMaterial(ambient, diffuse);
+}
+
+void KickingBall::draw(void)
+{
+	cube->draw();
+}
+
+void KickingBall::update(float elapsedTime)
+{
+	if(cube->points[GCube::RBN].x <= 80.f)
+	{
+		if(cube->points[GCube::LBN].y >= 0.0f)
+		{
+			float float2 = floatCounter*floatCounter;
+			float s = 0.1f + velocity*floatCounter - 5.0f*float2;
+
+			cube->translate(new EDPoint(1.0f*elapsedTime, -cube->points[GCube::LBN].y, 0.0f));
+			cube->translate(new EDPoint(0, s, 0.0f));
+			floatCounter += 0.25f*elapsedTime;
+		}
+		else
+		{
+			velocity *= 0.8f;
+			floatCounter = 0.0f;
+			cube->translate(new EDPoint(0.0f, -cube->points[GCube::LBN].y + 0.1f, 0.0f));
+		}
+	}
+	else
+	{
+		cube->translate(new EDPoint(-cube->points[GCube::LBN].x, -cube->points[GCube::LBN].y, 0.0f));
+		cube->translate(new EDPoint(-5.0f, 0.1f, 0.0f));
+		velocity = initialVelocity;
+	}
+}
+
+#pragma endregion

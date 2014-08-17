@@ -2,8 +2,10 @@
 
 #include "GLFWWrapper.h"
 #include "player.h"
+
 #include "cannonsScene.h"
 #include "transformScene.h"
+#include "kickingScene.h"
 
 Player* player;
 
@@ -25,7 +27,7 @@ void keyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 int main()
 {
 	player = new Player();
-	player->setUpScenario(new TransformScene());
+	player->setUpScenario(new KickingScene());
 
 	GLFWWrapper::initialize(callBack);
 	player->initializeLights();

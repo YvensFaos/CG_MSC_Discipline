@@ -197,13 +197,9 @@ void GCube::rotate(EDPoint* axis, float angle)
 	float cosa = cos(angle);
 	float sina = sin(angle);
 
-	printf("x\n");
-	print();
 	EDPoint* minInitial = new EDPoint(points[LBN].x, points[LBN].y, points[LBN].z);
 	translate(new EDPoint(-1*minInitial->x, -1*minInitial->y, -1*minInitial->z));
 
-	printf("x\n");
-	print();
 	float xx = 0, yx = 0, zx = 0;
 	for(int i = 0; i < 8; i++)
 	{
@@ -227,12 +223,8 @@ void GCube::rotate(EDPoint* axis, float angle)
 			points[i].y = sina*xx + cosa*yx;
 		}
 	}
-	printf("x\n");
-	print();
 
 	translate(new EDPoint(minInitial->x, minInitial->y, minInitial->z));
-	printf("x\n");
-	print();
 }
 
 void GCube::scale(EDPoint* axis, float factor)

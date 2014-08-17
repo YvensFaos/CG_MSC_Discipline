@@ -54,6 +54,9 @@
     <ClCompile Include="transformScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="kickingScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="edgeom.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="transformScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="kickingScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
