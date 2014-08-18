@@ -84,9 +84,12 @@ public:
 	static int RBF;
 	static int RTF;
 
+	float size;
+
 	EDPoint* min;
 	EDPoint* max;
 	EDPoint* points;
+	//EDPoint* initialPoints;
 
 	GCube(const char* identifier);
 	GCube(const char* identifier, EDPoint* min, float size);
@@ -99,6 +102,7 @@ public:
 	void translate(EDPoint* toTranslate);
 	void rotate(EDPoint* axis, float angle);
 	void scale(EDPoint* axis, float factor);
+	void setSize(EDPoint* axis, float factor);
 
 	void updateMinMax(EDPoint* min, EDPoint* max);
 

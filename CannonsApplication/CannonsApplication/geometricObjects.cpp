@@ -94,6 +94,7 @@ GCube::GCube(const char* identifier, EDPoint* min, EDPoint* max) : GObject(ident
 GCube::GCube(const char* identifier, EDPoint* min, float size) : GObject(identifier)
 {
 	initialize(min, new EDPoint(min->x + size, min->y + size, min->z + size));
+	this->size = size;
 }
 
 void GCube::initialize(EDPoint* min, EDPoint* max)
@@ -247,6 +248,28 @@ void GCube::scale(EDPoint* axis, float factor)
 			points[i].z *= factor;
 		}
 	}
+	translate(new EDPoint(minInitial->x, minInitial->y, minInitial->z));
+}
+
+void GCube::setSize(EDPoint* axis, float factor)
+{ 
+	EDPoint* minInitial = new EDPoint(points[LBN].x, points[LBN].y, points[LBN].z);
+	translate(new EDPoint(-1*minInitial->x, -1*minInitial->y, -1*minInitial->z));
+
+	if(axis->x != 0)
+	{
+		points[RTF].x = factor;
+	}
+	if(axis->y != 0)
+	{
+		points[RTF].y = factor;
+	}
+	if(axis->z != 0)
+	{
+		points[RTF].z = factor;
+	}
+
+	initialize(&points[LBN], &points[RTF]);
 	translate(new EDPoint(minInitial->x, minInitial->y, minInitial->z));
 }
 
