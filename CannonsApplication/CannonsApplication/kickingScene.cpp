@@ -8,15 +8,16 @@ void cubeMovement(float elapsedTime, GObject* object)
 	GCube* cube = (GCube*)object;
 	object->floatCounter += (elapsedTime*0.05);
 	
-	float factor = abs(4.0f*sin(object->floatCounter) + 0.1f);
+	float factor = abs(40.0f*sin(object->floatCounter) + 0.1f);
 
-	//printf("rotate factor: %f\n", factor);
 	cube->translate(new EDPoint(0.0f, -cube->points[GCube::LBN].y, 0.0f));
 	cube->translate(new EDPoint(0.0f, factor, 0.0f));
 
-	printf("y = %f\n", cube->points[GCube::LTN].y);
-	float factor2 = cube->points[GCube::LTN].y*-0.5128f + 3.9487f;
-	cube->setSize(new EDPoint(1.0f, 0.0f, 1.0f), factor2);
+	if(cube->points[GCube::LTN].y <= 20.0)
+	{
+		float factor2 = (cube->points[GCube::LTN].y*-0.025126f + 2.502513f);
+		cube->setSize(new EDPoint(1.0f, 0.0f, 1.0f), factor2);
+	}
 }
 
 KickingScene::KickingScene(void) : Scene()
@@ -37,10 +38,10 @@ KickingScene::KickingScene(void) : Scene()
 	kickingBall->setMaterial(ambientMaterial1, diffuseMaterial1);
 	scenario->objects.push_back(kickingBall);
 
-	GCube* testCube = new GCube("testCube", new EDPoint(15.0f, 0.1f, 3.f), 2.5f);
+	GCube* testCube = new GCube("testCube", new EDPoint(-5.0f, 0.1f, 3.f), 2.5f);
 	testCube->setMaterial(ambientMaterial1, diffuseMaterial1);
 	testCube->setCallUpdate(cubeMovement);
-	scenario->objects.push_back(testCube);
+	//scenario->objects.push_back(testCube);
 }
 
 KickingScene::~KickingScene(void)

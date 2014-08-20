@@ -48,6 +48,7 @@ public:
 	void setMaterial(GLfloat* ambient, GLfloat* diffuse);
 private:
 	void initialize(GCube* cube, float velocity);
+	void updateParams(void);
 };
 
 #endif

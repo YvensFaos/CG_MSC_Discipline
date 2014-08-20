@@ -127,11 +127,14 @@ KickingBall::~KickingBall(void)
 void KickingBall::initialize(GCube* cube, float velocity)
 {
 	this->cube = cube;
+	this->size = cube->size;
 	this->velocity = velocity;
 	this->initialVelocity = velocity;
 
 	floatCounter = 0;
 	intCounter = 0;
+
+	updateParams();
 }
 
 void KickingBall::setMaterial(GLfloat* ambient, GLfloat* diffuse)
@@ -144,11 +147,20 @@ void KickingBall::draw(void)
 	cube->draw();
 }
 
+void KickingBall::updateParams(void)
+{
+	float factor = 0.85f;
+	params = new float[3];
+	params[0] = (velocity*velocity)/20.0f; // altura máxima
+	params[1] = size*factor / (0.1 - params[0]); //0.85 é o fator de crescimento do strech, é igual a (maxSize - size), 0.85 supõe que o maxSize = 1.85*size //A
+	params[2] = size*(1 + factor) - 0.1*params[1]; //B
+}
+
 void KickingBall::update(float elapsedTime)
 {
 	if(cube->points[GCube::RBN].x <= 80.f)
 	{
-		if(cube->points[GCube::LBN].y >= 0.0f)
+		if(cube->points[GCube::LBN].y >= 0.1f)
 		{
 			float float2 = floatCounter*floatCounter;
 			float s = 0.1f + velocity*floatCounter - 5.0f*float2;
@@ -156,19 +168,26 @@ void KickingBall::update(float elapsedTime)
 			cube->translate(new EDPoint(1.0f*elapsedTime, -cube->points[GCube::LBN].y, 0.0f));
 			cube->translate(new EDPoint(0, s, 0.0f));
 			floatCounter += 0.25f*elapsedTime;
+
+			float factor2 = (cube->points[GCube::LBN].y*params[1] + params[2]);		
+			cube->setSize(new EDPoint(1.0f, 0.0f, 1.0f), factor2);
 		}
 		else
 		{
 			velocity *= 0.8f;
 			floatCounter = 0.0f;
 			cube->translate(new EDPoint(0.0f, -cube->points[GCube::LBN].y + 0.1f, 0.0f));
+			cube->setSize(new EDPoint(1.0f, 0.0f, 1.0f), size);
+			updateParams();
 		}
 	}
 	else
 	{
 		cube->translate(new EDPoint(-cube->points[GCube::LBN].x, -cube->points[GCube::LBN].y, 0.0f));
 		cube->translate(new EDPoint(-5.0f, 0.1f, 0.0f));
+		cube->setSize(new EDPoint(1.0f, 0.0f, 1.0f), size);
 		velocity = initialVelocity;
+		updateParams();
 	}
 }
 
