@@ -426,6 +426,19 @@ bool EDBBox::intersects(EDBBox *b)
 
 // EDTriangle
 
+EDTriangle::EDTriangle(void)
+{ }
+
+EDTriangle::EDTriangle(EDPoint p1, EDPoint p2, EDPoint p3)
+{
+	this->p1 = p1;
+	this->p2 = p2;
+	this->p3 = p3;
+}
+
+EDTriangle::~EDTriangle(void)
+{ }
+
 void EDTriangle::getNormal(EDPoint* dest)
 {
 	dest->setCrossProduct(&p1, &p2, &p3)->makeUnitary();

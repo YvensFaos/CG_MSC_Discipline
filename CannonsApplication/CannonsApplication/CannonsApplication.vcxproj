@@ -51,7 +51,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -69,7 +69,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -84,9 +84,11 @@
     <ClCompile Include="cannonsScene.cpp" />
     <ClCompile Include="edcamera.cpp" />
     <ClCompile Include="edgeom.cpp" />
+    <ClCompile Include="edobjreader.cpp" />
     <ClCompile Include="geometricObjects.cpp" />
     <ClCompile Include="GLFWWrapper.cpp" />
     <ClCompile Include="kickingScene.cpp" />
+    <ClCompile Include="loadObjScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="scenario.cpp" />
@@ -98,9 +100,12 @@
     <ClInclude Include="cannonsScene.h" />
     <ClInclude Include="edcamera.h" />
     <ClInclude Include="edgeom.h" />
+    <ClInclude Include="edmesh.h" />
+    <ClInclude Include="edobjreader.h" />
     <ClInclude Include="geometricObjects.h" />
     <ClInclude Include="GLFWWrapper.h" />
     <ClInclude Include="kickingScene.h" />
+    <ClInclude Include="loadObjScene.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="scenario.h" />
     <ClInclude Include="scene.h" />

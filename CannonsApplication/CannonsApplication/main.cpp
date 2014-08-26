@@ -6,6 +6,8 @@
 #include "cannonsScene.h"
 #include "transformScene.h"
 #include "kickingScene.h"
+#include "cameraScene.h"
+#include "loadObjScene.h"
 
 Player* player;
 
@@ -27,7 +29,7 @@ void keyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 int main()
 {
 	player = new Player();
-	player->setUpScenario(new KickingScene());
+	player->setUpScenario(new LoadObjScene());
 
 	GLFWWrapper::initialize(callBack);
 	player->initializeLights();

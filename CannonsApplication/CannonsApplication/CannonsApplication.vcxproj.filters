@@ -60,6 +60,12 @@
     <ClCompile Include="cameraScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="edobjreader.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="loadObjScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="edgeom.h">
@@ -96,6 +102,15 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="cameraScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="edobjreader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="edmesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="loadObjScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
