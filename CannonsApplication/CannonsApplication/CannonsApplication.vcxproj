@@ -80,6 +80,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cameraScene.cpp" />
     <ClCompile Include="cannonsScene.cpp" />
     <ClCompile Include="edcamera.cpp" />
     <ClCompile Include="edgeom.cpp" />
@@ -93,6 +94,7 @@
     <ClCompile Include="transformScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cameraScene.h" />
     <ClInclude Include="cannonsScene.h" />
     <ClInclude Include="edcamera.h" />
     <ClInclude Include="edgeom.h" />
