@@ -2,13 +2,14 @@
 
 #include <stdio.h>
 #include <list>
+#include <string>
 
 #include "edgeom.h"
 
 EDObjReader::EDObjReader(char* path, char* filename)
 {
 	char filepath[256];
-	sprintf(filepath,"%s%s.obj",path, filename);
+	sprintf(filepath,"%s%s",path, filename);
 
 	FILE* fileHandle = fopen(filepath, "rb");
 	fseek(fileHandle, 0, SEEK_END);
@@ -89,10 +90,21 @@ EDObjReader::EDObjReader(char* path, char* filename)
 			//Reading faces
 			if(ret != EOF && line[0] == 'f')
 			{
-				sscanf(buffer, "%s %d/%d %d/%d %d/%d", line, &fa,&fb,&fc,&fd,&fe,&ff);
+				std::string str(buffer);
+				int value = str.find_first_of('/');
+				if(value != -1)
+				{
+					sscanf(buffer, "%s %d/%d %d/%d %d/%d", line, &fa,&fb,&fc,&fd,&fe,&ff);
 
-				faces.push_back(new EDPoint(fa,fb,fc));
-				faces.push_back(new EDPoint(fd,fe,ff));
+					faces.push_back(new EDPoint(fa,fb,fc));
+					faces.push_back(new EDPoint(fd,fe,ff));
+				}
+				else
+				{
+					sscanf(buffer, "%s %d %d %d", line, &fa,&fb,&fc);
+
+					faces.push_back(new EDPoint(fa,fb,fc));
+				}
 			}
 			break;
 		}
@@ -128,7 +140,7 @@ EDObjReader::EDObjReader(char* path, char* filename)
 EDObjReader::~EDObjReader(void)
 { 
 	if(vertexesArray)
-		delete vertexesArray;
+		delete[] vertexesArray;
 	if(triangles)
-		delete triangles;
+		delete[] triangles;
 }

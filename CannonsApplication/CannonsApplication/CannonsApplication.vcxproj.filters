@@ -66,6 +66,9 @@
     <ClCompile Include="loadObjScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="edmesh.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="edgeom.h">

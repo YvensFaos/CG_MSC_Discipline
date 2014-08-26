@@ -7,7 +7,6 @@
 CannonBall::CannonBall(const char* identifier) : GObject(identifier) 
 { }
 
-
 CannonBall::CannonBall(const char* identifier, EDPoint* targets, int length, float size) : GObject(identifier)
 {
 	initialize(targets, length, size);

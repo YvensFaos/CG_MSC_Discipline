@@ -84,6 +84,7 @@
     <ClCompile Include="cannonsScene.cpp" />
     <ClCompile Include="edcamera.cpp" />
     <ClCompile Include="edgeom.cpp" />
+    <ClCompile Include="edmesh.cpp" />
     <ClCompile Include="edobjreader.cpp" />
     <ClCompile Include="geometricObjects.cpp" />
     <ClCompile Include="GLFWWrapper.cpp" />
