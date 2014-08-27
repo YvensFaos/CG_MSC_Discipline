@@ -102,6 +102,20 @@ void Player::keyboard(GLFWwindow* window, int key, int scancode, int action, int
 		{
 			initializeLights();
 		}
+		if(key == GLFW_KEY_2)
+		{
+			camera->zoomIn();
+		}
+		if(key == GLFW_KEY_3)
+		{
+			camera->zoomOut();
+		}
+		if(key == GLFW_KEY_4)
+		{
+			//DOLLY
+			camera->zoomIn();
+			camera->move(BACKWARD);
+		}
 		if(key == GLFW_KEY_5)
 		{
 			camera->print();

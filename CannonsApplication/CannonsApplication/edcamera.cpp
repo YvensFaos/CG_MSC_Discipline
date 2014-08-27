@@ -4,7 +4,8 @@
 #include <GL\glut.h>
 
 #define pi180  3.14159265f/180.0f
-#define sizeStep 10.f
+#define sizeStep 0.1f
+#define zoomStep 0.125f
 
 EDCamera::EDCamera(void)
 {
@@ -135,4 +136,19 @@ void EDCamera::cameraLookAt(void)
 	position->x, position->y, position->z, 
 	lookAt->x, lookAt->y, lookAt->z, 
 	0, 1, 0);
+}
+
+void EDCamera::zoomIn(void)
+{
+	zoom(-zoomStep);
+}
+
+void EDCamera::zoomOut(void)
+{
+	zoom(zoomStep);
+}
+
+void EDCamera::zoom(float value)
+{
+	pFOV += value;
 }

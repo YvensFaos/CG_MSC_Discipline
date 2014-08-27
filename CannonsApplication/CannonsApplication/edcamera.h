@@ -36,7 +36,10 @@ public:
 	void move(Movement movement);
 	void rotate(float angle);
 	void cameraLookAt(void);
+	void zoomIn(void);
+	void zoomOut(void);
 private:
+	void zoom(float value);
 	void initializeValues(EDPoint* position, EDPoint* lookAt, float pNear, float pFar, float pFOV);
 };
 
