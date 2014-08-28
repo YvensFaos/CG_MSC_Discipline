@@ -113,8 +113,11 @@ void Player::keyboard(GLFWwindow* window, int key, int scancode, int action, int
 		if(key == GLFW_KEY_4)
 		{
 			//DOLLY
-			camera->zoomIn();
-			camera->move(BACKWARD);
+			/*camera->zoomIn();
+			camera->move(BACKWARD);*/
+
+			camera->zoomOut();
+			camera->move(FORWARD);
 		}
 		if(key == GLFW_KEY_5)
 		{

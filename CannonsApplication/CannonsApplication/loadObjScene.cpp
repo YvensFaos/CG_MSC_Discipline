@@ -8,8 +8,8 @@ LoadObjScene::LoadObjScene(void) : Scene()
 
 	scenario = new Scenario();
 
-	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
-	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
+	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename = "corridor.txt";
 
 	EDMesh* mesh = new EDMesh("corridor", path, filename);
