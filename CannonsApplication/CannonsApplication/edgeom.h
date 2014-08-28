@@ -95,6 +95,7 @@ public:
 	EDPoint p1, p2, p3;
 public:
 	EDTriangle(void);
+	EDTriangle(EDTriangle* another);
 	EDTriangle(EDPoint p1, EDPoint p2, EDPoint p3);
 	~EDTriangle(void);
 	void getNormal(EDPoint* dest);

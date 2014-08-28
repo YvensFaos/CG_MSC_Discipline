@@ -436,6 +436,13 @@ EDTriangle::EDTriangle(EDPoint p1, EDPoint p2, EDPoint p3)
 	this->p3 = EDPoint(p3.x, p3.y, p3.z);
 }
 
+EDTriangle::EDTriangle(EDTriangle* another)
+{
+	this->p1 = EDPoint(another->p1.x, another->p1.y, another->p1.z);
+	this->p2 = EDPoint(another->p2.x, another->p2.y, another->p2.z);
+	this->p3 = EDPoint(another->p3.x, another->p3.y, another->p3.z);
+}
+
 EDTriangle::~EDTriangle(void)
 { }
 

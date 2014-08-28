@@ -20,17 +20,16 @@ EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(ide
 #pragma region setando valores das normais e dos vértices; carregando valor mínimo
 	for(int i = 0; i < reader.trianglesSize; i++)
 	{
-		EDTriangle triangle = reader.triangles[i];
-		triangles[i] = EDTriangle(triangle.p1, triangle.p2, triangle.p3);
+		triangles[i] = EDTriangle(reader.triangles[i]);
 
 		EDPoint normal = EDPoint(0,0,0);
-		triangle.getNormal(&normal);
+		triangles[i].getNormal(&normal);
 		normals[k++] = normal.x;
 		normals[k++] = normal.y;
 		normals[k++] = normal.z;
-
 	}
 #pragma endregion
+
 }
 
 EDMesh::~EDMesh(void)
