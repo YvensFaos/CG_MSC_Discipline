@@ -431,9 +431,9 @@ EDTriangle::EDTriangle(void)
 
 EDTriangle::EDTriangle(EDPoint p1, EDPoint p2, EDPoint p3)
 {
-	this->p1 = p1;
-	this->p2 = p2;
-	this->p3 = p3;
+	this->p1 = EDPoint(p1.x, p1.y, p1.z);
+	this->p2 = EDPoint(p2.x, p2.y, p2.z);
+	this->p3 = EDPoint(p3.x, p3.y, p3.z);
 }
 
 EDTriangle::~EDTriangle(void)

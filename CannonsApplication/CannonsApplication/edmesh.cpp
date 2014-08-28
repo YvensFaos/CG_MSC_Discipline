@@ -11,64 +11,18 @@ EDMesh::EDMesh(const char* identifier) :  GObject(identifier)
 EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(identifier)
 {
 	EDObjReader reader = EDObjReader(path, filename);
-	trianglesCount = reader.trianglesSize * 9;
-	triangles = new float[trianglesCount];
+	trianglesCount = reader.trianglesSize;
+	triangles = new EDTriangle[trianglesCount];
 	normals = new float[trianglesCount / 3];
 
-	min = EDPoint(max_value,max_value,max_value);
-
-	int j = 0;
 	int k = 0;
 
 #pragma region setando valores das normais e dos vértices; carregando valor mínimo
 	for(int i = 0; i < reader.trianglesSize; i++)
 	{
 		EDTriangle triangle = reader.triangles[i];
-		triangles[j++] = triangle.p1.x;
-		if(triangles[j-1] < min.x)
-		{
-			min.x = triangles[j-1];
-		}
-		triangles[j++] = triangle.p1.y;
-		if(triangles[j-1] < min.y)
-		{
-			min.y = triangles[j-1];
-		}
-		triangles[j++] = triangle.p1.z;
-		if(triangles[j-1] < min.z)
-		{
-			min.z = triangles[j-1];
-		}
-		triangles[j++] = triangle.p2.x;
-		if(triangles[j-1] < min.x)
-		{
-			min.x = triangles[j-1];
-		}
-		triangles[j++] = triangle.p2.y;
-		if(triangles[j-1] < min.y)
-		{
-			min.y = triangles[j-1];
-		}
-		triangles[j++] = triangle.p2.z;
-		if(triangles[j-1] < min.z)
-		{
-			min.z = triangles[j-1];
-		}
-		triangles[j++] = triangle.p3.x;
-		if(triangles[j-1] < min.x)
-		{
-			min.x = triangles[j-1];
-		}
-		triangles[j++] = triangle.p3.y;
-		if(triangles[j-1] < min.y)
-		{
-			min.y = triangles[j-1];
-		}
-		triangles[j++] = triangle.p3.z;
-		if(triangles[j-1] < min.z)
-		{
-			min.z = triangles[j-1];
-		}
+		triangles[i] = EDTriangle(triangle.p1, triangle.p2, triangle.p3);
+
 		EDPoint normal = EDPoint(0,0,0);
 		triangle.getNormal(&normal);
 		normals[k++] = normal.x;
@@ -77,7 +31,6 @@ EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(ide
 
 	}
 #pragma endregion
-	min.print();
 }
 
 EDMesh::~EDMesh(void)
@@ -86,6 +39,11 @@ EDMesh::~EDMesh(void)
 		delete[] triangles;
 	if(normals)
 		delete[] normals;
+}
+
+void EDMesh::calculateNormals(void)
+{
+
 }
 
 void EDMesh::draw(void)
@@ -104,9 +62,9 @@ void EDMesh::draw(void)
 	for(int i = 0; i < trianglesCount;)
 	{
 		glNormal3f(normals[j++], normals[j++], normals[j++]);
-		glVertex3f(triangles[i++], triangles[i++], triangles[i++]);
-		glVertex3f(triangles[i++], triangles[i++], triangles[i++]);
-		glVertex3f(triangles[i++], triangles[i++], triangles[i++]);
+		glVertex3f(triangles[i].p1.x, triangles[i].p1.y, triangles[i].p1.z);
+		glVertex3f(triangles[i].p2.x, triangles[i].p2.y, triangles[i].p2.z);
+		glVertex3f(triangles[i].p3.x, triangles[i].p3.y, triangles[i].p3.z);
 	}
 	glEnd();
 #endif
@@ -121,5 +79,15 @@ void EDMesh::setMaterial(GLfloat* ambient, GLfloat* diffuse)
 	{
 		ambientMaterial[i] = ambient[i];
 		diffuseMaterial[i] = diffuse[i];
+	}
+}
+
+void EDMesh::translate(EDPoint toPoint)
+{
+	for(int i = 0; i < trianglesCount;)
+	{
+		/*triangles[i++] += toPoint.x;
+		triangles[i++] += toPoint.y;
+		triangles[i++] += toPoint.z;*/
 	}
 }
