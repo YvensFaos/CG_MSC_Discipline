@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <list>
 #include <string>
+#include <algorithm>
 
 #include "edgeom.h"
 
@@ -36,6 +37,8 @@ EDObjReader::EDObjReader(char* path, char* filename)
 	int fd = 0;
 	int fe = 0;
 	int ff = 0;
+	int fg = 0;
+	int fh = 0;
 
 	int lineNumber = 0;
 
@@ -91,19 +94,43 @@ EDObjReader::EDObjReader(char* path, char* filename)
 			if(ret != EOF && line[0] == 'f')
 			{
 				std::string str(buffer);
+				size_t county = 0;
 				int value = str.find_first_of('/');
 				if(value != -1)
 				{
-					sscanf(buffer, "%s %d/%d %d/%d %d/%d", line, &fa,&fb,&fc,&fd,&fe,&ff);
+					county = count(str.begin(), str.end(), '/');
 
-					faces.push_back(new EDPoint(fa,fb,fc));
-					faces.push_back(new EDPoint(fd,fe,ff));
+					if(county == 3)
+					{
+						sscanf(buffer, "%s %d/%d %d/%d %d/%d", line, &fa,&fe,&fb,&ff,&fc,&fg,&fd,&fh);
+
+						faces.push_back(new EDPoint(fa,fb,fc));
+						faces.push_back(new EDPoint(fc,fd,fa));
+					}
+					else
+					{
+						sscanf(buffer, "%s %d/%d %d/%d %d/%d", line, &fa,&fe,&fb,&ff,&fc,&fg);
+
+						faces.push_back(new EDPoint(fa,fb,fc));
+					}
 				}
 				else
 				{
-					sscanf(buffer, "%s %d %d %d", line, &fa,&fb,&fc);
+					county = count(str.begin(), str.end(), ' ');
 
-					faces.push_back(new EDPoint(fa,fb,fc));
+					if(county == 3)
+					{
+						sscanf(buffer, "%s %d %d %d", line, &fa,&fb,&fc);
+
+						faces.push_back(new EDPoint(fa,fb,fc));
+					}
+					else
+					{
+						sscanf(buffer, "%s %d %d %d %d", line, &fa,&fb,&fc,&fd);
+
+						faces.push_back(new EDPoint(fa,fb,fc));
+						faces.push_back(new EDPoint(fc,fd,fa));
+					}
 				}
 			}
 			break;

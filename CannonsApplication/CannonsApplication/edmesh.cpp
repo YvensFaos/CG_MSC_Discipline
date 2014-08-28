@@ -2,7 +2,7 @@
 
 #include "edobjreader.h"
 
-#define drawArrays
+//#define drawArrays
 #define max_value +2.0e-20
 
 EDMesh::EDMesh(const char* identifier) :  GObject(identifier)
