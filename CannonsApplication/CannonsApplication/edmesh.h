@@ -9,7 +9,6 @@ class EDMesh : public GObject
 public:
 	EDTriangle* triangles;
 	int trianglesCount;
-	float* normals;
 private:
 
 public:

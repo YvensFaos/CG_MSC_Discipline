@@ -64,6 +64,11 @@ void EDPoint::toVertex3f()
 	glVertex3f(x, y, z);
 }
 
+EDPoint::~EDPoint(void)
+{ 
+	//printf("destruir\n");
+}
+
 float EDPoint::isMultiple(EDPoint* v)
 {
 	//Busca a primeira componente não nula
@@ -308,7 +313,7 @@ P =	 -------------------------------------------------------------------------
 
 void EDPoint::print(void)
 {
-	printf("P: %f %f %f\n", x, y, z);
+	//printf("P: %f %f %f\n", x, y, z);
 }
 
 // EDBBox
@@ -449,6 +454,14 @@ EDTriangle::~EDTriangle(void)
 void EDTriangle::getNormal(EDPoint* dest)
 {
 	dest->setCrossProduct(&p1, &p2, &p3)->makeUnitary();
+}
+
+EDPoint EDTriangle::getNormal(void)
+{
+	EDPoint normal = EDPoint(0,0,0);
+	normal.setCrossProduct(&p1, &p2, &p3);
+	normal.makeUnitary();
+	return normal;
 }
 
 // EDPlane

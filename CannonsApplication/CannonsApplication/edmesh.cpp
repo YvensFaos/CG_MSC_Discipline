@@ -1,7 +1,6 @@
 #include "edmesh.h"
 
-#include "edobjreader.h"
-
+#include <vector>
 //#define drawArrays
 #define max_value +2.0e-20
 
@@ -10,39 +9,161 @@ EDMesh::EDMesh(const char* identifier) :  GObject(identifier)
 
 EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(identifier)
 {
-	EDObjReader reader = EDObjReader(path, filename);
-	trianglesCount = reader.trianglesSize;
-	triangles = new EDTriangle[trianglesCount];
-	normals = new float[trianglesCount / 3];
+	char filepath[256];
+	sprintf(filepath,"%s%s",path, filename);
 
-	int k = 0;
+	FILE* fileHandle = fopen(filepath, "rb");
+	fseek(fileHandle, 0, SEEK_END);
+	long fileSize = ftell(fileHandle);
+	long filePos = 0;
+	fseek(fileHandle, filePos, SEEK_SET);
 
-#pragma region setando valores das normais e dos vértices; carregando valor mínimo
-	for(int i = 0; i < reader.trianglesSize; i++)
-	{
-		triangles[i] = EDTriangle(reader.triangles[i]);
+	char line[256];
+	char buffer[4096];
+	int ret = 0;
+	int state = 0;
+	std::vector<EDPoint> vertexes;
+	std::vector<EDPoint> faces;
 
-		EDPoint normal = EDPoint(0,0,0);
-		triangles[i].getNormal(&normal);
-		normals[k++] = normal.x;
-		normals[k++] = normal.y;
-		normals[k++] = normal.z;
+#pragma region reading file
+	float x = 0;
+	float y = 0; 
+	float z = 0;
+
+	int fa = 0;
+	int fb = 0;
+	int fc = 0;
+	int fd = 0;
+	int fe = 0;
+	int ff = 0;
+	int fg = 0;
+	int fh = 0;
+
+	int lineNumber = 0;
+
+	printf("Estado %d\n",state);
+    while(!feof(fileHandle))
+    {
+        memset(buffer, 0, 4096);
+        ret = fscanf(fileHandle, "%4095[^\n]\n", buffer);
+
+		sscanf(buffer, "%s", line);
+		lineNumber++;
+		
+		switch(state)
+		{
+		case 0:
+			if(line[0] != '#')
+			{
+				state = 1;
+				printf("Estado %d\n",state);
+			}
+			break;
+		case 1:
+			if(line[0] != 'm')
+			{
+				state = 2;
+				printf("Estado %d\n",state);
+			}
+			break;
+		case 2:
+			if(line[0] == 'v' && line[1] != 't')
+			{
+				//Reading vertexes
+				sscanf(buffer, "v %f %f %f", &x, &y, &z);
+				vertexes.push_back(EDPoint(x,y,z));
+			}		
+			else
+			{
+				state = 3;
+				printf("Estado %d\n",state);
+			}
+			break;
+		case 3:
+			//Jumping vt lines
+			if(line[0] == 'f')
+			{
+				state = 4;
+				printf("Estado %d\n",state);
+			}
+			break;
+		case 4:
+			//Reading faces
+			if(ret != EOF && line[0] == 'f')
+			{
+				std::string str(buffer);
+				size_t county = 0;
+				int value = str.find_first_of('/');
+				if(value != -1)
+				{
+					county = count(str.begin(), str.end(), '/');
+
+					if(county == 3)
+					{
+						sscanf(buffer, "%s %d/%d %d/%d %d/%d", line, &fa,&fe,&fb,&ff,&fc,&fg,&fd,&fh);
+
+						faces.push_back(EDPoint(fa,fb,fc));
+						faces.push_back(EDPoint(fc,fd,fa));
+					}
+					else
+					{
+						sscanf(buffer, "%s %d/%d %d/%d %d/%d", line, &fa,&fe,&fb,&ff,&fc,&fg);
+
+						faces.push_back(EDPoint(fa,fb,fc));
+					}
+				}
+				else
+				{
+					county = count(str.begin(), str.end(), ' ');
+
+					if(county == 3)
+					{
+						sscanf(buffer, "%s %d %d %d", line, &fa,&fb,&fc);
+
+						faces.push_back(EDPoint(fa,fb,fc));
+					}
+					else
+					{
+						sscanf(buffer, "%s %d %d %d %d", line, &fa,&fb,&fc,&fd);
+
+						faces.push_back(EDPoint(fa,fb,fc));
+						faces.push_back(EDPoint(fc,fd,fa));
+					}
+				}
+			}
+			break;
+		}
 	}
 #pragma endregion
 
+	fclose(fileHandle);
+
+	int vertexesSize = vertexes.size();
+	printf("Finished reading!\n");
+
+	trianglesCount = faces.size();
+	triangles = new EDTriangle[trianglesCount];
+	int index = 0;
+	int k = 0;
+	for(int i = 0; i < trianglesCount; i++)
+	{
+		EDPoint point = faces.at(i);
+		
+		EDPoint p1, p2, p3;
+		p1 = vertexes.at((int)point.x - 1);
+		p2 = vertexes.at((int)point.y - 1);
+		p3 = vertexes.at((int)point.z - 1);
+
+		triangles[index] = EDTriangle(p1,p2,p3);
+
+		index++;
+	}
 }
 
 EDMesh::~EDMesh(void)
 {
 	if(triangles)
 		delete[] triangles;
-	if(normals)
-		delete[] normals;
-}
-
-void EDMesh::calculateNormals(void)
-{
-
 }
 
 void EDMesh::draw(void)
@@ -58,12 +179,15 @@ void EDMesh::draw(void)
 #else
 	glBegin(GL_TRIANGLES);
 	int j = 0;
+	EDPoint normal = EDPoint(0,0,0);
 	for(int i = 0; i < trianglesCount;)
 	{
-		glNormal3f(normals[j++], normals[j++], normals[j++]);
+		normal = triangles[i].getNormal();
+		glNormal3f(normal.x, normal.y, normal.z);
 		glVertex3f(triangles[i].p1.x, triangles[i].p1.y, triangles[i].p1.z);
 		glVertex3f(triangles[i].p2.x, triangles[i].p2.y, triangles[i].p2.z);
 		glVertex3f(triangles[i].p3.x, triangles[i].p3.y, triangles[i].p3.z);
+		i++;
 	}
 	glEnd();
 #endif

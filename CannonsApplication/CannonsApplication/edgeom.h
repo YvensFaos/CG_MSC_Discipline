@@ -27,8 +27,9 @@ class EDPoint
 public:
 	float x, y, z;
 public:
-	EDPoint();
+	EDPoint(void);
 	EDPoint(float x, float y, float z);
+	~EDPoint(void);
 	EDPoint* set(float x, float y, float z);
 	EDPoint* set(EDPoint* from);
 	float getLength();
@@ -99,6 +100,7 @@ public:
 	EDTriangle(EDPoint p1, EDPoint p2, EDPoint p3);
 	~EDTriangle(void);
 	void getNormal(EDPoint* dest);
+	EDPoint getNormal(void);
 };
 
 class EDPlane

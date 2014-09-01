@@ -170,5 +170,4 @@ EDObjReader::~EDObjReader(void)
 		delete[] vertexesArray;
 	if(triangles)
 		delete[] triangles;
-	printf("oi\n");
 }
