@@ -8,6 +8,7 @@ class EDMesh : public GObject
 {
 public:
 	EDTriangle* triangles;
+	EDPoint min;
 	int trianglesCount;
 private:
 
@@ -22,6 +23,8 @@ public:
 	void setMaterial(GLfloat* ambient, GLfloat* diffuse);
 
 	void translate(EDPoint toPoint);
+	void rotate(EDPoint axis, float angle);
+	void scale(EDPoint axis, float factor);
 private:
 	void calculateNormals(void);
 };

@@ -3,6 +3,7 @@
 #include <vector>
 //#define drawArrays
 #define max_value +2.0e-20
+#define min_value -2.0e-20
 
 EDMesh::EDMesh(const char* identifier) :  GObject(identifier)
 { }
@@ -141,6 +142,8 @@ EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(ide
 	int vertexesSize = vertexes.size();
 	printf("Finished reading!\n");
 
+	min = EDPoint(max_value, max_value, max_value);
+
 	trianglesCount = faces.size();
 	triangles = new EDTriangle[trianglesCount];
 	int index = 0;
@@ -149,13 +152,50 @@ EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(ide
 	{
 		EDPoint point = faces.at(i);
 		
+#pragma region getting min
 		EDPoint p1, p2, p3;
 		p1 = vertexes.at((int)point.x - 1);
+		if(p1.x < min.x)
+		{
+			min.x = p1.x;
+		}
+		if(p1.y < min.y)
+		{
+			min.y = p1.y;
+		}
+		if(p1.z < min.z)
+		{
+			min.z = p1.z;
+		}
 		p2 = vertexes.at((int)point.y - 1);
+		if(p2.x < min.x)
+		{
+			min.x = p2.x;
+		}
+		if(p2.y < min.y)
+		{
+			min.y = p2.y;
+		}
+		if(p2.z < min.z)
+		{
+			min.z = p2.z;
+		}
 		p3 = vertexes.at((int)point.z - 1);
+		if(p3.x < min.x)
+		{
+			min.x = p3.x;
+		}
+		if(p3.y < min.y)
+		{
+			min.y = p3.y;
+		}
+		if(p3.z < min.z)
+		{
+			min.z = p3.z;
+		}
+#pragma endregion
 
 		triangles[index] = EDTriangle(p1,p2,p3);
-
 		index++;
 	}
 }
@@ -207,10 +247,24 @@ void EDMesh::setMaterial(GLfloat* ambient, GLfloat* diffuse)
 
 void EDMesh::translate(EDPoint toPoint)
 {
-	for(int i = 0; i < trianglesCount;)
+	for(int i = 0; i < trianglesCount; i++)
 	{
-		/*triangles[i++] += toPoint.x;
-		triangles[i++] += toPoint.y;
-		triangles[i++] += toPoint.z;*/
+		triangles[i].translate(toPoint);
+	}
+}
+
+void EDMesh::rotate(EDPoint axis, float angle)
+{
+	for(int i = 0; i < trianglesCount; i++)
+	{
+		triangles[i].rotate(axis, min, angle);
+	}
+}
+
+void EDMesh::scale(EDPoint axis, float factor)
+{
+	for(int i = 0; i < trianglesCount; i++)
+	{
+		triangles[i].scale(axis, min, factor);
 	}
 }

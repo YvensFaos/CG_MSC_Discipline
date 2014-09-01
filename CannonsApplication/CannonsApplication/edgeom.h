@@ -101,6 +101,10 @@ public:
 	~EDTriangle(void);
 	void getNormal(EDPoint* dest);
 	EDPoint getNormal(void);
+	
+	void translate(EDPoint toPoint);
+	void rotate(EDPoint axis, EDPoint min, float angle);
+	void scale(EDPoint axis, EDPoint min, float factor);
 };
 
 class EDPlane

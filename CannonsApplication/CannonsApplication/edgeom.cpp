@@ -464,6 +464,130 @@ EDPoint EDTriangle::getNormal(void)
 	return normal;
 }
 
+void EDTriangle::translate(EDPoint toPoint)
+{
+	p1.x += toPoint.x;
+	p1.y += toPoint.y;
+	p1.z += toPoint.z;
+
+	p2.x += toPoint.x;
+	p2.y += toPoint.y;
+	p2.z += toPoint.z;
+
+	p3.x += toPoint.x;
+	p3.y += toPoint.y;
+	p3.z += toPoint.z;
+}
+
+void EDTriangle::rotate(EDPoint axis, EDPoint min, float angle)
+{
+	angle = angle*pi180;
+
+	float cosa = cos(angle);
+	float sina = sin(angle);
+
+	translate(EDPoint(-1*min.x, -1*min.y, -1*min.z));
+
+#pragma region rotation
+	float xx = 0, yx = 0, zx = 0;
+
+	EDPoint points[3];
+	points[0] = p1;
+	points[1] = p2;
+	points[2] = p3;
+
+	xx = p1.x;
+	yx = p1.y;
+	zx = p1.z;
+
+	if(axis.x != 0)
+	{
+		p1.y = cosa*yx - sina*zx;
+		p1.z = sina*yx + cosa*zx;
+	}
+	if(axis.y != 0)
+	{
+		p1.x = cosa*xx + sina*zx;
+		p1.z = -sina*xx + cosa*zx;
+	}
+	if(axis.z != 0)
+	{
+		p1.x = cosa*xx - sina*yx;
+		p1.y = sina*xx + cosa*yx;
+	}
+
+	xx = p2.x;
+	yx = p2.y;
+	zx = p2.z;
+
+	if(axis.x != 0)
+	{
+		p2.y = cosa*yx - sina*zx;
+		p2.z = sina*yx + cosa*zx;
+	}
+	if(axis.y != 0)
+	{
+		p2.x = cosa*xx + sina*zx;
+		p2.z = -sina*xx + cosa*zx;
+	}
+	if(axis.z != 0)
+	{
+		p2.x = cosa*xx - sina*yx;
+		p2.y = sina*xx + cosa*yx;
+	}
+
+	xx = p3.x;
+	yx = p3.y;
+	zx = p3.z;
+
+	if(axis.x != 0)
+	{
+		p3.y = cosa*yx - sina*zx;
+		p3.z = sina*yx + cosa*zx;
+	}
+	if(axis.y != 0)
+	{
+		p3.x = cosa*xx + sina*zx;
+		p3.z = -sina*xx + cosa*zx;
+	}
+	if(axis.z != 0)
+	{
+		p3.x = cosa*xx - sina*yx;
+		p3.y = sina*xx + cosa*yx;
+	}
+#pragma endregion
+
+	translate(EDPoint(min.x, min.y, min.z));
+}
+
+void EDTriangle::scale(EDPoint axis, EDPoint min, float factor)
+{
+	translate(EDPoint(-1*min.x, -1*min.y, -1*min.z));
+
+	for(int i = 0; i < 8; i++)
+	{
+		if(axis.x != 0)
+		{
+			p1.x *= factor;
+			p2.x *= factor;
+			p3.x *= factor;
+		}
+		if(axis.y != 0)
+		{
+			p1.y *= factor;
+			p2.y *= factor;
+			p3.y *= factor;
+		}
+		if(axis.z != 0)
+		{
+			p1.z *= factor;
+			p2.z *= factor;
+			p3.z *= factor;
+		}
+	}
+	translate(EDPoint(min.x, min.y, min.z));
+}
+
 // EDPlane
 
 EDPlane::EDPlane()

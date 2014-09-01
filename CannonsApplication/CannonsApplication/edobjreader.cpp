@@ -151,6 +151,9 @@ EDObjReader::EDObjReader(char* path, char* filename)
 	trianglesSize = faces.size();
 	triangles = new EDTriangle[trianglesSize];
 	index = 0;
+
+	//min = EDPoint(min_FLOAT
+
 	for (i = faces.begin(); i != faces.end(); i++)
 	{
 		EDPoint point = *(*i);
