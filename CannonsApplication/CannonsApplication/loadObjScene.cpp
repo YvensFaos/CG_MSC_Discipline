@@ -25,7 +25,7 @@ void scaleMeshOnXYZ(float elapsedTime, GObject* object)
 
 LoadObjScene::LoadObjScene(void) : Scene()
 {
-	camera = new EDCamera(new EDPoint(6.f, 5.4f, 7.7f), new EDPoint(-5.f, .2f, -2.f), 0.05f, 300.0f, 45.0f);
+	camera = new EDCamera(new EDPoint(7.3f, 3.3f, 9.0f), new EDPoint(-3.7f, 1.7f, -0.7f), 0.05f, 300.0f, 45.0f);
 
 	scenario = new Scenario();
 
@@ -39,7 +39,7 @@ LoadObjScene::LoadObjScene(void) : Scene()
 	mesh1->setMaterial(ambientMaterial3, diffuseMaterial3);
 	scenario->objects.push_back(mesh1);
 	
-	mesh1->setCallUpdate(scaleMeshOnXYZ);
+	mesh1->setCallUpdate(rotateMeshOnXYZ);
 }
 
 LoadObjScene::~LoadObjScene(void)
