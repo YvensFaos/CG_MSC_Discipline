@@ -2,7 +2,7 @@
 
 #include "edmesh.h"
 
-float squashTime = 0.25f;
+float squashTime = 0.225f;
 float squash = 1.0002f;
 float strech = 0.9998f;
 float translatePos = -0.0004f;
@@ -51,11 +51,11 @@ void kickingBall(float elapsedTime, GObject* object)
 		case 2:
 			{
 				//Squash!
-				if(ball->params[2] < squashTime)
+				if(ball->params[2] < squashTime/2.f)
 				{
 					ball->params[2] += 0.005;
-					ball->scale(EDPoint(0.0f, 1.0f, 0.0f), squash);
-					ball->scale(EDPoint(1.0f, 0.0f, 1.0f), strech);
+					ball->scale(EDPoint(0.0f, 1.0f, 0.0f), squash + 0.0002f);
+					ball->scale(EDPoint(1.0f, 0.0f, 1.0f), strech - 0.0002f);
 					ball->translate(EDPoint(translatePos, 0.0f,  translatePos));
 				}
 				else
@@ -74,8 +74,8 @@ StandLuxorScene::StandLuxorScene(void) : Scene()
 
 	scenario = new Scenario();
 
-	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
-	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
+	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename1 = "table3.txt";
 	char* filename2 = "luxor3.txt";
 	char* filename3 = "ball.txt";
