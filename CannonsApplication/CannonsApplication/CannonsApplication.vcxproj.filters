@@ -69,6 +69,9 @@
     <ClCompile Include="edmesh.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="standLuxorScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="edgeom.h">
@@ -114,6 +117,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="loadObjScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="standLuxorScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,7 +2,7 @@
 
 #include <vector>
 //#define drawArrays
-#define max_value +2.0e-20
+#define max_value +2.0e20
 #define min_value -2.0e-20
 
 EDMesh::EDMesh(const char* identifier) :  GObject(identifier)
@@ -251,6 +251,15 @@ void EDMesh::translate(EDPoint toPoint)
 	{
 		triangles[i].translate(toPoint);
 	}
+	
+	/*min.print();
+	min.x += toPoint.x;
+	min.y += toPoint.y;
+	min.z += toPoint.z;
+	min.print();
+	min.print();
+	printf("\n");*/
+	updateMinValue();
 }
 
 void EDMesh::rotate(EDPoint axis, float angle)
@@ -259,6 +268,7 @@ void EDMesh::rotate(EDPoint axis, float angle)
 	{
 		triangles[i].rotate(axis, min, angle);
 	}
+	updateMinValue();
 }
 
 void EDMesh::scale(EDPoint axis, float factor)
@@ -266,5 +276,54 @@ void EDMesh::scale(EDPoint axis, float factor)
 	for(int i = 0; i < trianglesCount; i++)
 	{
 		triangles[i].scale(axis, min, factor);
+	}
+	updateMinValue();
+}
+
+void EDMesh::updateMinValue(void)
+{
+	min = EDPoint(max_value, max_value, max_value);
+	for(int i = 0; i < trianglesCount; i++)
+	{
+		EDPoint p1, p2, p3;
+		p1 = triangles[i].p1;
+		if(p1.x < min.x)
+		{
+			min.x = p1.x;
+		}
+		if(p1.y < min.y)
+		{
+			min.y = p1.y;
+		}
+		if(p1.z < min.z)
+		{
+			min.z = p1.z;
+		}
+		p2 = triangles[i].p2;
+		if(p2.x < min.x)
+		{
+			min.x = p2.x;
+		}
+		if(p2.y < min.y)
+		{
+			min.y = p2.y;
+		}
+		if(p2.z < min.z)
+		{
+			min.z = p2.z;
+		}
+		p3 = triangles[i].p3;
+		if(p3.x < min.x)
+		{
+			min.x = p3.x;
+		}
+		if(p3.y < min.y)
+		{
+			min.y = p3.y;
+		}
+		if(p3.z < min.z)
+		{
+			min.z = p3.z;
+		}
 	}
 }

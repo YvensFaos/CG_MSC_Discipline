@@ -25,8 +25,8 @@ public:
 	void translate(EDPoint toPoint);
 	void rotate(EDPoint axis, float angle);
 	void scale(EDPoint axis, float factor);
+	void updateMinValue(void);
 private:
-	void calculateNormals(void);
 };
 
 #endif
