@@ -125,6 +125,22 @@ void Player::keyboard(GLFWwindow* window, int key, int scancode, int action, int
 		{
 			camera->print();
 		}
+		if(key == GLFW_KEY_Q)
+		{
+			float x = camera->position->x;
+			float z = camera->position->z;
+
+			camera->position->x = x*cos(10*pi180) - z*sin(10*pi180);
+			camera->position->z = x*sin(10*pi180) + z*cos(10*pi180);
+		}
+		if(key == GLFW_KEY_W)
+		{
+			float x = camera->position->x;
+			float z = camera->position->z;
+
+			camera->position->x = x*cos(-10*pi180) - z*sin(-10*pi180);
+			camera->position->z = x*sin(-10*pi180) + z*cos(-10*pi180);
+		}
 	}
 }
 

@@ -74,8 +74,8 @@ StandLuxorScene::StandLuxorScene(void) : Scene()
 
 	scenario = new Scenario();
 
-	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
-	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename1 = "table3.txt";
 	char* filename2 = "luxor3.txt";
 	char* filename3 = "ball.txt";
