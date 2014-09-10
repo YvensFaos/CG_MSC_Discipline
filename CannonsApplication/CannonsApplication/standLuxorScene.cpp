@@ -7,6 +7,10 @@ float squash = 1.0002f;
 float strech = 0.9998f;
 float translatePos = -0.0004f;
 
+#define NORMAL_CAMERA
+#define BIRDS_EYES
+#define WORMS_EYES
+
 void kickingBall(float elapsedTime, GObject* object)
 {
 	EDMesh* ball = (EDMesh*)object;
@@ -70,25 +74,45 @@ void kickingBall(float elapsedTime, GObject* object)
 
 StandLuxorScene::StandLuxorScene(void) : Scene()
 {
-	camera = new EDCamera(new EDPoint(0.4f, 1.7f, 6.f), new EDPoint(0.41f, 1.1f, 1.f), 0.05f, 300.0f, 45.0f);
+#ifdef NORMAL_CAMERA
+	camera = new EDCamera(new EDPoint(0.4f, 2.5f, 6.59f), new EDPoint(0.41f, 1.5f, 1.6f), 0.05f, 300.0f, 45.0f);
+#endif
+#ifdef BIRDS_EYES
+	camera = new EDCamera(new EDPoint(0.4f, 2.5f, 6.59f), new EDPoint(0.41f, 1.5f, 1.6f), 0.05f, 300.0f, 45.0f);
+#endif
+#ifdef WORMS_EYES
+	camera = new EDCamera(new EDPoint(-1.7f, 0.4f, 1.79f), new EDPoint(2.12f, 4.4f, -1.4f), 0.05f, 300.0f, 90.0f);
+#endif
 
 	scenario = new Scenario();
 
 	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
 	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename1 = "table3.txt";
-	char* filename2 = "luxor3.txt";
+	char* filename2 = "luxor_203.txt";
 	char* filename3 = "ball.txt";
 
 	EDMesh* table = new EDMesh("table", path, filename1);
-	GLfloat ambientMaterial1[] = {.35f, .35f, .35f, 1.0f};
-	GLfloat diffuseMaterial1[] = {.35f, .35f, .35f, 1.0f};
+	float r = (58/255.f);
+	float g = (59/255.f);
+	float b = (54/255.f);
+	GLfloat ambientMaterial1[] = {r, g, b, 1.0f};
+	r = (90/255.f);
+	g = (92/255.f);
+	b = (84/255.f);
+	GLfloat diffuseMaterial1[] = {r, g, b, 1.0f};
 	table->setMaterial(ambientMaterial1, diffuseMaterial1);
 	scenario->objects.push_back(table);
 
 	EDMesh* ball = new EDMesh("ball", path, filename3);
-	GLfloat ambientMaterial2[] = {.8f, .15f, .15f, 1.0f};
-	GLfloat diffuseMaterial2[] = {.6f, .20f, .20f, 1.0f};
+	r = (193/255.f);
+	g = (25/255.f);
+	b = (22/255.f);
+	GLfloat ambientMaterial2[] = {r, g, b, 1.0f};
+	r = (239/255.f);
+	g = (68/255.f);
+	b = (58/255.f);
+	GLfloat diffuseMaterial2[] = {r, g, b, 1.0f};
 	ball->setMaterial(ambientMaterial2, diffuseMaterial2);
 	ball->scale(EDPoint(1.f,1.f,1.f), 0.9f);
 	ball->rotate(EDPoint(0.f,1.f,0.f), 60);
@@ -103,12 +127,18 @@ StandLuxorScene::StandLuxorScene(void) : Scene()
 	ball->params[3] = 0.0f;
 
 	EDMesh* luxor = new EDMesh("luxor", path, filename2);
-	GLfloat ambientMaterial3[] = {.15f, .15f, .15f, 1.0f};
-	GLfloat diffuseMaterial3[] = {.20f, .20f, .20f, 1.0f};
+	r = (77/255.f);
+	g = (78/255.f);
+	b = (62/255.f);
+	GLfloat ambientMaterial3[] = {r, g, b, 1.0f};
+	r = (207/255.f);
+	g = (226/255.f);
+	b = (198/255.f);
+	GLfloat diffuseMaterial3[] = {r, g, b, 1.0f};
 	luxor->setMaterial(ambientMaterial3, diffuseMaterial3);
 	luxor->scale(EDPoint(1.f,1.f,1.f), 0.9f);
 	luxor->rotate(EDPoint(0.f,1.f,0.f), 60);
-	luxor->translate(EDPoint(-.9f,0.32f,0.f));
+	luxor->translate(EDPoint(-.6f,3.25f,2.5f));
 	luxor->updateMinValue();
 	scenario->objects.push_back(luxor);
 }

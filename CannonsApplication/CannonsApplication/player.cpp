@@ -34,14 +34,20 @@ void Player::callBack()
 	glLoadIdentity();
 
 	camera->cameraLookAt();
-	scenario->update(elapsedTime);
+	if(elapsedTime != -1)
+	{
+		scenario->update(elapsedTime);
+	}
 	scenario->draw();
 
 	timeAfter = getTime();
-	elapsedTime = timeAfter - timeNow;
-	if(elapsedTime <= 0.016f)
+	if(elapsedTime != -1)
 	{
-		elapsedTime = 0.016f;
+		elapsedTime = timeAfter - timeNow;
+		if(elapsedTime <= 0.016f)
+		{
+			elapsedTime = 0.016f;
+		}
 	}
 }
 
@@ -140,6 +146,17 @@ void Player::keyboard(GLFWwindow* window, int key, int scancode, int action, int
 
 			camera->position->x = x*cos(-10*pi180) - z*sin(-10*pi180);
 			camera->position->z = x*sin(-10*pi180) + z*cos(-10*pi180);
+		}
+		if(key == GLFW_KEY_E)
+		{
+			if(elapsedTime > 0)
+			{
+				elapsedTime = -1;
+			}
+			else
+			{
+				elapsedTime = 0;
+			}
 		}
 	}
 }

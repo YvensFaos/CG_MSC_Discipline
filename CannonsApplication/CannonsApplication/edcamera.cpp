@@ -27,7 +27,7 @@ EDCamera::~EDCamera(void)
 
 void EDCamera::print(void)
 {
-	printf("Position %f %f %f\nLook At %f %f %f\nRotation: %d\n", position->x, position->y, position->z, lookAt->x, lookAt->y, lookAt->z, rotation);
+	printf("Position %f %f %f\nLook At %f %f %f\nRotation: %d\nField of View: %f\n\n", position->x, position->y, position->z, lookAt->x, lookAt->y, lookAt->z, rotation, pFOV);
 }
 
 void EDCamera::move(Movement movement)
