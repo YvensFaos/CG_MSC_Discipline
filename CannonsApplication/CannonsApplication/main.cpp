@@ -9,6 +9,7 @@
 #include "cameraScene.h"
 #include "loadObjScene.h"
 #include "standLuxorScene.h"
+#include "kickingLamp.h"
 
 Player* player;
 
@@ -30,7 +31,7 @@ void keyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 int main()
 {
 	player = new Player();
-	player->setUpScenario(new StandLuxorScene());
+	player->setUpScenario(new KickingLamp());
 
 	GLFWWrapper::initialize(callBack);
 	player->initializeLights();

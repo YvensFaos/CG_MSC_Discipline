@@ -88,6 +88,7 @@
     <ClCompile Include="edobjreader.cpp" />
     <ClCompile Include="geometricObjects.cpp" />
     <ClCompile Include="GLFWWrapper.cpp" />
+    <ClCompile Include="kickingLamp.cpp" />
     <ClCompile Include="kickingScene.cpp" />
     <ClCompile Include="loadObjScene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="edobjreader.h" />
     <ClInclude Include="geometricObjects.h" />
     <ClInclude Include="GLFWWrapper.h" />
+    <ClInclude Include="kickingLamp.h" />
     <ClInclude Include="kickingScene.h" />
     <ClInclude Include="loadObjScene.h" />
     <ClInclude Include="player.h" />

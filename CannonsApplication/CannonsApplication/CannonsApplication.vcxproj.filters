@@ -72,6 +72,9 @@
     <ClCompile Include="standLuxorScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="kickingLamp.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="edgeom.h">
@@ -120,6 +123,9 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="standLuxorScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="kickingLamp.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
