@@ -2,34 +2,45 @@
 
 #include "edmesh.h"
 
-#define A   1.0f
-#define W   1.0f
-#define O   0.0f
+#define A   2.0f
+#define W   6.0f
+#define O   0.0f*pi180
 #define E   2.718282f
-#define K  -0.35f
+#define K   0.5f
 
 void kickingLamp(float elapsedTime, GObject* object)
 {
 	EDMesh* luxor = (EDMesh*)object;
 
-	float y = luxor->params[1] * pow(abs((float) sin(W*luxor->params[0] + O)), K*luxor->params[0]);
+	float x = luxor->min.x / 2.0f;
+	float y = A * abs((float) sin(W*x + O)) * pow(E, -K*x);
 	printf("y = %f\n",y);
+	if(y > 50)
+	{
+		printf("EPA!\n");
+	}
 	luxor->translate(EDPoint(0.0f, -luxor->min.y, 0.0f));
-	luxor->translate(EDPoint(0.0f, y, 0.0f));
-
 	luxor->params[0] += elapsedTime;
+
+	if(luxor->min.x > 20.0f)
+	{
+		elapsedTime = 0;
+	}
+	luxor->translate(EDPoint(elapsedTime/4.0f, y, 0.0f));
 }
 
 KickingLamp::KickingLamp(void) : Scene()
 {
 	scenario = new Scenario();
-	camera = new EDCamera(new EDPoint(-0.7f, 2.0f, 6.59f), new EDPoint(1.01f, 1.4f, 1.9f), 0.05f, 300.0f, 45.0f);
+	camera = new EDCamera(new EDPoint(0.f, 8.3f, 22.4f), new EDPoint(1.7f, 7.7f, 17.7f), 0.05f, 300.0f, 45.0f);
 
-	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
-	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
-	char* filename1 = "table3.txt";
+	/*
+	0   8.3 22.4
+1.7 7.7 17.7
+	*/
+	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename2 = "luxor_203.txt";
-	char* filename3 = "ball.txt";
 
 	float r = 0; 
 	float g = 0; 
