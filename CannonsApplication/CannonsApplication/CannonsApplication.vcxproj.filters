@@ -75,6 +75,12 @@
     <ClCompile Include="kickingLamp.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="edgroupedmesh.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="articulatedLuxorScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="edgeom.h">
@@ -126,6 +132,12 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="kickingLamp.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="edgroupedmesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="articulatedLuxorScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>

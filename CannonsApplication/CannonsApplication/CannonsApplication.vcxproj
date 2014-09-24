@@ -80,10 +80,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="articulatedLuxorScene.cpp" />
     <ClCompile Include="cameraScene.cpp" />
     <ClCompile Include="cannonsScene.cpp" />
     <ClCompile Include="edcamera.cpp" />
     <ClCompile Include="edgeom.cpp" />
+    <ClCompile Include="edgroupedmesh.cpp" />
     <ClCompile Include="edmesh.cpp" />
     <ClCompile Include="edobjreader.cpp" />
     <ClCompile Include="geometricObjects.cpp" />
@@ -99,10 +101,12 @@
     <ClCompile Include="transformScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="articulatedLuxorScene.h" />
     <ClInclude Include="cameraScene.h" />
     <ClInclude Include="cannonsScene.h" />
     <ClInclude Include="edcamera.h" />
     <ClInclude Include="edgeom.h" />
+    <ClInclude Include="edgroupedmesh.h" />
     <ClInclude Include="edmesh.h" />
     <ClInclude Include="edobjreader.h" />
     <ClInclude Include="geometricObjects.h" />
