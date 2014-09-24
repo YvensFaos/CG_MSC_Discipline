@@ -6,10 +6,11 @@
 
 #include "edmesh.h"
 
-class EDGroupedMesh
+class EDGroupedMesh : public GObject
 {
 public:
 	std::hash_map<std::string, EDMesh> meshes;
+	std::vector<std::string> groups;
 
 public:
 	EDGroupedMesh(const char* identifier);
@@ -23,6 +24,7 @@ public:
 	void translate(EDPoint toPoint);
 	void rotate(EDPoint axis, float angle);
 	void scale(EDPoint axis, float factor);
+	void updateMinValue(void);
 };
 
 #endif

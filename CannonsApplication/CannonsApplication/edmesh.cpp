@@ -5,8 +5,15 @@
 #define max_value +2.0e20
 #define min_value -2.0e-20
 
+EDMesh::EDMesh(void) :  GObject("")
+{ 
+	trianglesCount = -1;
+}
+
 EDMesh::EDMesh(const char* identifier) :  GObject(identifier)
-{ }
+{ 
+	trianglesCount = -1;
+}
 
 EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(identifier)
 {
@@ -200,10 +207,69 @@ EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(ide
 	}
 }
 
+EDMesh::EDMesh(const char* identifier, std::vector<EDTriangle*> triangles) : GObject(identifier)
+{
+	trianglesVector = triangles;
+	initializeByVector();
+}
+
 EDMesh::~EDMesh(void)
 {
-	if(triangles)
+	if(triangles && trianglesCount != -1)
 		delete[] triangles;
+}
+
+void EDMesh::initializeByVector(void)
+{
+	trianglesCount = trianglesVector.size();
+	int index = 0;
+
+	this->triangles = new EDTriangle[trianglesCount];
+	for(int i = 0; i < trianglesCount; i++)
+	{
+		EDTriangle* triangle = trianglesVector.at(i);
+		this->triangles[i] = EDTriangle(triangle->p1, triangle->p2, triangle->p3);
+		EDPoint p1, p2, p3;
+		p1 = triangle->p1;
+		if(p1.x < min.x)
+		{
+			min.x = p1.x;
+		}
+		if(p1.y < min.y)
+		{
+			min.y = p1.y;
+		}
+		if(p1.z < min.z)
+		{
+			min.z = p1.z;
+		}
+		p2 = triangle->p2;
+		if(p2.x < min.x)
+		{
+			min.x = p2.x;
+		}
+		if(p2.y < min.y)
+		{
+			min.y = p2.y;
+		}
+		if(p2.z < min.z)
+		{
+			min.z = p2.z;
+		}
+		p3 = triangle->p3;
+		if(p3.x < min.x)
+		{
+			min.x = p3.x;
+		}
+		if(p3.y < min.y)
+		{
+			min.y = p3.y;
+		}
+		if(p3.z < min.z)
+		{
+			min.z = p3.z;
+		}
+	}
 }
 
 void EDMesh::draw(void)

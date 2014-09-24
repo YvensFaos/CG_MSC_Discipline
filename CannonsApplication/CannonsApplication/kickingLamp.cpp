@@ -36,7 +36,7 @@ KickingLamp::KickingLamp(void) : Scene()
 
 	/*
 	0   8.3 22.4
-1.7 7.7 17.7
+	1.7 7.7 17.7
 	*/
 	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
 	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
