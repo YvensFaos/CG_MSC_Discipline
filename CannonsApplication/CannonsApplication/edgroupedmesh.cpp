@@ -235,3 +235,8 @@ void EDGroupedMesh::updateMinValue(void)
 		meshes[grp].updateMinValue();
 	}
 }
+
+EDMesh* EDGroupedMesh::getGroup(char* group)
+{
+	return &meshes[group];
+}

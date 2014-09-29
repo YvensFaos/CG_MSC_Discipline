@@ -149,8 +149,6 @@ EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(ide
 	int vertexesSize = vertexes.size();
 	printf("Finished reading!\n");
 
-	min = EDPoint(max_value, max_value, max_value);
-
 	trianglesCount = faces.size();
 	triangles = new EDTriangle[trianglesCount];
 	int index = 0;
@@ -159,52 +157,16 @@ EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(ide
 	{
 		EDPoint point = faces.at(i);
 		
-#pragma region getting min
 		EDPoint p1, p2, p3;
 		p1 = vertexes.at((int)point.x - 1);
-		if(p1.x < min.x)
-		{
-			min.x = p1.x;
-		}
-		if(p1.y < min.y)
-		{
-			min.y = p1.y;
-		}
-		if(p1.z < min.z)
-		{
-			min.z = p1.z;
-		}
 		p2 = vertexes.at((int)point.y - 1);
-		if(p2.x < min.x)
-		{
-			min.x = p2.x;
-		}
-		if(p2.y < min.y)
-		{
-			min.y = p2.y;
-		}
-		if(p2.z < min.z)
-		{
-			min.z = p2.z;
-		}
 		p3 = vertexes.at((int)point.z - 1);
-		if(p3.x < min.x)
-		{
-			min.x = p3.x;
-		}
-		if(p3.y < min.y)
-		{
-			min.y = p3.y;
-		}
-		if(p3.z < min.z)
-		{
-			min.z = p3.z;
-		}
-#pragma endregion
 
 		triangles[index] = EDTriangle(p1,p2,p3);
 		index++;
 	}
+
+	calculateCenter();
 }
 
 EDMesh::EDMesh(const char* identifier, std::vector<EDTriangle*> triangles) : GObject(identifier)
@@ -318,32 +280,26 @@ void EDMesh::translate(EDPoint toPoint)
 		triangles[i].translate(toPoint);
 	}
 	
-	/*min.print();
-	min.x += toPoint.x;
-	min.y += toPoint.y;
-	min.z += toPoint.z;
-	min.print();
-	min.print();
-	printf("\n");*/
-	updateMinValue();
+	calculateCenter();
 }
 
 void EDMesh::rotate(EDPoint axis, float angle)
 {
 	for(int i = 0; i < trianglesCount; i++)
 	{
-		triangles[i].rotate(axis, min, angle);
+		triangles[i].rotate(axis, center, angle);
 	}
-	updateMinValue();
+
+	//calculateCenter();
 }
 
 void EDMesh::scale(EDPoint axis, float factor)
 {
 	for(int i = 0; i < trianglesCount; i++)
 	{
-		triangles[i].scale(axis, min, factor);
+		triangles[i].scale(axis, center, factor);
 	}
-	updateMinValue();
+	calculateCenter();
 }
 
 void EDMesh::updateMinValue(void)
@@ -392,4 +348,96 @@ void EDMesh::updateMinValue(void)
 			min.z = p3.z;
 		}
 	}
+}
+
+void EDMesh::calculateCenter(void)
+{
+	min = EDPoint(max_value, max_value, max_value);
+	EDPoint max = EDPoint(min_value, min_value, min_value);
+
+#pragma region get min and max
+	for(int i = 0; i < trianglesCount; i++)
+	{
+		EDPoint p1, p2, p3;
+		p1 = triangles[i].p1;
+		if(p1.x < min.x)
+		{
+			min.x = p1.x;
+		}
+		if(p1.y < min.y)
+		{
+			min.y = p1.y;
+		}
+		if(p1.z < min.z)
+		{
+			min.z = p1.z;
+		}
+		if(p1.x > max.x)
+		{
+			max.x = p1.x;
+		}
+		if(p1.y > max.y)
+		{
+			max.y = p1.y;
+		}
+		if(p1.z > max.z)
+		{
+			max.z = p1.z;
+		}
+
+		p2 = triangles[i].p2;
+		if(p2.x < min.x)
+		{
+			min.x = p2.x;
+		}
+		if(p2.y < min.y)
+		{
+			min.y = p2.y;
+		}
+		if(p2.z < min.z)
+		{
+			min.z = p2.z;
+		}
+		if(p2.x > max.x)
+		{
+			max.x = p2.x;
+		}
+		if(p2.y > max.y)
+		{
+			max.y = p2.y;
+		}
+		if(p2.z > max.z)
+		{
+			max.z = p2.z;
+		}
+
+		p3 = triangles[i].p3;
+		if(p3.x < min.x)
+		{
+			min.x = p3.x;
+		}
+		if(p3.y < min.y)
+		{
+			min.y = p3.y;
+		}
+		if(p3.z < min.z)
+		{
+			min.z = p3.z;
+		}
+		if(p3.x > max.x)
+		{
+			max.x = p3.x;
+		}
+		if(p3.y > max.y)
+		{
+			max.y = p3.y;
+		}
+		if(p3.z > max.z)
+		{
+			max.z = p3.z;
+		}
+	}
+#pragma endregion
+
+	center = EDPoint(max.x - abs(min.x), max.y - abs(min.y), max.z - abs(min.z));
 }

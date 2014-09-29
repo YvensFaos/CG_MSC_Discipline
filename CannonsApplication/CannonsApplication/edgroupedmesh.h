@@ -21,10 +21,14 @@ public:
 
 	void setMaterial(GLfloat* ambient, GLfloat* diffuse);
 
+	EDMesh* getGroup(char* group);
+
 	void translate(EDPoint toPoint);
 	void rotate(EDPoint axis, float angle);
 	void scale(EDPoint axis, float factor);
 	void updateMinValue(void);
+
+	void translateBase(EDPoint toPoint);
 };
 
 #endif

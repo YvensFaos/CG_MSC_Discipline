@@ -11,6 +11,7 @@ class EDMesh : public GObject
 public:
 	EDTriangle* triangles;
 	EDPoint min;
+	EDPoint center;
 	int trianglesCount;
 
 	std::vector<EDTriangle*> trianglesVector;
@@ -32,6 +33,7 @@ public:
 	void rotate(EDPoint axis, float angle);
 	void scale(EDPoint axis, float factor);
 	void updateMinValue(void);
+	void calculateCenter(void);
 
 	void initializeByVector(void);
 private:
