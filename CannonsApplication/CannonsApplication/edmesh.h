@@ -13,6 +13,9 @@ public:
 	EDPoint min;
 	EDPoint center;
 	int trianglesCount;
+	EDMesh* nodes;
+	int nodesCount;
+	int nodesActualCount;
 
 	std::vector<EDTriangle*> trianglesVector;
 private:
@@ -36,6 +39,9 @@ public:
 	void calculateCenter(void);
 
 	void initializeByVector(void);
+
+	void instantiateNodes(int count);
+	void addNode(int position, EDMesh* mesh, EDPoint offset);
 private:
 };
 

@@ -183,6 +183,7 @@ void EDGroupedMesh::update(float elapsedTime)
 		std::string grp = groups.at(i);
 
 		meshes[grp].update(elapsedTime);
+		meshes[grp].callUpdate(elapsedTime, &meshes[grp]);
 	}
 }
 

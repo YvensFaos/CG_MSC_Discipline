@@ -8,11 +8,15 @@
 EDMesh::EDMesh(void) :  GObject("")
 { 
 	trianglesCount = -1;
+	nodesCount = 0;
+	nodesActualCount = 0;
 }
 
 EDMesh::EDMesh(const char* identifier) :  GObject(identifier)
 { 
 	trianglesCount = -1;
+	nodesCount = 0;
+	nodesActualCount = 0;
 }
 
 EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(identifier)
@@ -166,6 +170,8 @@ EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(ide
 		index++;
 	}
 
+	nodesCount = 0;
+	nodesActualCount = 0;
 	calculateCenter();
 }
 
@@ -232,6 +238,9 @@ void EDMesh::initializeByVector(void)
 			min.z = p3.z;
 		}
 	}
+
+	nodesCount = 0;
+	nodesActualCount = 0;
 }
 
 void EDMesh::draw(void)
@@ -279,6 +288,14 @@ void EDMesh::translate(EDPoint toPoint)
 	{
 		triangles[i].translate(toPoint);
 	}
+
+	if(nodesCount != 0)
+	{
+		for(int i = 0; i < nodesActualCount; i++)
+		{
+			nodes[i].translate(toPoint);
+		}
+	}
 	
 	calculateCenter();
 }
@@ -290,6 +307,14 @@ void EDMesh::rotate(EDPoint axis, float angle)
 		triangles[i].rotate(axis, center, angle);
 	}
 
+	if(nodesCount != 0)
+	{
+		for(int i = 0; i < nodesActualCount; i++)
+		{
+			nodes[i].rotate(axis, angle);
+		}
+	}
+
 	//calculateCenter();
 }
 
@@ -299,6 +324,15 @@ void EDMesh::scale(EDPoint axis, float factor)
 	{
 		triangles[i].scale(axis, center, factor);
 	}
+
+	if(nodesCount != 0)
+	{
+		for(int i = 0; i < nodesActualCount; i++)
+		{
+			nodes[i].scale(axis, factor);
+		}
+	}
+
 	calculateCenter();
 }
 
@@ -440,4 +474,20 @@ void EDMesh::calculateCenter(void)
 #pragma endregion
 
 	center = EDPoint(max.x - abs(min.x), max.y - abs(min.y), max.z - abs(min.z));
+}
+
+void EDMesh::instantiateNodes(int count)
+{
+	nodes = new EDMesh[count];
+	nodesCount = count;
+}
+
+void EDMesh::addNode(int position, EDMesh* mesh, EDPoint offset)
+{
+	if(position < 0 || position > nodesCount + 1)
+		return;
+
+	nodes[position] = *mesh;
+	nodes[position].center = EDPoint(center.x + offset.x, center.y + offset.y, center.z + offset.z);
+	nodesActualCount++;
 }
