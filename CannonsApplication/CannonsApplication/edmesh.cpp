@@ -293,7 +293,7 @@ void EDMesh::translate(EDPoint toPoint)
 	{
 		for(int i = 0; i < nodesActualCount; i++)
 		{
-			nodes[i].translate(toPoint);
+			nodes[i]->translate(toPoint);
 		}
 	}
 	
@@ -311,11 +311,9 @@ void EDMesh::rotate(EDPoint axis, float angle)
 	{
 		for(int i = 0; i < nodesActualCount; i++)
 		{
-			nodes[i].rotate(axis, angle);
+			nodes[i]->rotate(axis, angle);
 		}
 	}
-
-	//calculateCenter();
 }
 
 void EDMesh::scale(EDPoint axis, float factor)
@@ -329,7 +327,7 @@ void EDMesh::scale(EDPoint axis, float factor)
 	{
 		for(int i = 0; i < nodesActualCount; i++)
 		{
-			nodes[i].scale(axis, factor);
+			nodes[i]->scale(axis, factor);
 		}
 	}
 
@@ -478,7 +476,7 @@ void EDMesh::calculateCenter(void)
 
 void EDMesh::instantiateNodes(int count)
 {
-	nodes = new EDMesh[count];
+	nodes = new EDMesh*[count];
 	nodesCount = count;
 }
 
@@ -487,7 +485,7 @@ void EDMesh::addNode(int position, EDMesh* mesh, EDPoint offset)
 	if(position < 0 || position > nodesCount + 1)
 		return;
 
-	nodes[position] = *mesh;
-	nodes[position].center = EDPoint(center.x + offset.x, center.y + offset.y, center.z + offset.z);
+	nodes[position] = mesh;
+	nodes[position]->center = EDPoint(center.x + offset.x, center.y + offset.y, center.z + offset.z);
 	nodesActualCount++;
 }

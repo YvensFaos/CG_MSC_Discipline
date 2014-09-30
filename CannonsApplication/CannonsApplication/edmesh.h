@@ -13,7 +13,7 @@ public:
 	EDPoint min;
 	EDPoint center;
 	int trianglesCount;
-	EDMesh* nodes;
+	EDMesh** nodes;
 	int nodesCount;
 	int nodesActualCount;
 
