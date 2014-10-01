@@ -7,9 +7,9 @@ float squash = 1.0002f;
 float strech = 0.9998f;
 float translatePos = -0.0004f;
 
-#define NORMAL_CAMERA
+//#define NORMAL_CAMERA
 //#define BIRDS_EYES
-//#define WORMS_EYES
+#define WORMS_EYES
 
 void kickingBall(float elapsedTime, GObject* object)
 {
@@ -86,8 +86,8 @@ StandLuxorScene::StandLuxorScene(void) : Scene()
 
 	scenario = new Scenario();
 
-	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
-	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename1 = "table3.txt";
 	char* filename2 = "luxor_203.txt";
 	char* filename3 = "ball.txt";
@@ -138,7 +138,7 @@ StandLuxorScene::StandLuxorScene(void) : Scene()
 	luxor->setMaterial(ambientMaterial3, diffuseMaterial3);
 	luxor->scale(EDPoint(1.f,1.f,1.f), 0.9f);
 	luxor->rotate(EDPoint(0.f,1.f,0.f), 60);
-	luxor->translate(EDPoint(-.6f,3.25f,2.5f));
+	luxor->translate(EDPoint(-1.f,1.5f,-.5f));
 	luxor->updateMinValue();
 	scenario->objects.push_back(luxor);
 }

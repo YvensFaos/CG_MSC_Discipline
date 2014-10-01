@@ -34,12 +34,8 @@ KickingLamp::KickingLamp(void) : Scene()
 	scenario = new Scenario();
 	camera = new EDCamera(new EDPoint(0.f, 8.3f, 22.4f), new EDPoint(1.7f, 7.7f, 17.7f), 0.05f, 300.0f, 45.0f);
 
-	/*
-	0   8.3 22.4
-	1.7 7.7 17.7
-	*/
-	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
-	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename2 = "luxor_203.txt";
 
 	float r = 0; 

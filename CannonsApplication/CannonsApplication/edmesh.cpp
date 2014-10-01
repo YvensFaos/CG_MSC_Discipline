@@ -73,6 +73,7 @@ EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(ide
 			{
 				state = 1;
 				printf("Estado %d\n",state);
+				break;
 			}
 			break;
 		case 1:
@@ -80,14 +81,15 @@ EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(ide
 			{
 				state = 2;
 				printf("Estado %d\n",state);
+				break;
 			}
-			break;
 		case 2:
 			if(line[0] == 'v' && line[1] != 't')
 			{
 				//Reading vertexes
 				sscanf(buffer, "v %f %f %f", &x, &y, &z);
 				vertexes.push_back(EDPoint(x,y,z));
+				break;
 			}		
 			else
 			{
@@ -102,7 +104,6 @@ EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(ide
 				state = 4;
 				printf("Estado %d\n",state);
 			}
-			break;
 		case 4:
 			//Reading faces
 			if(ret != EOF && line[0] == 'f')

@@ -32,6 +32,13 @@ void keyboard(GLFWwindow* window, int key, int scancode, int action, int mods)
 int main()
 {
 	player = new Player();
+	//player->setUpScenario(new CannonsScene());
+	//player->setUpScenario(new TransformScene());
+	//player->setUpScenario(new KickingScene());
+	//player->setUpScenario(new CameraScene());
+	//player->setUpScenario(new LoadObjScene());
+	//player->setUpScenario(new StandLuxorScene());
+	//player->setUpScenario(new KickingLamp());
 	player->setUpScenario(new ArticulatedLuxorScene());
 
 	GLFWWrapper::initialize(callBack);
