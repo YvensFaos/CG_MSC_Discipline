@@ -1,9 +1,10 @@
 #include "edmesh.h"
 
+#include "GeometricObjects.h"
 #include <vector>
 //#define drawArrays
-#define max_value +2.0e20
-#define min_value -2.0e-20
+#define max_value +1.9999e20
+#define min_value -1.9999e-20
 
 EDMesh::EDMesh(void) :  GObject("")
 { 
@@ -200,49 +201,19 @@ void EDMesh::initializeByVector(void)
 		this->triangles[i] = EDTriangle(triangle->p1, triangle->p2, triangle->p3);
 		EDPoint p1, p2, p3;
 		p1 = triangle->p1;
-		if(p1.x < min.x)
-		{
-			min.x = p1.x;
-		}
-		if(p1.y < min.y)
-		{
-			min.y = p1.y;
-		}
-		if(p1.z < min.z)
-		{
-			min.z = p1.z;
-		}
-		p2 = triangle->p2;
-		if(p2.x < min.x)
-		{
-			min.x = p2.x;
-		}
-		if(p2.y < min.y)
-		{
-			min.y = p2.y;
-		}
-		if(p2.z < min.z)
-		{
-			min.z = p2.z;
-		}
-		p3 = triangle->p3;
-		if(p3.x < min.x)
-		{
-			min.x = p3.x;
-		}
-		if(p3.y < min.y)
-		{
-			min.y = p3.y;
-		}
-		if(p3.z < min.z)
-		{
-			min.z = p3.z;
-		}
 	}
 
 	nodesCount = 0;
 	nodesActualCount = 0;
+
+	max = EDPoint(min_value, min_value, min_value);
+
 	calculateCenter();
+
+	moveAxis = EDPoint(max.x, max.y, max.z);
+	selfAxis = EDPoint(min.x, min.y, min.z);
+
+	centerAxis = EDPoint((max.x + min.x)/2.f, (max.y + min.y)/2.f, (max.z + min.z)/2.f);
 }
 
 void EDMesh::draw(void)
@@ -269,6 +240,19 @@ void EDMesh::draw(void)
 		i++;
 	}
 	glEnd();
+	
+	float aux = 0.0f;
+	GCube cube = GCube("ccenter", 
+		new EDPoint(moveAxis.x - 0.1, moveAxis.y - 0.1, moveAxis.z - 0.1 + aux),  
+		new EDPoint(moveAxis.x + 0.1, moveAxis.y + 0.1, moveAxis.z + 0.1 + aux));
+	cube.setMaterial(ambientMaterial, diffuseMaterial);
+	cube.draw();
+
+	GCube cube2 = GCube("cccenter", 
+		new EDPoint(selfAxis.x - 0.1, selfAxis.y - 0.1, selfAxis.z - 0.1 + aux),  
+		new EDPoint(selfAxis.x + 0.1, selfAxis.y + 0.1, selfAxis.z + 0.1 + aux));
+	cube2.setMaterial(ambientMaterial, diffuseMaterial);
+	cube2.draw();
 #endif
 }
 
@@ -291,6 +275,10 @@ void EDMesh::translate(EDPoint toPoint)
 		triangles[i].translate(toPoint);
 	}
 
+	moveAxis.translateTo(&toPoint);
+	selfAxis.translateTo(&toPoint);
+	centerAxis.translateTo(&toPoint);
+
 	if(nodesCount != 0)
 	{
 		for(int i = 0; i < nodesActualCount; i++)
@@ -304,20 +292,41 @@ void EDMesh::translate(EDPoint toPoint)
 
 void EDMesh::rotate(EDPoint axis, float angle)
 {
-	for(int i = 0; i < trianglesCount; i++)
+	if(axis.y == 0)
 	{
-		triangles[i].rotate(axis, center, angle);
-	}
-
-	if(nodesCount != 0)
-	{
-		for(int i = 0; i < nodesActualCount; i++)
+		EDPoint oldCenter = EDPoint(moveAxis.x, moveAxis.y, moveAxis.z);
+		for(int i = 0; i < trianglesCount; i++)
 		{
-			EDPoint newOffset = EDPoint(center.x, center.y + height/2.f, center.z);
-			newOffset.rotateAccordingTo(&center, axis, angle);
+			triangles[i].rotate(axis, selfAxis, angle);
+		}
+		moveAxis.rotateTo(&selfAxis, axis, angle);
 
-			nodes[i]->center = newOffset;
-			nodes[i]->rotate(axis, angle);
+		EDPoint translateDirection = EDPoint(moveAxis.x - oldCenter.x, moveAxis.y - oldCenter.y, moveAxis.z - oldCenter.z);
+		if(nodesCount != 0)
+		{
+			for(int i = 0; i < nodesActualCount; i++)
+			{
+				//nodes[i]->selfAxis = EDPoint(moveAxis.x, moveAxis.y, moveAxis.z);
+				nodes[i]->translate(translateDirection);
+				nodes[i]->rotate(axis, angle);
+			}
+		}
+	}
+	else
+	{
+		for(int i = 0; i < trianglesCount; i++)
+		{
+			triangles[i].rotate(axis, centerAxis, angle);
+		}
+		selfAxis.rotateTo(&centerAxis, axis, angle);
+		moveAxis.rotateTo(&centerAxis, axis, angle);
+
+		if(nodesCount != 0)
+		{
+			for(int i = 0; i < nodesActualCount; i++)
+			{
+				nodes[i]->rotate(axis, angle);
+			}
 		}
 	}
 }
@@ -326,7 +335,7 @@ void EDMesh::scale(EDPoint axis, float factor)
 {
 	for(int i = 0; i < trianglesCount; i++)
 	{
-		triangles[i].scale(axis, center, factor);
+		triangles[i].scale(axis, centerAxis, factor);
 	}
 
 	if(nodesCount != 0)
@@ -391,9 +400,9 @@ void EDMesh::updateMinValue(void)
 void EDMesh::calculateCenter(void)
 {
 	min = EDPoint(max_value, max_value, max_value);
-	EDPoint max = EDPoint(min_value, min_value, min_value);
+	max = EDPoint(min_value, min_value, min_value);
 
-#pragma region get min and max
+#pragma region get min and maxx
 	for(int i = 0; i < trianglesCount; i++)
 	{
 		EDPoint p1, p2, p3;
@@ -477,9 +486,11 @@ void EDMesh::calculateCenter(void)
 	}
 #pragma endregion
 
+	float width = max.x - min.x;
 	height = max.y - min.y;
+	float depth = max.z - min.z;
 
-	center = EDPoint(max.x - abs(min.x), max.y - abs(min.y), max.z - abs(min.z));
+	//center = EDPoint(min.x, min.y, min.z);
 }
 
 void EDMesh::instantiateNodes(int count)
@@ -494,6 +505,5 @@ void EDMesh::addNode(int position, EDMesh* mesh, EDPoint offset)
 		return;
 
 	nodes[position] = mesh;
-	nodes[position]->center = EDPoint(center.x + offset.x, center.y + offset.y, center.z + offset.z);
 	nodesActualCount++;
 }

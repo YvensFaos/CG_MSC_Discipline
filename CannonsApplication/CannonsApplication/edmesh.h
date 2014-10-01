@@ -11,7 +11,12 @@ class EDMesh : public GObject
 public:
 	EDTriangle* triangles;
 	EDPoint min;
-	EDPoint center;
+	EDPoint max;
+
+	EDPoint selfAxis;
+	EDPoint moveAxis;
+	EDPoint centerAxis;
+
 	int trianglesCount;
 	EDMesh** nodes;
 	int nodesCount;

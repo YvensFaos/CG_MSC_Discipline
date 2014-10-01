@@ -49,7 +49,8 @@ public:
 	EDPoint* subtract(EDPoint* decr);
 	EDPoint* setIntersection(EDPlane* pl1, EDPlane* pl2, EDPlane* pl3);
 
-	void rotateAccordingTo(EDPoint* pivot, EDPoint axis, float angle);
+	void translateTo(EDPoint* toPoint);
+	void rotateTo(EDPoint* center, EDPoint axis, float angle);
 	
 	float isMultiple(EDPoint* v);
 	float signedAngle(EDPoint* u, EDPoint* v);
@@ -107,6 +108,7 @@ public:
 	
 	void translate(EDPoint toPoint);
 	void rotate(EDPoint axis, EDPoint min, float angle);
+	void rotate(EDPoint axis, EDPoint min, float angle, float height);
 	void scale(EDPoint axis, EDPoint min, float factor);
 };
 

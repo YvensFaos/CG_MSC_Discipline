@@ -105,54 +105,6 @@ EDGroupedMesh::EDGroupedMesh(const char* identifier, char* path, char* filename)
 
 				actualMesh->trianglesVector.push_back(new EDTriangle(EDPoint(p1->x, p1->y, p1->z), EDPoint(p2->x, p2->y, p2->z), EDPoint(p3->x, p3->y, p3->z)));
 
-				/*
-				size_t county = 0;
-				int value = str.find_first_of('/');
-
-				if(value != -1)
-				{
-					county = count(str.begin(), str.end(), '/');
-
-					if(county == 3)
-					{
-						sscanf(buffer, "%s %d/%d %d/%d %d/%d", line, &fa,&fe,&fb,&ff,&fc,&fg,&fd,&fh);
-
-						faces.push_back(EDPoint(fa,fb,fc));
-						faces.push_back(EDPoint(fc,fd,fa));
-					}
-					else
-					{
-						sscanf(buffer, "%s %d/%d %d/%d %d/%d", line, &fa,&fe,&fb,&ff,&fc,&fg);
-
-						faces.push_back(EDPoint(fa,fb,fc));
-					}
-				}
-				else
-				{
-					county = count(str.begin(), str.end(), ' ');
-
-					if(county == 3)
-					{
-						sscanf(buffer, "%s %d %d %d", line, &fa,&fb,&fc);
-
-						EDPoint* p1;
-						EDPoint* p2;
-						EDPoint* p3;
-						p1 = &vertexes.at(fa - 1);
-						p2 = &vertexes.at(fb - 1);
-						p3 = &vertexes.at(fc - 1);
-
-						actualMesh->trianglesVector.push_back(new EDTriangle(EDPoint(p1->x, p1->y, p1->z), EDPoint(p2->x, p2->y, p2->z), EDPoint(p3->x, p3->y, p3->z)));
-					}
-					else
-					{
-						sscanf(buffer, "%s %d %d %d %d", line, &fa,&fb,&fc,&fd);
-
-						faces.push_back(EDPoint(fa,fb,fc));
-						faces.push_back(EDPoint(fc,fd,fa));
-					}
-				}
-				*/
 			}
 		}
 	}
@@ -162,6 +114,7 @@ EDGroupedMesh::EDGroupedMesh(const char* identifier, char* path, char* filename)
 	{
 		std::string grp = groups.at(i);
 
+		printf("%s :\n", grp.c_str());
 		meshes[grp].initializeByVector();
 	}
 }
