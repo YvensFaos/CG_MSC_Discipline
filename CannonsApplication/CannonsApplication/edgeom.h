@@ -48,6 +48,9 @@ public:
 	EDPoint* sum(float inc);
 	EDPoint* subtract(EDPoint* decr);
 	EDPoint* setIntersection(EDPlane* pl1, EDPlane* pl2, EDPlane* pl3);
+
+	void rotateAccordingTo(EDPoint* pivot, EDPoint axis, float angle);
+	
 	float isMultiple(EDPoint* v);
 	float signedAngle(EDPoint* u, EDPoint* v);
 	bool equals(EDPoint* b);

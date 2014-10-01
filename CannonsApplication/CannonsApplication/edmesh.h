@@ -16,6 +16,7 @@ public:
 	EDMesh** nodes;
 	int nodesCount;
 	int nodesActualCount;
+	float height;
 
 	std::vector<EDTriangle*> trianglesVector;
 private:

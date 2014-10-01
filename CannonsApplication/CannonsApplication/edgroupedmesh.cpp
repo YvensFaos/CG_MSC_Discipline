@@ -56,43 +56,59 @@ EDGroupedMesh::EDGroupedMesh(const char* identifier, char* path, char* filename)
 			{
 				state = 1;
 				printf("Estado %d\n",state);
+				break;
 			}
 			break;
 		case 1:
-			if(line[0] != 'm')
+			if(line[0] != 'm' || line[0] != 'o')
 			{
 				state = 2;
 				printf("Estado %d\n",state);
+				break;
 			}
-			break;
 		case 2:
 			if(line[0] == 'v' && line[1] != 't')
 			{
 				//Reading vertexes
 				sscanf(buffer, "v %f %f %f", &x, &y, &z);
 				vertexes.push_back(EDPoint(x,y,z));
+				break;
 			}		
-			else
-			{
-				state = 3;
-				printf("Estado %d\n",state);
-			}
-			break;
 		case 3:
-			//Jumping vt lines
-			if(line[0] == 'f')
+			if(line[0] == 'g')
 			{
-				state = 4;
-				printf("Estado %d\n",state);
+				char group[256];
+				sscanf(buffer, "g %s", group);
+
+				if(meshes.find(group) == meshes.end())
+				{
+					meshes[group] = EDMesh(group);
+					groups.push_back(group);
+				}
+
+				actualMesh = &meshes[group];
 			}
-			break;
 		case 4:
 			//Reading faces
 			if(ret != EOF && line[0] == 'f')
 			{
 				std::string str(buffer);
+
+				sscanf(buffer, "%s %d %d %d", line, &fa,&fb,&fc);
+
+				EDPoint* p1;
+				EDPoint* p2;
+				EDPoint* p3;
+				p1 = &vertexes.at(fa - 1);
+				p2 = &vertexes.at(fb - 1);
+				p3 = &vertexes.at(fc - 1);
+
+				actualMesh->trianglesVector.push_back(new EDTriangle(EDPoint(p1->x, p1->y, p1->z), EDPoint(p2->x, p2->y, p2->z), EDPoint(p3->x, p3->y, p3->z)));
+
+				/*
 				size_t county = 0;
 				int value = str.find_first_of('/');
+
 				if(value != -1)
 				{
 					county = count(str.begin(), str.end(), '/');
@@ -136,24 +152,8 @@ EDGroupedMesh::EDGroupedMesh(const char* identifier, char* path, char* filename)
 						faces.push_back(EDPoint(fc,fd,fa));
 					}
 				}
+				*/
 			}
-			else
-			{
-				if(line[0] == 'g')
-				{
-					char group[256];
-					sscanf(buffer, "g %s", group);
-
-					if(meshes.find(group) == meshes.end())
-					{
-						meshes[group] = EDMesh(group);
-						groups.push_back(group);
-					}
-
-					actualMesh = &meshes[group];
-				}
-			}
-			break;
 		}
 	}
 #pragma endregion

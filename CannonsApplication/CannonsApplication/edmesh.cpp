@@ -179,6 +179,7 @@ EDMesh::EDMesh(const char* identifier, std::vector<EDTriangle*> triangles) : GOb
 {
 	trianglesVector = triangles;
 	initializeByVector();
+	height = 0;
 }
 
 EDMesh::~EDMesh(void)
@@ -241,6 +242,7 @@ void EDMesh::initializeByVector(void)
 
 	nodesCount = 0;
 	nodesActualCount = 0;
+	calculateCenter();
 }
 
 void EDMesh::draw(void)
@@ -311,6 +313,10 @@ void EDMesh::rotate(EDPoint axis, float angle)
 	{
 		for(int i = 0; i < nodesActualCount; i++)
 		{
+			EDPoint newOffset = EDPoint(center.x, center.y + height/2.f, center.z);
+			newOffset.rotateAccordingTo(&center, axis, angle);
+
+			nodes[i]->center = newOffset;
 			nodes[i]->rotate(axis, angle);
 		}
 	}
@@ -470,6 +476,8 @@ void EDMesh::calculateCenter(void)
 		}
 	}
 #pragma endregion
+
+	height = max.y - min.y;
 
 	center = EDPoint(max.x - abs(min.x), max.y - abs(min.y), max.z - abs(min.z));
 }

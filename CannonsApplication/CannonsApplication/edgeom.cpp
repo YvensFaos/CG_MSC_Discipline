@@ -217,6 +217,35 @@ EDPoint* EDPoint::makeUnitary()
 	return this;
 }
 
+void EDPoint::rotateAccordingTo(EDPoint* pivot, EDPoint axis, float angle)
+{
+	angle = angle*pi180;
+
+	float cosa = cos(angle);
+	float sina = sin(angle);
+
+#pragma region rotation
+	float xx = x, yx = y, zx = z;
+
+	if(axis.x != 0)
+	{
+		y = cosa*yx - sina*zx;
+		z = sina*yx + cosa*zx;
+	}
+	if(axis.y != 0)
+	{
+		x = cosa*xx + sina*zx;
+		z = -sina*xx + cosa*zx;
+	}
+	if(axis.z != 0)
+	{
+		x = cosa*xx - sina*yx;
+		y = sina*xx + cosa*yx;
+	}
+
+#pragma endregion
+}
+
 unsigned char EDPoint::getOctant()
 {
 	int bitmask = 
