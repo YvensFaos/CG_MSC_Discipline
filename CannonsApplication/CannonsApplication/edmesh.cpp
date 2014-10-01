@@ -2,7 +2,10 @@
 
 #include "GeometricObjects.h"
 #include <vector>
+
 //#define drawArrays
+//#define drawAxis
+
 #define max_value +1.9999e20
 #define min_value -1.9999e-20
 
@@ -241,6 +244,7 @@ void EDMesh::draw(void)
 	}
 	glEnd();
 	
+#ifdef drawAxis
 	float aux = 0.0f;
 	GCube cube = GCube("ccenter", 
 		new EDPoint(moveAxis.x - 0.1, moveAxis.y - 0.1, moveAxis.z - 0.1 + aux),  
@@ -253,6 +257,7 @@ void EDMesh::draw(void)
 		new EDPoint(selfAxis.x + 0.1, selfAxis.y + 0.1, selfAxis.z + 0.1 + aux));
 	cube2.setMaterial(ambientMaterial, diffuseMaterial);
 	cube2.draw();
+#endif
 #endif
 }
 
@@ -292,41 +297,20 @@ void EDMesh::translate(EDPoint toPoint)
 
 void EDMesh::rotate(EDPoint axis, float angle)
 {
-	if(axis.y == 0)
+	EDPoint oldCenter = EDPoint(moveAxis.x, moveAxis.y, moveAxis.z);
+	for(int i = 0; i < trianglesCount; i++)
 	{
-		EDPoint oldCenter = EDPoint(moveAxis.x, moveAxis.y, moveAxis.z);
-		for(int i = 0; i < trianglesCount; i++)
-		{
-			triangles[i].rotate(axis, selfAxis, angle);
-		}
-		moveAxis.rotateTo(&selfAxis, axis, angle);
-
-		EDPoint translateDirection = EDPoint(moveAxis.x - oldCenter.x, moveAxis.y - oldCenter.y, moveAxis.z - oldCenter.z);
-		if(nodesCount != 0)
-		{
-			for(int i = 0; i < nodesActualCount; i++)
-			{
-				//nodes[i]->selfAxis = EDPoint(moveAxis.x, moveAxis.y, moveAxis.z);
-				nodes[i]->translate(translateDirection);
-				nodes[i]->rotate(axis, angle);
-			}
-		}
+		triangles[i].rotate(axis, selfAxis, angle);
 	}
-	else
-	{
-		for(int i = 0; i < trianglesCount; i++)
-		{
-			triangles[i].rotate(axis, centerAxis, angle);
-		}
-		selfAxis.rotateTo(&centerAxis, axis, angle);
-		moveAxis.rotateTo(&centerAxis, axis, angle);
+	moveAxis.rotateTo(&selfAxis, axis, angle);
 
-		if(nodesCount != 0)
+	EDPoint translateDirection = EDPoint(moveAxis.x - oldCenter.x, moveAxis.y - oldCenter.y, moveAxis.z - oldCenter.z);
+	if(nodesCount != 0)
+	{
+		for(int i = 0; i < nodesActualCount; i++)
 		{
-			for(int i = 0; i < nodesActualCount; i++)
-			{
-				nodes[i]->rotate(axis, angle);
-			}
+			nodes[i]->translate(translateDirection);
+			nodes[i]->rotate(axis, angle);
 		}
 	}
 }

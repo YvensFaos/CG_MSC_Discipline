@@ -26,33 +26,150 @@ void testMethodZ(float elapsedTime, GObject* object)
 	luxor->rotate(EDPoint(0.f,0.f, 1.f),-factor);
 }
 
-void testMethod(float elapsedTime, GObject* object)
+void luxorAnimation01(float elapsedTime, GObject* object)
 {
-	EDMesh* luxor = (EDMesh*)object;
+	EDGroupedMesh* luxor = (EDGroupedMesh*)object;
+	EDMesh* base = luxor->getGroup("Base");
+	EDMesh* l1 = luxor->getGroup("L1");
+	EDMesh* l2 = luxor->getGroup("L2");
+	EDMesh* l3 = luxor->getGroup("L3");
+
 	switch(luxor->intCounter)
 	{
 	case 0:
 		{
-			//state 1:
-			if(luxor->floatCounter < 0.5)
+			//Levantando o corpo todo até 70º
+			if(l1->floatCounter > 60.0)
 			{
-				printf("f : %f\n", luxor->floatCounter);
-				float factor = 0.001;
-				luxor->floatCounter += factor;
-				luxor->translate(EDPoint(-factor,0.f,0.f));
+				float factor = 0.05;
+				l1->floatCounter -= factor;
+				l1->rotate(EDPoint(0.f, 0.f, 1.f), -factor);
 			}
 			else
 			{
-				luxor->floatCounter = 0.f;
-				luxor->intCounter = 1;
+				luxor->intCounter++;
 			}
 		}
+		break;
+	case 1:
+		{
+			//Levantando o corpo em duas partes
+			if(l1->floatCounter > 0.0)
+			{
+				float factor = 0.05;
+				l1->floatCounter -= factor;
+				l1->rotate(EDPoint(0.f, 0.f, 1.f), -factor);
+				l2->rotate(EDPoint(0.f, 0.f, 1.f), -factor/1.8f);
+			}
+			else
+			{
+				luxor->intCounter++;
+				l3->floatCounter = 0.0f;
+			}
+		}
+		break;
+	case 2:
+		{
+			//Ajustando a cabeça
+			if(l3->floatCounter < 65.0)
+			{
+				float factor = 0.05;
+				l3->floatCounter += factor;
+				l3->rotate(EDPoint(0.f, 0.f, 1.f), -factor);
+			}
+			else
+			{
+				luxor->intCounter++;
+				base->floatCounter = 0;
+			}
+		}
+		break;
+	case 3:
+		{
+			//Andando no X
+			if(base->floatCounter < 5.0)
+			{
+				float factor = 0.001;
+				base->floatCounter += factor;
+				base->translate(EDPoint(factor, 0.f, 0.f));
+			}
+			else
+			{
+				luxor->intCounter++;
+				base->floatCounter = 0;
+			}
+		}
+		break;
+	case 4:
+		{
+			//Rotacionando em torno do Y
+			if(base->floatCounter < 90.0)
+			{
+				float factor = 0.05;
+				base->floatCounter += factor;
+				base->rotate(EDPoint(0.f, 1.f, 0.f), factor);
+			}
+			else
+			{
+				luxor->intCounter++;
+				base->floatCounter = 0;
+			}
+		}
+		break;
+	case 5:
+		{
+			//Andando no Z
+			if(base->floatCounter < 5.0)
+			{
+				float factor = 0.001;
+				base->floatCounter += factor;
+				base->translate(EDPoint(0.f, 0.f, -factor));
+			}
+			else
+			{
+				luxor->intCounter++;
+				l1->floatCounter = 0;
+			}
+		}
+		break;
+	case 6:
+		{
+			//Rotaciona em torno da base
+			if(l1->floatCounter < 90.0)
+			{
+				float factor = 0.05;
+				l1->floatCounter += factor;
+				l1->rotate(EDPoint(0.f, 1.f, 0.f), factor);
+			}
+			else
+			{
+				luxor->intCounter++;
+				l2->floatCounter = 0;
+			}
+		}
+		break;
+	case 7:
+		{
+			//Rotaciona em torno da base
+			if(l2->floatCounter < 20.0)
+			{
+				float factor = 0.05;
+				l2->floatCounter += factor;
+				l2->rotate(EDPoint(0.f, 0.f, 1.f), factor);
+			}
+			else
+			{
+				luxor->intCounter++;
+				l2->floatCounter = 0;
+			}
+		}
+		break;
 	}
 }
 
 ArticulatedLuxorScene::ArticulatedLuxorScene(void) : Scene()
 {
-	camera = new EDCamera(new EDPoint(0.1f, 4.89f, 10.58f), new EDPoint(0.11f, 3.89f, 5.59f), 0.05f, 300.0f, 45.0f);
+	camera = new EDCamera(new EDPoint(1.8f, 4.89f, 10.58f), new EDPoint(1.81f, 3.89f, 5.59f), 0.05f, 300.0f, 45.0f);
 
 	scenario = new Scenario();
 
@@ -119,60 +236,33 @@ ArticulatedLuxorScene::ArticulatedLuxorScene(void) : Scene()
 
 	base->instantiateNodes(1);
 	base->addNode(0, luxor->getGroup("L1"), EDPoint(0.0f, base->height/2.f, 0.0f));
-	//base->setCallUpdate(testMethod2);
+	base->selfAxis = base->centerAxis;
+	base->selfAxis.y -= base->height / 2.f;
+	base->moveAxis = base->centerAxis;
+	base->moveAxis.y += base->height / 2.f;
+	l1->selfAxis = base->centerAxis;
+	l1->selfAxis.y += base->height / 2.f;
 
 	l1->instantiateNodes(1);
 	l1->addNode(0, luxor->getGroup("L2"), EDPoint(0.0f, l1->height/2.f, 0.0f));
+	l1->moveAxis = l1->centerAxis;
+	l1->moveAxis.y += l1->height / 2.f;
 	l2->selfAxis = l1->moveAxis;
 
 	l2->instantiateNodes(1);
 	l2->addNode(0, luxor->getGroup("L3"), EDPoint(0.0f, l2->height/2.f, 0.0f));
+	l2->moveAxis = l2->centerAxis;
+	l2->moveAxis.y += l2->height / 2.f;
 	l3->selfAxis = l2->moveAxis;
-
-	//l1->rotate(EDPoint(0.0f, 0.f, 1.f), -10.f);
-	//l2->rotate(EDPoint(0.0f, 0.f, 1.f), -30.f);
-	//base->rotate(EDPoint(0.f, 1.f, 0.f), 90.f);
-
-	//base->setCallUpdate(testMethodY);
-	//l1->setCallUpdate(testMethodZ);
-	//l2->setCallUpdate(testMethodX);
-	//l3->setCallUpdate(testMethodX);
-	//base->setCallUpdate(testMethod2);
-
-	/*
-	luxor->getGroup("Base")->instantiateNodes(1);
-	luxor->getGroup("Base")->addNode(0, luxor->getGroup("L1"), EDPoint(0.0f, 0.0f, 0.0f));
-
-	luxor->getGroup("L1")->instantiateNodes(1);
-	luxor->getGroup("L1")->addNode(0, luxor->getGroup("L2"), EDPoint(0.0f, 0.0f, 0.0f));
-
-	luxor->getGroup("L2")->instantiateNodes(1);
-	luxor->getGroup("L2")->addNode(0, luxor->getGroup("L3"), EDPoint(0.0f, 5.5f,-1.0f));
-
-	luxor->getGroup("Base")->rotate(EDPoint(0.f,1.f,0.f), 45.f);
-	luxor->getGroup("L1")->rotate(EDPoint(0.f,1.f,0.f), 45.f);
-
-	luxor->getGroup("Base")->center.print();
-	luxor->getGroup("Base")->setCallUpdate(testMethod);
-	luxor->getGroup("L1")->center.print();
-	luxor->getGroup("L2")->center.print();
-	
-	luxor->getGroup("L3")->rotate(EDPoint(1.f,0.f,0.f), 45.f);
-	luxor->getGroup("L3")->setCallUpdate(testMethod2);
-
-	luxor->getGroup("L2")->floatCounter = 0.f;
-	luxor->getGroup("L2")->rotate(EDPoint(0.f,1.f,0.f), 45.f);
-	luxor->getGroup("L2")->translate(EDPoint(0.6f,0.f,-2.03f));
-	luxor->getGroup("L3")->rotate(EDPoint(0.f,1.f,0.f), -90.f);
-	luxor->getGroup("L2")->setCallUpdate(testMethod);
-	*/
 
 	scenario->objects.push_back(luxor);
 
-	l1->rotate(EDPoint(0.0f, 0.f, 1.f), -30.f);
-	l2->rotate(EDPoint(0.0f, 0.f, 1.f), 60.f);
-	l3->rotate(EDPoint(0.0f, 0.f, 1.f), 60.f);
-	base->setCallUpdate(testMethodY);
+	//Início
+	l1->rotate(EDPoint(0.0f, 0.f, 1.f), 90.f);
+
+	luxor->setCallUpdate(luxorAnimation01);
+	luxor->intCounter = 0; //Estado 0
+	l1->floatCounter = 90.f;
 }
 
 ArticulatedLuxorScene::~ArticulatedLuxorScene(void)
