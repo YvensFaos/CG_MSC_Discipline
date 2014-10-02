@@ -78,7 +78,7 @@ StandLuxorScene::StandLuxorScene(void) : Scene()
 	camera = new EDCamera(new EDPoint(0.4f, 2.5f, 6.59f), new EDPoint(0.41f, 1.5f, 1.6f), 0.05f, 300.0f, 45.0f);
 #endif
 #ifdef BIRDS_EYES
-	camera = new EDCamera(new EDPoint(0.1f, 26.4f, 11.59f), new EDPoint(0.11f, 16.6f, 6.59f), 0.05f, 300.0f, 25.0f);
+	camera = new EDCamera(new EDPoint(0.1f, 18.79f, 30.79f), new EDPoint(0.11f, 15.99f, 25.79f), 0.05f, 300.0f, 25.0f);
 #endif
 #ifdef WORMS_EYES
 	camera = new EDCamera(new EDPoint(-1.7f, 0.4f, 1.79f), new EDPoint(2.12f, 4.4f, -1.4f), 0.05f, 300.0f, 90.0f);
@@ -86,8 +86,8 @@ StandLuxorScene::StandLuxorScene(void) : Scene()
 
 	scenario = new Scenario();
 
-	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
-	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
+	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename1 = "table3.txt";
 	char* filename2 = "luxor_203.txt";
 	char* filename3 = "ball.txt";

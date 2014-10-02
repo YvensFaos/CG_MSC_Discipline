@@ -1,27 +1,27 @@
 #include "cameraScene.h"
 
+#include "edmesh.h"
+
 CameraScene::CameraScene(void) : Scene()
 {
-	camera = new EDCamera(new EDPoint(40.0f, 34.2f, 90.0f), new EDPoint(40.0f, 30.0f, 75.0f), 0.05f, 300.0f, 45.0f);
+	camera = new EDCamera(new EDPoint(-0.19f, 2.29f, 43.8f), new EDPoint(-0.19f, 2.29f, 42.8f), 0.05f, 300.0f, 45.0f);
 
 	scenario = new Scenario();
-	GPlane* terrain = new GPlane("plano1", 20.0f, 90.0f, new EDPoint(-5.0f, 0.0f, -1.0f), new EDPlane());
-	GLfloat ambientMaterial[] = {.2f, .8f, .1f, 0.9f};
-	GLfloat diffuseMaterial[] = {.1f, .0f, .4f, 0.4f};
-	terrain->setMaterial(ambientMaterial, diffuseMaterial);
-	scenario->objects.push_back(terrain);
+	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
+	char* filename1 = "corridor.txt";
 
-	//GCube* cube = new GCube("cubo1", new EDPoint(-5.0f, 0.1f, 8.f), 2.5f);
-	//KickingBall* kickingBall = new KickingBall("bola1", cube, 20.0f);
-	//GLfloat ambientMaterial1[] = {.6f, .2f, .0f, 0.5f};
-	//GLfloat diffuseMaterial1[] = {.6f, .1f, .3f, 0.4f};
-	//kickingBall->setMaterial(ambientMaterial1, diffuseMaterial1);
-	//scenario->objects.push_back(kickingBall);
-
-	//GCube* testCube = new GCube("testCube", new EDPoint(-5.0f, 0.1f, 3.f), 2.5f);
-	//testCube->setMaterial(ambientMaterial1, diffuseMaterial1);
-	//testCube->setCallUpdate(cubeMovement);
-	//scenario->objects.push_back(testCube);
+	EDMesh* table = new EDMesh("corridor", path, filename1);
+	float r = (58/255.f);
+	float g = (59/255.f);
+	float b = (54/255.f);
+	GLfloat ambientMaterial1[] = {r, g, b, 1.0f};
+	r = (90/255.f);
+	g = (92/255.f);
+	b = (84/255.f);
+	GLfloat diffuseMaterial1[] = {r, g, b, 1.0f};
+	table->setMaterial(ambientMaterial1, diffuseMaterial1);
+	scenario->objects.push_back(table);
 }
 
 CameraScene::~CameraScene(void)

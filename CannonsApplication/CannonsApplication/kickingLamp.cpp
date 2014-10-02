@@ -4,7 +4,7 @@
 
 #define A   2.0f
 #define W   6.0f
-#define O   0.0f*pi180
+#define O   30.0f*pi180
 #define E   2.718282f
 #define K   0.5f
 
@@ -26,7 +26,7 @@ void kickingLamp(float elapsedTime, GObject* object)
 	{
 		elapsedTime = 0;
 	}
-	luxor->translate(EDPoint(elapsedTime/4.0f, y, 0.0f));
+	luxor->translate(EDPoint(elapsedTime/1.0f, y, 0.0f));
 }
 
 KickingLamp::KickingLamp(void) : Scene()
@@ -34,8 +34,8 @@ KickingLamp::KickingLamp(void) : Scene()
 	scenario = new Scenario();
 	camera = new EDCamera(new EDPoint(0.f, 8.3f, 22.4f), new EDPoint(1.7f, 7.7f, 17.7f), 0.05f, 300.0f, 45.0f);
 
-	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
-	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
+	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename2 = "luxor_203.txt";
 
 	float r = 0; 
