@@ -99,6 +99,7 @@
     <ClCompile Include="specialObjects.cpp" />
     <ClCompile Include="standLuxorScene.cpp" />
     <ClCompile Include="transformScene.cpp" />
+    <ClCompile Include="trinityScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="articulatedLuxorScene.h" />
@@ -120,6 +121,7 @@
     <ClInclude Include="specialObjects.h" />
     <ClInclude Include="standLuxorScene.h" />
     <ClInclude Include="transformScene.h" />
+    <ClInclude Include="trinityScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

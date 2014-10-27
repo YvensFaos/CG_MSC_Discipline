@@ -60,6 +60,8 @@ public:
 	bool almostEquals(EDPoint* b, float precision);
 	void print(void);
 	void toVertex3f(void);
+
+	static EDPoint crossProduct(EDPoint* p1, EDPoint* p2);
 };
 
 class EDSphere

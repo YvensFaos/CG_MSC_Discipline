@@ -11,6 +11,7 @@
 #include "standLuxorScene.h"
 #include "kickingLamp.h"
 #include "articulatedLuxorScene.h"
+#include "trinityScene.h"
 
 Player* player;
 
@@ -39,7 +40,8 @@ int main()
 	//player->setUpScenario(new LoadObjScene());
 	//player->setUpScenario(new StandLuxorScene());
 	//player->setUpScenario(new KickingLamp());
-	player->setUpScenario(new ArticulatedLuxorScene());
+	//player->setUpScenario(new ArticulatedLuxorScene());
+	player->setUpScenario(new TrinityScene());
 
 	GLFWWrapper::initialize(callBack);
 	player->initializeLights();

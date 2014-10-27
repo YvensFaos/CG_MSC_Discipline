@@ -320,6 +320,15 @@ EDPoint* EDPoint::setCrossProduct(EDPoint* p1p2, EDPoint* p1p3)
 	return this;
 }
 
+EDPoint EDPoint::crossProduct(EDPoint* p1, EDPoint* p2)
+{
+	float x = p1->y * p2->z - p1->z * p2->y;
+	float y = p1->z * p2->x - p1->x * p2->z;
+	float z = p1->x * p2->y - p1->y * p2->x;
+
+	return EDPoint(x,y,z);
+}
+
 EDPoint* EDPoint::setVector(EDPoint* p1, EDPoint* p2)
 {
 	x = p2->x - p1->x;

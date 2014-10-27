@@ -25,6 +25,7 @@ public:
 
 	EDPoint* position;
 	EDPoint* lookAt;
+	EDPoint* up;
 	int rotation;
 public:
 	EDCamera(void);

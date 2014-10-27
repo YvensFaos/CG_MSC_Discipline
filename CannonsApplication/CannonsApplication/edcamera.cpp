@@ -36,26 +36,46 @@ void EDCamera::move(Movement movement)
 	{
 	case FORWARD:
 		{
-			position->z -= sizeStep;
-			lookAt->z -= sizeStep;
+			EDPoint direction = EDPoint(lookAt->x - position->x, lookAt->y - position->y, lookAt->z - position->z);
+			direction = *direction.makeUnitary();
+			direction.multiply(sizeStep);
+
+			position->sum(&direction);
+			lookAt->sum(&direction);
 		}
 		break;
 	case BACKWARD:
 		{
-			position->z += sizeStep;
-			lookAt->z += sizeStep;
+			EDPoint direction = EDPoint(lookAt->x - position->x, lookAt->y - position->y, lookAt->z - position->z);
+			direction = *direction.makeUnitary();
+			direction.multiply(-1*sizeStep);
+
+			position->sum(&direction);
+			lookAt->sum(&direction);
 		}
 		break;
 	case LEFT:
 		{
-			position->x -= sizeStep;
-			lookAt->x -= sizeStep;
+			EDPoint direction = EDPoint(lookAt->x - position->x, lookAt->y - position->y, lookAt->z - position->z);
+			direction = *direction.makeUnitary();
+			EDPoint sizer = EDPoint::crossProduct(up, &direction);
+			sizer = *sizer.makeUnitary();
+			sizer.multiply(sizeStep);
+
+			position->sum(&sizer);
+			lookAt->sum(&sizer);
 		}
 		break;
 	case RIGHT:
 		{
-			position->x += sizeStep;
-			lookAt->x += sizeStep;
+			EDPoint direction = EDPoint(lookAt->x - position->x, lookAt->y - position->y, lookAt->z - position->z);
+			direction = *direction.makeUnitary();
+			EDPoint sizer = EDPoint::crossProduct(up, &direction);
+			sizer = *sizer.makeUnitary();
+			sizer.multiply(-1*sizeStep);
+
+			position->sum(&sizer);
+			lookAt->sum(&sizer);
 		}
 		break;
 	case RUP:
@@ -80,14 +100,22 @@ void EDCamera::move(Movement movement)
 		break;
 	case UP:
 		{
-			position->y += sizeStep;
-			lookAt->y += sizeStep;
+			EDPoint direction = EDPoint(up->x, up->y, up->z);
+			direction = *direction.makeUnitary();
+			direction.multiply(sizeStep);
+
+			position->sum(&direction);
+			lookAt->sum(&direction);
 		}
 		break;
 	case DOWN:
 		{
-			position->y -= sizeStep;
-			lookAt->y -= sizeStep;
+			EDPoint direction = EDPoint(up->x, up->y, up->z);
+			direction = *direction.makeUnitary();
+			direction.multiply(-1*sizeStep);
+
+			position->sum(&direction);
+			lookAt->sum(&direction);
 		}
 		break;
 	}	
@@ -128,6 +156,8 @@ void EDCamera::initializeValues(EDPoint* position, EDPoint* lookAt, float pNear,
 	this->pNear = pNear;
 	this->pFar = pFar;
 	this->pFOV = pFOV;
+
+	up = new EDPoint(0.0f, 1.0f, 0.0f);
 }
 
 void EDCamera::cameraLookAt(void)
