@@ -4,7 +4,7 @@
 #include <vector>
 
 //#define drawArrays
-#define drawAxis
+//#define drawAxis
 
 #define max_value +1.9999e19
 #define min_value -1.9999e-19

@@ -4,6 +4,10 @@
 
 // EDPoint
 
+EDPoint* EDPoint::X = new EDPoint(1.0f, 0.0f, 0.0f);
+EDPoint* EDPoint::Y = new EDPoint(0.0f, 1.0f, 0.0f);
+EDPoint* EDPoint::Z = new EDPoint(0.0f, 0.0f, 1.0f);
+
 EDPoint::EDPoint()
 {
 	this->x = 0;

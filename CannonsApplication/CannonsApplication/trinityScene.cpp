@@ -24,7 +24,11 @@ TrinityScene::TrinityScene(void) : Scene()
 {
 	//camera = new EDCamera(new EDPoint(-7.78f, 0.34f, 0.76f), new EDPoint(-2.87f, -0.65f, -0.9f), 0.05f, 300.0f, 45.0f);
 	//camera = new EDCamera(new EDPoint(-11.87f, 1.16f, 2.14f), new EDPoint(-6.96f, 0.17f, 0.48f), 0.05f, 300.0f, 45.0f);
-	camera = new EDCamera(new EDPoint(-6.41f, 1.74f, 9.14f), new EDPoint(-3.61f, 0.75f, 4.72f), 0.05f, 300.0f, 45.0f);
+	//camera = new EDCamera(new EDPoint(-6.41f, 1.74f, 9.14f), new EDPoint(-3.61f, 0.75f, 4.72f), 0.05f, 300.0f, 45.0f);
+	//camera = new EDCamera(new EDPoint(-0.37f, 2.07f, 12.47f), new EDPoint(-0.15f, 1.08f, 7.24f), 0.05f, 300.0f, 45.0f);
+	//camera = new EDCamera(new EDPoint(-3.90f, 1.67f, 5.97f), new EDPoint(-0.37f, 0.68f, 2.11f), 0.05f, 300.0f, 45.0f);
+	
+	camera = new EDCamera(new EDPoint(4.20f, 2.55f, 16.63f), new EDPoint(1.78f, 1.56f, 11.99f), 0.05f, 300.0f, 45.0f);
 
 	scenario = new Scenario();
 
@@ -167,9 +171,23 @@ TrinityScene::TrinityScene(void) : Scene()
 	anted->addNode(0, maod);
 #pragma endregion
 
-	cintura->setCallUpdate(testMethodRotationBaby);
-	bracoe->setCallUpdate(testMethodRotationBaby);
-	bracod->setCallUpdate(testMethodRotationBaby);
+	//cintura->setCallUpdate(testMethodRotationBaby);
+	//bracoe->setCallUpdate(testMethodRotationBaby);
+	//bracod->setCallUpdate(testMethodRotationBaby);
+
+#pragma region preparando posicao inicial
+	bracoe->rotate(*EDPoint::Z,  80.0f);
+	bracoe->rotate(*EDPoint::X,  30.0f);
+	antee->rotate(*EDPoint::X,  -80.0f);
+	antee->rotate(*EDPoint::Z,   10.0f);
+	maoe->rotate(*EDPoint::Z,    30.0f);
+
+	bracod->rotate(*EDPoint::Z, -80.0f);
+	bracod->rotate(*EDPoint::X,  30.0f);
+	anted->rotate(*EDPoint::X,  -80.0f);
+	anted->rotate(*EDPoint::Z,   10.0f);
+	maod->rotate(*EDPoint::Z,   -30.0f);
+#pragma endregion
 
 	luxor->intCounter = 0; 
 	luxor->setCallUpdate(luxorAnimation02);

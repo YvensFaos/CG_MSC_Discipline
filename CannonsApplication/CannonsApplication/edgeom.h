@@ -26,6 +26,10 @@ class EDPoint
 {
 public:
 	float x, y, z;
+
+	static EDPoint* X;
+	static EDPoint* Y;
+	static EDPoint* Z;
 public:
 	EDPoint(void);
 	EDPoint(float x, float y, float z);
