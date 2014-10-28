@@ -91,7 +91,7 @@ void trinityAnimation(float elapsedTime, GObject* object)
 
 				peito->rotate(*EDPoint::X, -factor/2.f);
 
-				cintura->translate(EDPoint(0.0f, 0.0025f, 0.0f));
+				cintura->translate(EDPoint(0.0f, 0.005f, 0.0f));
 			}
 			else
 			{
@@ -113,22 +113,50 @@ void trinityAnimation(float elapsedTime, GObject* object)
 				antee->rotate(*EDPoint::Z, factor*0.75);
 				maod->rotate(*EDPoint::Y, -factor*2.5f);
 
-				coxad->rotate(*EDPoint::X, -factor*0.6f);
+				coxad->rotate(*EDPoint::X, -factor*0.4f);
 				coxad->rotate(*EDPoint::Y,  factor*0.8f);
 				pernad->rotate(*EDPoint::Z, -factor*1.5f);
-				ped->rotate(*EDPoint::X, -factor*1.5f);
-				ped->rotate(*EDPoint::Z, factor*1.5f);
+				ped->rotate(*EDPoint::X, factor*1.5f);
 
 				coxae->rotate(*EDPoint::X, -factor*0.8f);
 				coxae->rotate(*EDPoint::Y,  factor*0.6f);
-				pernae->rotate(*EDPoint::X,  factor*0.8f);
-				pernae->rotate(*EDPoint::Y,  factor*0.4f);
 				pernae->rotate(*EDPoint::Z,  factor*1.2f);
 				pee->rotate(*EDPoint::Z,  -factor*0.4f);
 				pee->rotate(*EDPoint::Y,  -factor*1.2f);
 
-				cintura->translate(EDPoint(0.0f, 0.0025f, 0.0f));
 				cabeca->rotate(*EDPoint::X, factor/4.f);
+
+				cintura->translate(EDPoint(0.0f, 0.005f, 0.0f));
+			}
+			else
+			{
+				trinity->intCounter++;
+				trinity->floatCounter = 0.0;
+			}
+		}
+		case 3:
+		{
+			//Tempo da câmera rodar
+			if(trinity->floatCounter < 1.0)
+			{
+				trinity->floatCounter += .25f;
+			}
+			else
+			{
+				trinity->intCounter++;
+				trinity->floatCounter = 0.0;
+			}
+		}
+		case 4:
+		{
+			//Tempo da câmera rodar
+			if(trinity->floatCounter < 30.0)
+			{
+				float factor = 0.25;
+				trinity->floatCounter += .25f;
+				bracoe->rotate(*EDPoint::Y, factor/1.2f);
+				bracod->rotate(*EDPoint::Y, factor/1.2f);
+
 			}
 			else
 			{
@@ -160,7 +188,7 @@ TrinityScene::TrinityScene(void) : Scene()
 	//camera = new EDCamera(new EDPoint(-6.41f, 1.74f, 9.14f), new EDPoint(-3.61f, 0.75f, 4.72f), 0.05f, 300.0f, 45.0f);
 
 	//Frontal
-	//camera = new EDCamera(new EDPoint(-0.37f, 2.07f, 12.47f), new EDPoint(-0.15f, 1.08f, 7.24f), 0.05f, 300.0f, 45.0f);
+	camera = new EDCamera(new EDPoint(-0.37f, 2.07f, 12.47f), new EDPoint(-0.15f, 1.08f, 7.24f), 0.05f, 300.0f, 45.0f);
 
 	//Lateral perto 2
 	//camera = new EDCamera(new EDPoint(-3.90f, 1.67f, 5.97f), new EDPoint(-0.37f, 0.68f, 2.11f), 0.05f, 300.0f, 45.0f);
@@ -169,9 +197,15 @@ TrinityScene::TrinityScene(void) : Scene()
 	//camera = new EDCamera(new EDPoint(4.90f, 1.53f, 4.91f), new EDPoint(1.04f, 0.54f, 1.38f), 0.05f, 300.0f, 45.0f);
 	
 	//Camera para ver as pernas 2
-	camera = new EDCamera(new EDPoint(1.44f, 1.67f, 7.16f), new EDPoint(0.75f, 0.68f, 1.97f), 0.05f, 300.0f, 45.0f);
+	//camera = new EDCamera(new EDPoint(1.44f, 1.67f, 7.16f), new EDPoint(0.75f, 0.68f, 1.97f), 0.05f, 300.0f, 45.0f);
 	
+	//Camera para ver as pernas 3
+	//camera = new EDCamera(new EDPoint(5.43f, 1.91f, 4.92f), new EDPoint(1.56f, 0.92f, 1.39f), 0.05f, 300.0f, 45.0f);
+
+	//Distante
 	//camera = new EDCamera(new EDPoint(4.20f, 2.55f, 16.63f), new EDPoint(1.78f, 1.56f, 11.99f), 0.05f, 300.0f, 45.0f);
+
+	//Superior
 	//camera = new EDCamera(new EDPoint(-0.28f, 12.49f, 2.78f), new EDPoint(-0.97f, -1.29f, -2.4f), 0.05f, 300.0f, 45.0f);
 
 	scenario = new Scenario();
