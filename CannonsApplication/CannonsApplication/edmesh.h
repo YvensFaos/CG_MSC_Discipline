@@ -12,6 +12,7 @@ public:
 	EDTriangle* triangles;
 	EDPoint min;
 	EDPoint max;
+	EDPoint rotation;
 
 	EDPoint selfAxis;
 	EDPoint moveAxis;

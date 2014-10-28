@@ -15,6 +15,7 @@ EDMesh::EDMesh(void) :  GObject("")
 	nodesCount = 0;
 	nodesActualCount = 0;
 	visible = true;
+	rotation = EDPoint(0.0f, 0.0f, 0.0f);
 }
 
 EDMesh::EDMesh(const char* identifier) :  GObject(identifier)
@@ -23,6 +24,7 @@ EDMesh::EDMesh(const char* identifier) :  GObject(identifier)
 	nodesCount = 0;
 	nodesActualCount = 0;
 	visible = true;
+	rotation = EDPoint(0.0f, 0.0f, 0.0f);
 }
 
 EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(identifier)
@@ -181,6 +183,7 @@ EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(ide
 	nodesActualCount = 0;
 	calculateCenter();
 	visible = true;
+	rotation = EDPoint(0.0f, 0.0f, 0.0f);
 }
 
 EDMesh::EDMesh(const char* identifier, std::vector<EDTriangle*> triangles) : GObject(identifier)
@@ -189,6 +192,7 @@ EDMesh::EDMesh(const char* identifier, std::vector<EDTriangle*> triangles) : GOb
 	initializeByVector();
 	height = 0;
 	visible = true;
+	rotation = EDPoint(0.0f, 0.0f, 0.0f);
 }
 
 EDMesh::~EDMesh(void)
@@ -304,14 +308,17 @@ void EDMesh::translate(EDPoint toPoint)
 
 void EDMesh::rotate(EDPoint axis, float angle)
 {
-	//EDPoint oldCenter = EDPoint(moveAxis.x, moveAxis.y, moveAxis.z);
+	
 	for(int i = 0; i < trianglesCount; i++)
 	{
 		triangles[i].rotate(axis, selfAxis, angle);
 	}
 	moveAxis.rotateTo(&selfAxis, axis, angle);
 
-	//EDPoint translateDirection = EDPoint(moveAxis.x - oldCenter.x, moveAxis.y - oldCenter.y, moveAxis.z - oldCenter.z);
+	rotation.x += axis.x * angle;
+	rotation.y += axis.y * angle;
+	rotation.z += axis.z * angle;
+	
 	if(nodesCount != 0)
 	{
 		for(int i = 0; i < nodesActualCount; i++)

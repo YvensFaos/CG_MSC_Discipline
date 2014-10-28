@@ -29,8 +29,8 @@ void trinityAnimation(float elapsedTime, GObject* object)
 			//Levantando os braços
 			if(trinity->floatCounter < 70.0)
 			{
-				float factor = 0.25;
-				trinity->floatCounter += .25f;
+				float factor = 1.f;
+				trinity->floatCounter += 1.f;
 				bracoe->rotate(*EDPoint::Z,-factor);
 				antee->rotate(*EDPoint::Z, -factor/5.f);
 
@@ -61,8 +61,8 @@ void trinityAnimation(float elapsedTime, GObject* object)
 			//Posicionando os braços e mãos
 			if(trinity->floatCounter < 30.0)
 			{
-				float factor = 0.25;
-				trinity->floatCounter += .25f;
+				float factor = .5f;
+				trinity->floatCounter += .5f;
 				bracoe->rotate(*EDPoint::Y, factor/1.5f);
 				antee->rotate(*EDPoint::Y, -factor*2.f);
 				maoe->rotate(*EDPoint::Z,  -factor*3.f);
@@ -105,8 +105,8 @@ void trinityAnimation(float elapsedTime, GObject* object)
 			//Posicionando os braços e mãos
 			if(trinity->floatCounter < 30.0)
 			{
-				float factor = 0.25;
-				trinity->floatCounter += .25f;
+				float factor = 0.5f;
+				trinity->floatCounter += 0.5f;
 				bracoe->rotate(*EDPoint::Y, factor/1.2f);
 				bracod->rotate(*EDPoint::Y, factor/1.5f);
 				bracoe->rotate(*EDPoint::Z, -factor/1.25f);
@@ -115,14 +115,15 @@ void trinityAnimation(float elapsedTime, GObject* object)
 
 				coxad->rotate(*EDPoint::X, -factor*0.4f);
 				coxad->rotate(*EDPoint::Y,  factor*0.8f);
-				pernad->rotate(*EDPoint::Z, -factor*1.5f);
-				ped->rotate(*EDPoint::X, factor*1.5f);
-
-				coxae->rotate(*EDPoint::X, -factor*0.8f);
+				pernad->rotate(*EDPoint::Z, -factor*0.5f);
+				ped->rotate(*EDPoint::X, factor*0.5f);
+				
+				coxae->rotate(*EDPoint::X, -factor*0.4f);
 				coxae->rotate(*EDPoint::Y,  factor*0.6f);
 				pernae->rotate(*EDPoint::Z,  factor*1.2f);
 				pee->rotate(*EDPoint::Z,  -factor*0.4f);
 				pee->rotate(*EDPoint::Y,  -factor*1.2f);
+				
 
 				cabeca->rotate(*EDPoint::X, factor/4.f);
 
@@ -134,12 +135,31 @@ void trinityAnimation(float elapsedTime, GObject* object)
 				trinity->floatCounter = 0.0;
 			}
 		}
+		break;
 		case 3:
 		{
 			//Tempo da câmera rodar
-			if(trinity->floatCounter < 1.0)
+			if(trinity->floatCounter < 30.0)
 			{
-				trinity->floatCounter += .25f;
+				float factor = 0.5f;
+				trinity->floatCounter += 0.5f;
+				bracoe->rotate(*EDPoint::Y, factor/1.2f);
+				bracod->rotate(*EDPoint::Y, factor/1.2f);
+
+				coxae->rotate(*EDPoint::X,  -factor*0.2f);
+				coxae->rotate(*EDPoint::Z,  -factor*1.2f);
+
+				coxad->rotate(*EDPoint::X,  -factor*0.2f);
+				pernad->rotate(*EDPoint::X,  -factor*0.2f);
+				ped->rotate(*EDPoint::X,  -factor*0.2f);
+				if(pee->rotation.z > 0.0f)
+				{
+					pee->rotate(*EDPoint::Z,    -0.195833f/8.f);
+				}
+				else
+				{
+					pee->rotate(*EDPoint::Z, -pee->rotation.z);
+				}
 			}
 			else
 			{
@@ -147,22 +167,38 @@ void trinityAnimation(float elapsedTime, GObject* object)
 				trinity->floatCounter = 0.0;
 			}
 		}
+		break;
 		case 4:
 		{
-			//Tempo da câmera rodar
-			if(trinity->floatCounter < 30.0)
-			{
-				float factor = 0.25;
-				trinity->floatCounter += .25f;
-				bracoe->rotate(*EDPoint::Y, factor/1.2f);
-				bracod->rotate(*EDPoint::Y, factor/1.2f);
+			//Chute
+			float factor = 0.25;
 
+			if(coxae->rotation.x < -90.0f)
+			{
+				coxae->rotate(*EDPoint::X,  factor*2.f);
+				pernae->intCounter = 0;
+			}
+			else if(pernae->intCounter == 0)
+			{
+				pernae->rotate(*EDPoint::Y,  18.f);
+				pernae->intCounter++;
+			}
+			else if(pernae->rotation.x > -90.0f)
+			{
+				pernae->rotate(*EDPoint::X,  -factor*4.f);
 			}
 			else
 			{
 				trinity->intCounter++;
-				trinity->floatCounter = 0.0;
 			}
+
+			coxad->rotate(*EDPoint::X,   factor*1.1f);
+			cabeca->rotate(*EDPoint::X, -factor*1.2f);
+			peito->rotate(*EDPoint::X,   factor*1.2f);
+			bracod->rotate(*EDPoint::X, -factor*2.4f);
+			anted->rotate(*EDPoint::X,  -factor*2.4f);
+			maod->rotate(*EDPoint::X,   -factor*1.2f);
+			bracoe->rotate(*EDPoint::X,  factor*1.2f);
 		}
 		break;
 	}
@@ -188,7 +224,7 @@ TrinityScene::TrinityScene(void) : Scene()
 	//camera = new EDCamera(new EDPoint(-6.41f, 1.74f, 9.14f), new EDPoint(-3.61f, 0.75f, 4.72f), 0.05f, 300.0f, 45.0f);
 
 	//Frontal
-	camera = new EDCamera(new EDPoint(-0.37f, 2.07f, 12.47f), new EDPoint(-0.15f, 1.08f, 7.24f), 0.05f, 300.0f, 45.0f);
+	//camera = new EDCamera(new EDPoint(-0.37f, 2.07f, 12.47f), new EDPoint(-0.15f, 1.08f, 7.24f), 0.05f, 300.0f, 45.0f);
 
 	//Lateral perto 2
 	//camera = new EDCamera(new EDPoint(-3.90f, 1.67f, 5.97f), new EDPoint(-0.37f, 0.68f, 2.11f), 0.05f, 300.0f, 45.0f);
@@ -203,15 +239,21 @@ TrinityScene::TrinityScene(void) : Scene()
 	//camera = new EDCamera(new EDPoint(5.43f, 1.91f, 4.92f), new EDPoint(1.56f, 0.92f, 1.39f), 0.05f, 300.0f, 45.0f);
 
 	//Distante
-	//camera = new EDCamera(new EDPoint(4.20f, 2.55f, 16.63f), new EDPoint(1.78f, 1.56f, 11.99f), 0.05f, 300.0f, 45.0f);
+	camera = new EDCamera(new EDPoint(4.20f, 2.55f, 16.63f), new EDPoint(1.78f, 1.56f, 11.99f), 0.05f, 300.0f, 45.0f);
 
 	//Superior
 	//camera = new EDCamera(new EDPoint(-0.28f, 12.49f, 2.78f), new EDPoint(-0.97f, -1.29f, -2.4f), 0.05f, 300.0f, 45.0f);
+	
+	//Lateral superior
+	//camera = new EDCamera(new EDPoint(-7.56f, 2.78f, 9.10f), new EDPoint(-4.03f, 1.79f, 5.24f), 0.05f, 300.0f, 45.0f);
+
+	//Novo frontal
+	//camera = new EDCamera(new EDPoint(-0.26f, 2.78f, 9.41f), new EDPoint(-0.04f, 1.79f, 4.18f), 0.05f, 300.0f, 45.0f);
 
 	scenario = new Scenario();
 
-	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
-	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename1 = "human.txt";
 
 	float r, g, b;
@@ -348,10 +390,6 @@ TrinityScene::TrinityScene(void) : Scene()
 	maod->selfAxis.x = maod->min.x;
 	anted->addNode(0, maod);
 #pragma endregion
-
-	//cintura->setCallUpdate(testMethodRotationBaby);
-	//bracoe->setCallUpdate(testMethodRotationBaby);
-	//bracod->setCallUpdate(testMethodRotationBaby);
 
 #pragma region preparando posicao inicial
 	bracoe->rotate(*EDPoint::Z,  80.0f);
