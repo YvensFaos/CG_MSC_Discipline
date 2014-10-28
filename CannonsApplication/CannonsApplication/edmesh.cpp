@@ -304,19 +304,25 @@ void EDMesh::translate(EDPoint toPoint)
 
 void EDMesh::rotate(EDPoint axis, float angle)
 {
-	EDPoint oldCenter = EDPoint(moveAxis.x, moveAxis.y, moveAxis.z);
+	//EDPoint oldCenter = EDPoint(moveAxis.x, moveAxis.y, moveAxis.z);
 	for(int i = 0; i < trianglesCount; i++)
 	{
 		triangles[i].rotate(axis, selfAxis, angle);
 	}
 	moveAxis.rotateTo(&selfAxis, axis, angle);
 
-	EDPoint translateDirection = EDPoint(moveAxis.x - oldCenter.x, moveAxis.y - oldCenter.y, moveAxis.z - oldCenter.z);
+	//EDPoint translateDirection = EDPoint(moveAxis.x - oldCenter.x, moveAxis.y - oldCenter.y, moveAxis.z - oldCenter.z);
 	if(nodesCount != 0)
 	{
 		for(int i = 0; i < nodesActualCount; i++)
 		{
-			nodes[i]->translate(translateDirection);
+			EDPoint oldTestCenter = EDPoint(nodes[i]->selfAxis.x, nodes[i]->selfAxis.y, nodes[i]->selfAxis.z);
+			EDPoint moveTestCenter = EDPoint(nodes[i]->selfAxis.x, nodes[i]->selfAxis.y, nodes[i]->selfAxis.z);
+			moveTestCenter.rotateTo(&selfAxis, axis, angle);
+
+			moveTestCenter = EDPoint(moveTestCenter.x - oldTestCenter.x, moveTestCenter.y - oldTestCenter.y, moveTestCenter.z - oldTestCenter.z);
+
+			nodes[i]->translate(moveTestCenter);
 			nodes[i]->rotate(axis, angle);
 		}
 	}
