@@ -2,13 +2,142 @@
 
 #include "edgroupedmesh.h"
 
-void luxorAnimation02(float elapsedTime, GObject* object)
+void trinityAnimation(float elapsedTime, GObject* object)
 {
-	EDGroupedMesh* luxor = (EDGroupedMesh*)object;
-	/*EDMesh* base = luxor->getGroup("Base");
-	EDMesh* l1 = luxor->getGroup("L1");
-	EDMesh* l2 = luxor->getGroup("L2");
-	EDMesh* l3 = luxor->getGroup("L3");*/
+	EDGroupedMesh* trinity = (EDGroupedMesh*)object;
+	EDMesh* cintura = trinity->getGroup("Cintura");
+	EDMesh* coxae = trinity->getGroup("Coxa.E");
+	EDMesh* coxad = trinity->getGroup("Coxa.D");
+	EDMesh* pernae = trinity->getGroup("Perna.E");
+	EDMesh* pernad = trinity->getGroup("Perna.D");
+	EDMesh* pee = trinity->getGroup("Pe.E");
+	EDMesh* ped = trinity->getGroup("Pe.D");
+	EDMesh* bracoe = trinity->getGroup("Braco.E");
+	EDMesh* bracod = trinity->getGroup("Braco.D");
+	EDMesh* antee = trinity->getGroup("Ante.E");
+	EDMesh* anted = trinity->getGroup("Ante.D");
+	EDMesh* maoe = trinity->getGroup("Mao.E");
+	EDMesh* maod = trinity->getGroup("Mao.D");
+	EDMesh* barriga = trinity->getGroup("Barriga");
+	EDMesh* peito = trinity->getGroup("Peito");
+	EDMesh* cabeca = trinity->getGroup("Cabeca");
+
+	switch(trinity->intCounter)
+	{
+	case 0:
+		{
+			//Levantando os braços
+			if(trinity->floatCounter < 70.0)
+			{
+				float factor = 0.25;
+				trinity->floatCounter += .25f;
+				bracoe->rotate(*EDPoint::Z,-factor);
+				antee->rotate(*EDPoint::Z, -factor/5.f);
+
+				bracod->rotate(*EDPoint::Z, factor);
+				bracod->rotate(*EDPoint::Z, factor/5.f);
+
+				cabeca->rotate(*EDPoint::X, factor/3.f);
+				cintura->rotate(*EDPoint::X, factor/10.f);
+				pernae->rotate(*EDPoint::X, -factor/5.f);
+				pernad->rotate(*EDPoint::X, -factor/5.f);
+
+				peito->rotate(*EDPoint::X, -factor/10.f);
+
+				pee->rotate(*EDPoint::X, factor/7.f);
+				ped->rotate(*EDPoint::X, factor/7.f);
+				
+				cintura->translate(EDPoint(0.0f, 0.00125f, 0.0f));
+			}
+			else
+			{
+				trinity->intCounter++;
+				trinity->floatCounter = 0.0;
+			}
+		}
+		break;
+	case 1:
+		{
+			//Posicionando os braços e mãos
+			if(trinity->floatCounter < 30.0)
+			{
+				float factor = 0.25;
+				trinity->floatCounter += .25f;
+				bracoe->rotate(*EDPoint::Y, factor/1.5f);
+				antee->rotate(*EDPoint::Y, -factor*2.f);
+				maoe->rotate(*EDPoint::Z,  -factor*3.f);
+
+				bracod->rotate(*EDPoint::Y, -factor/1.5f);
+				anted->rotate(*EDPoint::Y,   factor*2.f);
+				maod->rotate(*EDPoint::X,    factor*4.f);
+
+				cabeca->rotate(*EDPoint::X, -factor/4.f);
+				cintura->rotate(*EDPoint::X, factor/5.f);
+
+				coxae->rotate(*EDPoint::Y, -factor*1.5f);
+				coxad->rotate(*EDPoint::Y,  factor*1.5f);
+
+				coxae->rotate(*EDPoint::X, -factor*3.5f);
+				coxad->rotate(*EDPoint::X, -factor*3.5f);
+
+				pernae->rotate(*EDPoint::X, factor*3.5f);
+				pernad->rotate(*EDPoint::X, factor*3.5f);
+
+				pernae->rotate(*EDPoint::Y, factor*1.5f);
+				pernad->rotate(*EDPoint::Y, -factor*1.5f);
+
+				pee->rotate(*EDPoint::X, factor*2.f);
+				ped->rotate(*EDPoint::X, factor*2.f);
+
+				peito->rotate(*EDPoint::X, -factor/2.f);
+
+				cintura->translate(EDPoint(0.0f, 0.0025f, 0.0f));
+			}
+			else
+			{
+				trinity->intCounter++;
+				trinity->floatCounter = 0.0;
+			}
+		}
+		break;
+		case 2:
+		{
+			//Posicionando os braços e mãos
+			if(trinity->floatCounter < 30.0)
+			{
+				float factor = 0.25;
+				trinity->floatCounter += .25f;
+				bracoe->rotate(*EDPoint::Y, factor/1.2f);
+				bracod->rotate(*EDPoint::Y, factor/1.5f);
+				bracoe->rotate(*EDPoint::Z, -factor/1.25f);
+				antee->rotate(*EDPoint::Z, factor*0.75);
+				maod->rotate(*EDPoint::Y, -factor*2.5f);
+
+				coxad->rotate(*EDPoint::X, -factor*0.6f);
+				coxad->rotate(*EDPoint::Y,  factor*0.8f);
+				pernad->rotate(*EDPoint::Z, -factor*1.5f);
+				ped->rotate(*EDPoint::X, -factor*1.5f);
+				ped->rotate(*EDPoint::Z, factor*1.5f);
+
+				coxae->rotate(*EDPoint::X, -factor*0.8f);
+				coxae->rotate(*EDPoint::Y,  factor*0.6f);
+				pernae->rotate(*EDPoint::X,  factor*0.8f);
+				pernae->rotate(*EDPoint::Y,  factor*0.4f);
+				pernae->rotate(*EDPoint::Z,  factor*1.2f);
+				pee->rotate(*EDPoint::Z,  -factor*0.4f);
+				pee->rotate(*EDPoint::Y,  -factor*1.2f);
+
+				cintura->translate(EDPoint(0.0f, 0.0025f, 0.0f));
+				cabeca->rotate(*EDPoint::X, factor/4.f);
+			}
+			else
+			{
+				trinity->intCounter++;
+				trinity->floatCounter = 0.0;
+			}
+		}
+		break;
+	}
 }
 
 void testMethodRotationBaby(float elapsedTime, GObject* object)
@@ -19,16 +148,31 @@ void testMethodRotationBaby(float elapsedTime, GObject* object)
 	luxor->rotate(EDPoint(1.f,0.f, 0.f),-factor);
 }
 
-
 TrinityScene::TrinityScene(void) : Scene()
 {
+	//Lateral perto
 	//camera = new EDCamera(new EDPoint(-7.78f, 0.34f, 0.76f), new EDPoint(-2.87f, -0.65f, -0.9f), 0.05f, 300.0f, 45.0f);
+	
+	//Lateral
 	//camera = new EDCamera(new EDPoint(-11.87f, 1.16f, 2.14f), new EDPoint(-6.96f, 0.17f, 0.48f), 0.05f, 300.0f, 45.0f);
+
+	//3 4
 	//camera = new EDCamera(new EDPoint(-6.41f, 1.74f, 9.14f), new EDPoint(-3.61f, 0.75f, 4.72f), 0.05f, 300.0f, 45.0f);
+
+	//Frontal
 	//camera = new EDCamera(new EDPoint(-0.37f, 2.07f, 12.47f), new EDPoint(-0.15f, 1.08f, 7.24f), 0.05f, 300.0f, 45.0f);
+
+	//Lateral perto 2
 	//camera = new EDCamera(new EDPoint(-3.90f, 1.67f, 5.97f), new EDPoint(-0.37f, 0.68f, 2.11f), 0.05f, 300.0f, 45.0f);
 	
-	camera = new EDCamera(new EDPoint(4.20f, 2.55f, 16.63f), new EDPoint(1.78f, 1.56f, 11.99f), 0.05f, 300.0f, 45.0f);
+	//Camera para ver as pernas
+	//camera = new EDCamera(new EDPoint(4.90f, 1.53f, 4.91f), new EDPoint(1.04f, 0.54f, 1.38f), 0.05f, 300.0f, 45.0f);
+	
+	//Camera para ver as pernas 2
+	camera = new EDCamera(new EDPoint(1.44f, 1.67f, 7.16f), new EDPoint(0.75f, 0.68f, 1.97f), 0.05f, 300.0f, 45.0f);
+	
+	//camera = new EDCamera(new EDPoint(4.20f, 2.55f, 16.63f), new EDPoint(1.78f, 1.56f, 11.99f), 0.05f, 300.0f, 45.0f);
+	//camera = new EDCamera(new EDPoint(-0.28f, 12.49f, 2.78f), new EDPoint(-0.97f, -1.29f, -2.4f), 0.05f, 300.0f, 45.0f);
 
 	scenario = new Scenario();
 
@@ -185,12 +329,13 @@ TrinityScene::TrinityScene(void) : Scene()
 	bracod->rotate(*EDPoint::Z, -80.0f);
 	bracod->rotate(*EDPoint::X,  30.0f);
 	anted->rotate(*EDPoint::X,  -80.0f);
-	anted->rotate(*EDPoint::Z,   10.0f);
+	anted->rotate(*EDPoint::Z,  -10.0f);
 	maod->rotate(*EDPoint::Z,   -30.0f);
 #pragma endregion
 
 	luxor->intCounter = 0; 
-	luxor->setCallUpdate(luxorAnimation02);
+	luxor->floatCounter = 0;
+	luxor->setCallUpdate(trinityAnimation);
 	scenario->objects.push_back(luxor);
 }
 
