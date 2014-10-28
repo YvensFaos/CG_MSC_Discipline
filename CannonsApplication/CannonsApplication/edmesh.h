@@ -23,6 +23,8 @@ public:
 	int nodesActualCount;
 	float height;
 
+	bool visible;
+
 	std::vector<EDTriangle*> trianglesVector;
 private:
 
@@ -47,7 +49,7 @@ public:
 	void initializeByVector(void);
 
 	void instantiateNodes(int count);
-	void addNode(int position, EDMesh* mesh, EDPoint offset);
+	void addNode(int position, EDMesh* mesh);
 private:
 };
 

@@ -6,14 +6,15 @@
 //#define drawArrays
 #define drawAxis
 
-#define max_value +1.9999e20
-#define min_value -1.9999e-20
+#define max_value +1.9999e19
+#define min_value -1.9999e-19
 
 EDMesh::EDMesh(void) :  GObject("")
 { 
 	trianglesCount = -1;
 	nodesCount = 0;
 	nodesActualCount = 0;
+	visible = true;
 }
 
 EDMesh::EDMesh(const char* identifier) :  GObject(identifier)
@@ -21,6 +22,7 @@ EDMesh::EDMesh(const char* identifier) :  GObject(identifier)
 	trianglesCount = -1;
 	nodesCount = 0;
 	nodesActualCount = 0;
+	visible = true;
 }
 
 EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(identifier)
@@ -178,6 +180,7 @@ EDMesh::EDMesh(const char* identifier, char* path, char* filename) : GObject(ide
 	nodesCount = 0;
 	nodesActualCount = 0;
 	calculateCenter();
+	visible = true;
 }
 
 EDMesh::EDMesh(const char* identifier, std::vector<EDTriangle*> triangles) : GObject(identifier)
@@ -185,6 +188,7 @@ EDMesh::EDMesh(const char* identifier, std::vector<EDTriangle*> triangles) : GOb
 	trianglesVector = triangles;
 	initializeByVector();
 	height = 0;
+	visible = true;
 }
 
 EDMesh::~EDMesh(void)
@@ -210,56 +214,58 @@ void EDMesh::initializeByVector(void)
 	nodesCount = 0;
 	nodesActualCount = 0;
 
-	max = EDPoint(min_value, min_value, min_value);
-
 	calculateCenter();
 
 	moveAxis = EDPoint(max.x, max.y, max.z);
 	selfAxis = EDPoint(min.x, min.y, min.z);
 
 	centerAxis = EDPoint((max.x + min.x)/2.f, (max.y + min.y)/2.f, (max.z + min.z)/2.f);
+	visible = true;
 }
 
 void EDMesh::draw(void)
 { 
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientMaterial);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseMaterial);
-	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 90.0f);
+	if(visible)
+	{
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientMaterial);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuseMaterial);
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 90.0f);
 
 #ifdef drawArrays
-	glVertexPointer(3, GL_FLOAT, 0, triangles);
-	glNormalPointer(GL_FLOAT, 0, normals);
-	glDrawArrays(GL_TRIANGLES, 0, trianglesCount/3);
+		glVertexPointer(3, GL_FLOAT, 0, triangles);
+		glNormalPointer(GL_FLOAT, 0, normals);
+		glDrawArrays(GL_TRIANGLES, 0, trianglesCount/3);
 #else
-	glBegin(GL_TRIANGLES);
-	int j = 0;
-	EDPoint normal = EDPoint(0,0,0);
-	for(int i = 0; i < trianglesCount;)
-	{
-		normal = triangles[i].getNormal();
-		glNormal3f(normal.x, normal.y, normal.z);
-		glVertex3f(triangles[i].p1.x, triangles[i].p1.y, triangles[i].p1.z);
-		glVertex3f(triangles[i].p2.x, triangles[i].p2.y, triangles[i].p2.z);
-		glVertex3f(triangles[i].p3.x, triangles[i].p3.y, triangles[i].p3.z);
-		i++;
-	}
-	glEnd();
+		glBegin(GL_TRIANGLES);
+		int j = 0;
+		EDPoint normal = EDPoint(0,0,0);
+		for(int i = 0; i < trianglesCount;)
+		{
+			normal = triangles[i].getNormal();
+			glNormal3f(normal.x, normal.y, normal.z);
+			glVertex3f(triangles[i].p1.x, triangles[i].p1.y, triangles[i].p1.z);
+			glVertex3f(triangles[i].p2.x, triangles[i].p2.y, triangles[i].p2.z);
+			glVertex3f(triangles[i].p3.x, triangles[i].p3.y, triangles[i].p3.z);
+			i++;
+		}
+		glEnd();
 	
 #ifdef drawAxis
-	float aux = 0.0f;
-	GCube cube = GCube("ccenter", 
-		new EDPoint(moveAxis.x - 0.1, moveAxis.y - 0.1, moveAxis.z - 0.1 + aux),  
-		new EDPoint(moveAxis.x + 0.1, moveAxis.y + 0.1, moveAxis.z + 0.1 + aux));
-	cube.setMaterial(ambientMaterial, diffuseMaterial);
-	cube.draw();
+		float aux = 0.0f;
+		GCube cube = GCube("ccenter", 
+			new EDPoint(moveAxis.x - 0.1, moveAxis.y - 0.1, moveAxis.z - 0.1 + aux),  
+			new EDPoint(moveAxis.x + 0.1, moveAxis.y + 0.1, moveAxis.z + 0.1 + aux));
+		cube.setMaterial(ambientMaterial, diffuseMaterial);
+		cube.draw();
 
-	GCube cube2 = GCube("cccenter", 
-		new EDPoint(selfAxis.x - 0.1, selfAxis.y - 0.1, selfAxis.z - 0.1 + aux),  
-		new EDPoint(selfAxis.x + 0.1, selfAxis.y + 0.1, selfAxis.z + 0.1 + aux));
-	cube2.setMaterial(ambientMaterial, diffuseMaterial);
-	cube2.draw();
+		GCube cube2 = GCube("cccenter", 
+			new EDPoint(selfAxis.x - 0.1, selfAxis.y - 0.1, selfAxis.z - 0.1 + aux),  
+			new EDPoint(selfAxis.x + 0.1, selfAxis.y + 0.1, selfAxis.z + 0.1 + aux));
+		cube2.setMaterial(ambientMaterial, diffuseMaterial);
+		cube2.draw();
 #endif
 #endif
+	}
 }
 
 void EDMesh::update(float elapsedTime)
@@ -336,10 +342,11 @@ void EDMesh::scale(EDPoint axis, float factor)
 
 void EDMesh::updateMinValue(void)
 {
-	min = EDPoint(max_value, max_value, max_value);
+	EDPoint p1, p2, p3;
+	p1 = triangles[0].p1;
+	min = EDPoint(p1.x, p1.y, p1.z);
 	for(int i = 0; i < trianglesCount; i++)
 	{
-		EDPoint p1, p2, p3;
 		p1 = triangles[i].p1;
 		if(p1.x < min.x)
 		{
@@ -384,13 +391,14 @@ void EDMesh::updateMinValue(void)
 
 void EDMesh::calculateCenter(void)
 {
-	min = EDPoint(max_value, max_value, max_value);
-	max = EDPoint(min_value, min_value, min_value);
+	EDPoint p1, p2, p3;
+	p1 = triangles[0].p1;
+	min = EDPoint(p1.x, p1.y, p1.z);
+	max = EDPoint(p1.x, p1.y, p1.z);
 
 #pragma region get min and maxx
 	for(int i = 0; i < trianglesCount; i++)
 	{
-		EDPoint p1, p2, p3;
 		p1 = triangles[i].p1;
 		if(p1.x < min.x)
 		{
@@ -484,7 +492,7 @@ void EDMesh::instantiateNodes(int count)
 	nodesCount = count;
 }
 
-void EDMesh::addNode(int position, EDMesh* mesh, EDPoint offset)
+void EDMesh::addNode(int position, EDMesh* mesh)
 {
 	if(position < 0 || position > nodesCount + 1)
 		return;

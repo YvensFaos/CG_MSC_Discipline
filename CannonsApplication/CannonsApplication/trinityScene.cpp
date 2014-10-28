@@ -43,23 +43,39 @@ TrinityScene::TrinityScene(void) : Scene()
 	luxor->setMaterial(ambientMaterial1, diffuseMaterial1);
 	
 	EDMesh* cintura = luxor->getGroup("Cintura");
+	cintura->visible = true;
 	EDMesh* coxae = luxor->getGroup("Coxa.E");
+	coxae->visible = true;
 	EDMesh* coxad = luxor->getGroup("Coxa.D");
+	coxad->visible = false;
 	EDMesh* pernae = luxor->getGroup("Perna.E");
+	pernae->visible = false;
 	EDMesh* pernad = luxor->getGroup("Perna.D");
+	pernad->visible = false;
 	EDMesh* pee = luxor->getGroup("Pe.E");
+	pee->visible = false;
 	EDMesh* ped = luxor->getGroup("Pe.D");
+	ped->visible = false;
 
 	EDMesh* bracoe = luxor->getGroup("Braco.E");
+	bracoe->visible = false;
 	EDMesh* bracod = luxor->getGroup("Braco.D");
+	bracod->visible = false;
 	EDMesh* antee = luxor->getGroup("Ante.E");
+	antee->visible = false;
 	EDMesh* anted = luxor->getGroup("Ante.D");
+	anted->visible = false;
 	EDMesh* maoe = luxor->getGroup("Mao.E");
+	maoe->visible = false;
 	EDMesh* maod = luxor->getGroup("Mao.D");
+	maod->visible = false;
 
 	EDMesh* barriga = luxor->getGroup("Barriga");
+	barriga->visible = true;
 	EDMesh* peito = luxor->getGroup("Peito");
+	peito->visible = true;
 	EDMesh* cabeca = luxor->getGroup("Cabeca");
+	cabeca->visible = false;
 
 	cintura->instantiateNodes(3);
 	cintura->selfAxis =    cintura->centerAxis;
@@ -67,12 +83,19 @@ TrinityScene::TrinityScene(void) : Scene()
 	cintura->moveAxis =    cintura->centerAxis;
 	cintura->moveAxis.y += cintura->height / 2.f;
 
-
+	//EDPoint(0.0f, 0.0f, 0.0f);
+	barriga->instantiateNodes(1);
 	barriga->selfAxis =    cintura->centerAxis;
-	barriga->selfAxis.y += barriga->height / 2.f;
-	barriga->moveAxis =    barriga->selfAxis;
+	barriga->selfAxis.y += cintura->height / 2.f;
+	barriga->moveAxis =    barriga->centerAxis;
 	barriga->moveAxis.y += barriga->height / 2.f;
-	cintura->addNode(0, barriga, EDPoint(0.0f, cintura->height/2.f, 0.0f));
+	cintura->addNode(0, barriga);
+
+	peito->selfAxis =    barriga->centerAxis;
+	peito->selfAxis.y =  peito->min.y;
+	peito->moveAxis =    peito->selfAxis;
+	peito->moveAxis.y =  peito->min.y;
+	barriga->addNode(0, peito);
 
 	r = (77/255.f);
 	g = (20/255.f);
@@ -84,11 +107,16 @@ TrinityScene::TrinityScene(void) : Scene()
 	GLfloat diffuseMaterial2[] = {r, g, b, 1.0f};
 	coxae->setMaterial(ambientMaterial2, diffuseMaterial2);
 
-	coxae->selfAxis    = coxae->centerAxis;
-	coxae->selfAxis.y  = cintura->centerAxis.y - 0.5f;
-	coxae->moveAxis    = coxae->centerAxis;
-	coxae->moveAxis.y  = cintura->centerAxis.y - 0.5f;
-	cintura->addNode(1, coxae, EDPoint(-0.5f, cintura->height/2.f, 0.0f));
+	//coxae->selfAxis    = coxae->centerAxis;
+	//coxae->selfAxis.y += coxae->height / 2.f;
+	coxae->selfAxis    = cintura->centerAxis;
+	coxae->selfAxis.x =  coxae->centerAxis.x;
+	coxae->selfAxis.y =  coxae->max.y;
+	//coxae->selfAxis.y -= cintura->height / 2.f;
+	//coxae->selfAxis.x -= 0.5f;
+	//coxae->moveAxis =    cintura->selfAxis;
+	//coxae->moveAxis.x -= 0.5f;
+	cintura->addNode(1, coxae);
 
 	//base->instantiateNodes(1);
 	//base->addNode(0, luxor->getGroup("L1"), EDPoint(0.0f, base->height/2.f, 0.0f));
@@ -112,7 +140,7 @@ TrinityScene::TrinityScene(void) : Scene()
 	//l3->selfAxis = l2->moveAxis;
 
 	cintura->setCallUpdate(testMethodRotationBaby);
-	coxae->setCallUpdate(testMethodRotationBaby);
+	//coxae->setCallUpdate(testMethodRotationBaby);
 	luxor->intCounter = 0; //Estado 0
 	luxor->setCallUpdate(luxorAnimation02);
 	scenario->objects.push_back(luxor);

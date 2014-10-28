@@ -235,22 +235,23 @@ ArticulatedLuxorScene::ArticulatedLuxorScene(void) : Scene()
 	l3->setMaterial(ambientMaterial5, diffuseMaterial5);
 
 	base->instantiateNodes(1);
-	base->addNode(0, luxor->getGroup("L1"), EDPoint(0.0f, base->height/2.f, 0.0f));
+	base->addNode(0, luxor->getGroup("L1"));
 	base->selfAxis = base->centerAxis;
 	base->selfAxis.y -= base->height / 2.f;
 	base->moveAxis = base->centerAxis;
 	base->moveAxis.y += base->height / 2.f;
+
 	l1->selfAxis = base->centerAxis;
 	l1->selfAxis.y += base->height / 2.f;
 
 	l1->instantiateNodes(1);
-	l1->addNode(0, luxor->getGroup("L2"), EDPoint(0.0f, l1->height/2.f, 0.0f));
+	l1->addNode(0, luxor->getGroup("L2"));
 	l1->moveAxis = l1->centerAxis;
 	l1->moveAxis.y += l1->height / 2.f;
 	l2->selfAxis = l1->moveAxis;
 
 	l2->instantiateNodes(1);
-	l2->addNode(0, luxor->getGroup("L3"), EDPoint(0.0f, l2->height/2.f, 0.0f));
+	l2->addNode(0, luxor->getGroup("L3"));
 	l2->moveAxis = l2->centerAxis;
 	l2->moveAxis.y += l2->height / 2.f;
 	l3->selfAxis = l2->moveAxis;
