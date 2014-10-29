@@ -24,64 +24,104 @@ void neoAnimation(float elapsedTime, GObject* object)
 
 	neo->floatCounter += elapsedTime;
 	
+	float factor = .75f;
+	switch(neo->intCounter)
+	{
+	case 0:
+		{
+			if(neo->floatCounter < 0.62f)
+			{
+				//printf("Timer: %f\n", neo->floatCounter);
+				cintura->rotate(*EDPoint::Y,0.25f);
+				barriga->rotate(*EDPoint::Y,0.75f);
+				barriga->rotate(*EDPoint::X,-0.25f);
+				peito->rotate(*EDPoint::Y, 0.25f);
+				peito->rotate(*EDPoint::X, -0.25f);
+				cabeca->rotate(*EDPoint::Y, -1.f);
+
+				bracod->rotate(*EDPoint::Z, 0.5f);
+				bracod->rotate(*EDPoint::X, 0.5f);
+				bracod->rotate(*EDPoint::Y, 0.45f);
+				anted->rotate(*EDPoint::Z, 0.5f);
+
+				bracoe->rotate(*EDPoint::Z, 1.5f);
+				bracoe->rotate(*EDPoint::X, -2.5f);
+			}
+			else if(neo->floatCounter < 1.1f)
+			{
+				cintura->translate(EDPoint(0.0f, -0.01f, 0.0f));
+				cintura->rotate(*EDPoint::Y,0.25f);
+				barriga->rotate(*EDPoint::Y,0.25f);
+				peito->rotate(*EDPoint::Y,0.25f);
+				cabeca->rotate(*EDPoint::Y,-1.f);
+
+				coxad->rotate(*EDPoint::X, -0.75f);
+				coxad->rotate(*EDPoint::Y, 0.75f);
+				pernad->rotate(*EDPoint::X, 1.0f);
+				ped->rotate(*EDPoint::X, -.025f);
+
+				coxae->rotate(*EDPoint::X, -1.5f);
+				coxae->rotate(*EDPoint::Y, -1.5f);
+				pernae->rotate(*EDPoint::X, 2.0f);
+				pee->rotate(*EDPoint::X, -.025f);
+				pee->rotate(*EDPoint::Z,  .25f);
+
+				bracod->rotate(*EDPoint::Z, 0.25f);
+				bracod->rotate(*EDPoint::X, 0.25f);
+				bracod->rotate(*EDPoint::Y, 1.75f);
+				anted->rotate(*EDPoint::Y, -.75f);
+				anted->rotate(*EDPoint::X, 0.2f);
+
+				bracoe->rotate(*EDPoint::Y, -1.75f);
+				bracoe->rotate(*EDPoint::X, -1.75f);
+				antee->rotate(*EDPoint::Y, 1.75f);
+				maoe->rotate(*EDPoint::X, -1.75f);
+			}
+			else if(neo->floatCounter < 1.9f)
+			{
+				cintura->translate(EDPoint(0.0f, -0.02f, 0.0f));
+				cintura->rotate(*EDPoint::X, -0.5f);
+				barriga->rotate(*EDPoint::Y, -0.5f);
+				barriga->rotate(*EDPoint::X, -0.5f);
+				cabeca->rotate(*EDPoint::X, 0.5f);
+
+				anted->rotate(*EDPoint::Z, 1.5f);
+
+				bracoe->rotate(*EDPoint::Z, 1.5f);
+
+				coxae->rotate(*EDPoint::X, -.5f);
+				pernae->rotate(*EDPoint::X, 1.f);
+				coxad->rotate(*EDPoint::X, -.5f);
+				pernad->rotate(*EDPoint::X, 1.f);
+			}
+			else if(neo->floatCounter < 2.8f)
+			{
+				cabeca->rotate(*EDPoint::X, 0.5f);
+				cabeca->rotate(*EDPoint::Z, -0.5f);
+				peito->rotate(*EDPoint::Z, 0.25f);
+				barriga->rotate(*EDPoint::Z, 0.5f);
+
+				bracod->rotate(*EDPoint::Z, 1.5f);
+				bracod->rotate(*EDPoint::X, 0.25f);
+				//anted->rotate(*EDPoint::X, 1.5f);
+				//anted->rotate(*EDPoint::Z, 1.5f);
+			}
+		}
+		break;
+	}
 }
 
 void testCameraUpdate2(float elapsedTime, EDCamera* self)
 {
 	self->timer += elapsedTime;
-
-	/*
-	switch(self->intCounter)
+	if(self->timer < 0.4f)
 	{
-	case 0:
-		if(self->position->z < 14.f)
-		{
-			self->translateTo(new EDPoint(0.f, 0.f, 0.05f));
-		}
-		else
-		{
-			self->lookAt = new EDPoint(0.0f, -0.752869487, -0.153204992);
-			self->intCounter++;
-		}
-		break;
-	case 1:
-		{
-			if(self->floatCounter < 310.0f)
-			{
-				float factor = 2.5f;
-				self->floatCounter += factor;
-				self->rotateToLookAt(EDPoint::Y, factor);
-				self->translateTo(new EDPoint(0.f, 0.01f, 0.f));
-				self->zoomIn();
-			}
-			else
-			{
-				self->intCounter++;
-			}
-		}
-		break;
-	case 2:
-		{
-			if(self->timer > 3.6f)
-			{
-				self->intCounter++;
-			}
-		}
-		break;
-	case 3:
-		{
-			if(self->timer < 4.5f)
-			{
-				self->zoomOut();
-				self->zoomOut();
-				self->zoomOut();
-				self->rotateToLookAt(EDPoint::Y, 1.25f);
-			}
-		}
-		break;
-	}*/
-
-	
+		self->zoomIn();
+	}
+	else if(self->timer < 0.8f)
+	{
+		self->translateTo(new EDPoint(-0.01f, 0.0f, 0.0f));
+	}
 }
 
 NeoMatrixScene::NeoMatrixScene(void) : Scene()
@@ -93,8 +133,8 @@ NeoMatrixScene::NeoMatrixScene(void) : Scene()
 	camera->setCallUpdate(testCameraUpdate2);
 	scenario = new Scenario();
 
-	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
-	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
+	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename1 = "human.txt";
 
 	float r, g, b;
