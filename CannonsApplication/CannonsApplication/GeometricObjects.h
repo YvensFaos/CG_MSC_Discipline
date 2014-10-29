@@ -110,22 +110,4 @@ public:
 private:
 	void initialize(EDPoint* min, EDPoint* max);
 };
-
-/*
-class GLine : GObject
-{
-public:
-};
-
-class GSPhere : GObject
-{
-public:
-};
-
-
-class GMesh : GObject
-{
-public:
-};
-*/
 #endif

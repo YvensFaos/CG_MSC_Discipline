@@ -149,6 +149,22 @@ void EDCamera::rotate(float angle)
 	lookAt->z += zV;
 }
 
+void EDCamera::callUpdate(float elapsedTime, EDCamera* self)
+{
+	(updateCameraCallback)(elapsedTime, self);
+}
+
+void EDCamera::setCallUpdate(updateCameraCallbackFunction function)
+{
+	updateCameraCallback = function;
+}
+
+void EDCamera::translateTo(EDPoint* toPoint)
+{
+	this->position->translateTo(toPoint);
+	this->lookAt->translateTo(toPoint);
+}
+
 void EDCamera::initializeValues(EDPoint* position, EDPoint* lookAt, float pNear, float pFar, float pFOV)
 {
 	this->position = position;
@@ -158,6 +174,16 @@ void EDCamera::initializeValues(EDPoint* position, EDPoint* lookAt, float pNear,
 	this->pFOV = pFOV;
 
 	up = new EDPoint(0.0f, 1.0f, 0.0f);
+}
+
+void EDCamera::rotateToLookAt(EDPoint* axis, float angle)
+{
+	position->rotateTo(lookAt, *axis, angle);
+}
+
+void EDCamera::rotateToPosition(EDPoint* axis, float angle)
+{
+	lookAt->rotateTo(position, *axis, angle);
 }
 
 void EDCamera::cameraLookAt(void)

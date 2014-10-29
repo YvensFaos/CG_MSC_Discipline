@@ -2,19 +2,29 @@
 #define __ED_CAMERA__
 
 #include "edgeom.h"
+#include "GeometricObjects.h"
 
 enum Movement
 {
 	FORWARD, BACKWARD, LEFT, RIGHT, RUP, RDOWN, UP, DOWN, RLEFT, RRIGHT
 };
 
+class EDCamera;
+
+typedef void (*updateCameraCallbackFunction)(float elapsedTime, EDCamera* self);
+
 class EDCamera
 {
+protected:
+	updateCameraCallbackFunction updateCameraCallback;
 public:
 	int index;
 	int pathLength;
 	bool cycle;
 
+	int intCounter;
+	float floatCounter;
+	float timer;
 	int majorTriangles;
 	int minorTriangles;
 
@@ -39,6 +49,14 @@ public:
 	void cameraLookAt(void);
 	void zoomIn(void);
 	void zoomOut(void);
+
+	void translateTo(EDPoint* toTranslate);
+	void rotateToLookAt(EDPoint* axis, float angle);
+	void rotateToPosition(EDPoint* axis, float angle);
+
+	void callUpdate(float elapsedTime, EDCamera* self);
+	void setCallUpdate(updateCameraCallbackFunction function);
+
 private:
 	void zoom(float value);
 	void initializeValues(EDPoint* position, EDPoint* lookAt, float pNear, float pFar, float pFOV);

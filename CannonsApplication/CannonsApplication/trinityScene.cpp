@@ -2,6 +2,135 @@
 
 #include "edgroupedmesh.h"
 
+void trinityAnimation2(float elapsedTime, GObject* object)
+{
+	EDGroupedMesh* trinity = (EDGroupedMesh*)object;
+	EDMesh* cintura = trinity->getGroup("Cintura");
+	EDMesh* coxae = trinity->getGroup("Coxa.E");
+	EDMesh* coxad = trinity->getGroup("Coxa.D");
+	EDMesh* pernae = trinity->getGroup("Perna.E");
+	EDMesh* pernad = trinity->getGroup("Perna.D");
+	EDMesh* pee = trinity->getGroup("Pe.E");
+	EDMesh* ped = trinity->getGroup("Pe.D");
+	EDMesh* bracoe = trinity->getGroup("Braco.E");
+	EDMesh* bracod = trinity->getGroup("Braco.D");
+	EDMesh* antee = trinity->getGroup("Ante.E");
+	EDMesh* anted = trinity->getGroup("Ante.D");
+	EDMesh* maoe = trinity->getGroup("Mao.E");
+	EDMesh* maod = trinity->getGroup("Mao.D");
+	EDMesh* barriga = trinity->getGroup("Barriga");
+	EDMesh* peito = trinity->getGroup("Peito");
+	EDMesh* cabeca = trinity->getGroup("Cabeca");
+
+	trinity->floatCounter += elapsedTime;
+	if(trinity->floatCounter < 3.6f)
+	{
+		float factor = .75f;
+		switch(trinity->intCounter)
+		{
+		case 0:
+			{
+				if(bracoe->rotation.z > -10.0)
+				{
+					bracoe->rotate(*EDPoint::Z,-factor);
+					antee->rotate(*EDPoint::Z, -factor/5.f);
+					maoe->rotate(*EDPoint::Z, 0.001);
+
+					bracod->rotate(*EDPoint::Z, factor);
+					anted->rotate(*EDPoint::Z, factor/5.f);
+					maod->rotate(*EDPoint::Z, 0.001);
+
+					coxae->rotate(*EDPoint::Y, -0.5f);
+					coxad->rotate(*EDPoint::Y,  0.5f);
+
+					coxae->rotate(*EDPoint::X, -0.5f);
+					coxad->rotate(*EDPoint::X, -0.5f);
+					pernae->rotate(*EDPoint::X, 1.f);
+					pernad->rotate(*EDPoint::X, 1.0f);
+				}
+				else
+				{
+					trinity->intCounter++;
+					bracoe->rotate(*EDPoint::Y, .5f);
+					antee->rotate(*EDPoint::Y, -1.f);
+					bracoe->rotate(*EDPoint::X, .25f);
+					antee->rotate(*EDPoint::X, -.5f);
+					maoe->rotate(*EDPoint::Z, -.95f);
+
+					bracod->rotate(*EDPoint::Y, -.5f);
+					anted->rotate(*EDPoint::Y, 1.f);
+					bracod->rotate(*EDPoint::X, .25f);
+					anted->rotate(*EDPoint::X, -.5f);
+					maod->rotate(*EDPoint::Z, 1.5f);
+				}
+				peito->rotate(*EDPoint::X, .125f);
+				cabeca->rotate(*EDPoint::X, .125f);
+				cintura->translate(EDPoint(0.0f,0.005f, 0.0f));
+			}
+			break;
+		case 1:
+			{
+				if(bracoe->rotation.y < 30.0)
+				{
+					bracoe->rotate(*EDPoint::Y, .5f);
+					antee->rotate(*EDPoint::Y, -1.f);
+					bracoe->rotate(*EDPoint::X, .25f);
+					antee->rotate(*EDPoint::X, -.5f);
+					maoe->rotate(*EDPoint::Z, -.95f);
+
+					bracod->rotate(*EDPoint::Y, -.5f);
+					anted->rotate(*EDPoint::Y, 1.f);
+					bracod->rotate(*EDPoint::X, .25f);
+					anted->rotate(*EDPoint::X, -.5f);
+					maod->rotate(*EDPoint::Z, 1.5f);
+
+					coxae->rotate(*EDPoint::Y,  0.5f);
+					coxad->rotate(*EDPoint::Y, -0.02f);
+
+					coxae->rotate(*EDPoint::X, -0.95f);
+					coxad->rotate(*EDPoint::X, -0.65f);
+
+					pee->rotate(*EDPoint::X,  0.80f);
+					pee->rotate(*EDPoint::Z,  0.80f);
+					ped->rotate(*EDPoint::X,  0.80f);
+					ped->rotate(*EDPoint::Z, -0.80f);
+				}
+				else
+				{
+					trinity->intCounter++;
+				}
+				peito->rotate(*EDPoint::X, -.125f);
+				cabeca->rotate(*EDPoint::X, -.125f);
+				cintura->translate(EDPoint(0.0f,0.005f, 0.0f));
+			}
+			break;
+		}
+	}
+	else
+	{
+		//Hora do chute!
+		switch(trinity->intCounter)
+		{
+		case 2:
+			{
+				if(coxae->rotation.x < -90.f)
+				{
+					coxae->rotate(*EDPoint::X,  1.5f);
+					pernae->rotate(*EDPoint::Z,-1.0f);
+					pernae->rotate(*EDPoint::X,-6.0f);
+					pee->rotate(*EDPoint::X,    1.0f);
+					coxad->rotate(*EDPoint::Z,-1.0f);
+
+					barriga->rotate(*EDPoint::X, 0.5f);
+					bracod->rotate(*EDPoint::Y, 0.5f);
+					bracoe->rotate(*EDPoint::Y,-0.5f);
+				}
+			}
+			break;
+		}
+	}
+}
+
 void trinityAnimation(float elapsedTime, GObject* object)
 {
 	EDGroupedMesh* trinity = (EDGroupedMesh*)object;
@@ -212,8 +341,65 @@ void testMethodRotationBaby(float elapsedTime, GObject* object)
 	luxor->rotate(EDPoint(1.f,0.f, 0.f),-factor);
 }
 
+void testCameraUpdate1(float elapsedTime, EDCamera* self)
+{
+	self->timer += elapsedTime;
+	switch(self->intCounter)
+	{
+	case 0:
+		if(self->position->z < 14.f)
+		{
+			self->translateTo(new EDPoint(0.f, 0.f, 0.05f));
+		}
+		else
+		{
+			self->lookAt = new EDPoint(0.0f, -0.752869487, -0.153204992);
+			self->intCounter++;
+		}
+		break;
+	case 1:
+		{
+			if(self->floatCounter < 310.0f)
+			{
+				float factor = 2.5f;
+				self->floatCounter += factor;
+				self->rotateToLookAt(EDPoint::Y, factor);
+				self->translateTo(new EDPoint(0.f, 0.01f, 0.f));
+				self->zoomIn();
+			}
+			else
+			{
+				self->intCounter++;
+			}
+		}
+		break;
+	case 2:
+		{
+			if(self->timer > 3.6f)
+			{
+				self->intCounter++;
+			}
+		}
+		break;
+	case 3:
+		{
+			if(self->timer < 4.5f)
+			{
+				self->zoomOut();
+				self->zoomOut();
+				self->zoomOut();
+				self->rotateToLookAt(EDPoint::Y, 1.25f);
+			}
+		}
+		break;
+	}
+
+	
+}
+
 TrinityScene::TrinityScene(void) : Scene()
 {
+#pragma region cameras
 	//Lateral perto
 	//camera = new EDCamera(new EDPoint(-7.78f, 0.34f, 0.76f), new EDPoint(-2.87f, -0.65f, -0.9f), 0.05f, 300.0f, 45.0f);
 	
@@ -239,7 +425,7 @@ TrinityScene::TrinityScene(void) : Scene()
 	//camera = new EDCamera(new EDPoint(5.43f, 1.91f, 4.92f), new EDPoint(1.56f, 0.92f, 1.39f), 0.05f, 300.0f, 45.0f);
 
 	//Distante
-	camera = new EDCamera(new EDPoint(4.20f, 2.55f, 16.63f), new EDPoint(1.78f, 1.56f, 11.99f), 0.05f, 300.0f, 45.0f);
+	//camera = new EDCamera(new EDPoint(4.20f, 2.55f, 16.63f), new EDPoint(1.78f, 1.56f, 11.99f), 0.05f, 300.0f, 45.0f);
 
 	//Superior
 	//camera = new EDCamera(new EDPoint(-0.28f, 12.49f, 2.78f), new EDPoint(-0.97f, -1.29f, -2.4f), 0.05f, 300.0f, 45.0f);
@@ -248,8 +434,13 @@ TrinityScene::TrinityScene(void) : Scene()
 	//camera = new EDCamera(new EDPoint(-7.56f, 2.78f, 9.10f), new EDPoint(-4.03f, 1.79f, 5.24f), 0.05f, 300.0f, 45.0f);
 
 	//Novo frontal
-	//camera = new EDCamera(new EDPoint(-0.26f, 2.78f, 9.41f), new EDPoint(-0.04f, 1.79f, 4.18f), 0.05f, 300.0f, 45.0f);
-
+#pragma endregion
+	//0.0f, -0.752869487, -0.153204992
+	camera = new EDCamera(new EDPoint(0.0f, -0.75f, 9.15), new EDPoint(0.0f, -0.75f, -0.15f), 0.05f, 300.0f, 45.0f);
+	camera->intCounter = 0;
+	camera->floatCounter = 0.0f;
+	camera->timer = 0.0f;
+	camera->setCallUpdate(testCameraUpdate1);
 	scenario = new Scenario();
 
 	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
@@ -406,8 +597,10 @@ TrinityScene::TrinityScene(void) : Scene()
 #pragma endregion
 
 	luxor->intCounter = 0; 
-	luxor->floatCounter = 0;
-	luxor->setCallUpdate(trinityAnimation);
+	luxor->floatCounter = 0.0f;
+
+	//luxor->setCallUpdate(trinityAnimation);
+	luxor->setCallUpdate(trinityAnimation2);
 	scenario->objects.push_back(luxor);
 }
 
