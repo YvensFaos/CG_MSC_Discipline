@@ -84,6 +84,9 @@
     <ClCompile Include="trinityScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="neoMatrixScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="edgeom.h">
@@ -144,6 +147,9 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="trinityScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="neoMatrixScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>

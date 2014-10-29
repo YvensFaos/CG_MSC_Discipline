@@ -101,7 +101,7 @@ void trinityAnimation2(float elapsedTime, GObject* object)
 				}
 				peito->rotate(*EDPoint::X, -.125f);
 				cabeca->rotate(*EDPoint::X, -.125f);
-				cintura->translate(EDPoint(0.0f,0.005f, 0.0f));
+				cintura->translate(EDPoint(0.0f,0.01f, 0.0f));
 			}
 			break;
 		}
@@ -459,39 +459,59 @@ TrinityScene::TrinityScene(void) : Scene()
 	GLfloat diffuseMaterial1[] = {r, g, b, 1.0f};
 	luxor->setMaterial(ambientMaterial1, diffuseMaterial1);
 	
+	r = (20/255.f);
+	g = (20/255.f);
+	b = (20/255.f);
+	GLfloat ambientTuxedo[] = {r, g, b, 1.0f};
+	r = (38/255.f);
+	g = (47/255.f);
+	b = (44/255.f);
+	GLfloat diffuseTuxedo[] = {r, g, b, 1.0f};
+
 #pragma region carregando pedaços do modelo
 	EDMesh* cintura = luxor->getGroup("Cintura");
 	cintura->visible = true;
+	cintura->setMaterial(ambientTuxedo, diffuseTuxedo);
 	EDMesh* coxae = luxor->getGroup("Coxa.E");
 	coxae->visible = true;
+	coxae->setMaterial(ambientTuxedo, diffuseTuxedo);
 	EDMesh* coxad = luxor->getGroup("Coxa.D");
 	coxad->visible = true;
+	coxad->setMaterial(ambientTuxedo, diffuseTuxedo);
 	EDMesh* pernae = luxor->getGroup("Perna.E");
 	pernae->visible = true;
 	EDMesh* pernad = luxor->getGroup("Perna.D");
 	pernad->visible = true;
 	EDMesh* pee = luxor->getGroup("Pe.E");
 	pee->visible = true;
+	pee->setMaterial(ambientTuxedo, diffuseTuxedo);
 	EDMesh* ped = luxor->getGroup("Pe.D");
 	ped->visible = true;
+	ped->setMaterial(ambientTuxedo, diffuseTuxedo);
 
 	EDMesh* bracoe = luxor->getGroup("Braco.E");
 	bracoe->visible = true;
+	bracoe->setMaterial(ambientTuxedo, diffuseTuxedo);
 	EDMesh* bracod = luxor->getGroup("Braco.D");
 	bracod->visible = true;
+	bracod->setMaterial(ambientTuxedo, diffuseTuxedo);
 	EDMesh* antee = luxor->getGroup("Ante.E");
 	antee->visible = true;
 	EDMesh* anted = luxor->getGroup("Ante.D");
 	anted->visible = true;
 	EDMesh* maoe = luxor->getGroup("Mao.E");
 	maoe->visible = true;
+	maoe->setMaterial(ambientTuxedo, diffuseTuxedo);
 	EDMesh* maod = luxor->getGroup("Mao.D");
 	maod->visible = true;
+	maod->setMaterial(ambientTuxedo, diffuseTuxedo);
 
 	EDMesh* barriga = luxor->getGroup("Barriga");
 	barriga->visible = true;
+	barriga->setMaterial(ambientTuxedo, diffuseTuxedo);
 	EDMesh* peito = luxor->getGroup("Peito");
 	peito->visible = true;
+	peito->setMaterial(ambientTuxedo, diffuseTuxedo);
 	EDMesh* cabeca = luxor->getGroup("Cabeca");
 	cabeca->visible = true;
 #pragma endregion
