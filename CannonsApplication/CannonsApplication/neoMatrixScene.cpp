@@ -96,15 +96,67 @@ void neoAnimation(float elapsedTime, GObject* object)
 			}
 			else if(neo->floatCounter < 2.8f)
 			{
-				cabeca->rotate(*EDPoint::X, 0.5f);
+				cintura->translate(EDPoint(0.0f, -0.01f, 0.0f));
+
+				cabeca->rotate(*EDPoint::X, -0.5f);
+				cabeca->rotate(*EDPoint::Z, 0.5f);
 				cabeca->rotate(*EDPoint::Z, -0.5f);
 				peito->rotate(*EDPoint::Z, 0.25f);
 				barriga->rotate(*EDPoint::Z, 0.5f);
 
-				bracod->rotate(*EDPoint::Z, 1.5f);
+				bracoe->rotate(*EDPoint::Z, 0.75f);
+				bracoe->rotate(*EDPoint::Y, 1.2f);
+				bracoe->rotate(*EDPoint::X, 0.5f);
+
+				bracod->rotate(*EDPoint::Y, 0.75f);
+				bracod->rotate(*EDPoint::Z, 2.f);
 				bracod->rotate(*EDPoint::X, 0.25f);
-				//anted->rotate(*EDPoint::X, 1.5f);
-				//anted->rotate(*EDPoint::Z, 1.5f);
+				anted->rotate(*EDPoint::Z, -1.5f);
+
+				coxad->rotate(*EDPoint::X, -.5f);
+				ped->rotate(*EDPoint::X, .5f);
+
+				coxae->rotate(*EDPoint::Y, -.2f);
+				pee->rotate(*EDPoint::X, -.4f);
+				pee->rotate(*EDPoint::Z, -.4f);
+			}
+			else if(neo->floatCounter < 3.425f)
+			{
+				cintura->translate(EDPoint(0.0f, -0.01f, 0.0f));
+
+				cabeca->rotate(*EDPoint::X, 0.5f);
+				cabeca->rotate(*EDPoint::Z, 0.5f);
+				peito->rotate(*EDPoint::Y, -0.1f);
+				barriga->rotate(*EDPoint::Y, -0.2f);
+
+				coxae->rotate(*EDPoint::X, -.25f);
+				pee->rotate(*EDPoint::X, .6f);
+				pee->rotate(*EDPoint::Z, .6f);
+				pee->rotate(*EDPoint::Y, .4f);
+
+				ped->rotate(*EDPoint::Y, -.4f);
+
+				bracod->rotate(*EDPoint::Z, .75f);
+				anted->rotate(*EDPoint::Z, .75f);
+				anted->rotate(*EDPoint::Y, -.25f);
+				maod->rotate(*EDPoint::X, -.5f);
+				/*
+				bracoe->rotate(*EDPoint::Y, 1.2f);
+				bracoe->rotate(*EDPoint::X, 0.5f);
+
+				bracod->rotate(*EDPoint::Y, 0.75f);
+				bracod->rotate(*EDPoint::Z, 2.f);
+				bracod->rotate(*EDPoint::X, 0.25f);
+				anted->rotate(*EDPoint::Z, -1.5f);
+
+				ped->rotate(*EDPoint::X, .5f);
+
+				pee->rotate(*EDPoint::X, -.4f);
+				pee->rotate(*EDPoint::Z, -.4f);*/
+			}
+			else if(neo->floatCounter < 4.0f)
+			{
+				coxae->rotate(*EDPoint::X, -.0f);
 			}
 		}
 		break;
@@ -124,8 +176,14 @@ void testCameraUpdate2(float elapsedTime, EDCamera* self)
 	}
 }
 
+void testCameraUpdate3(float elapsedTime, EDCamera* self)
+{
+	self->timer += elapsedTime;
+}
+
 NeoMatrixScene::NeoMatrixScene(void) : Scene()
 {
+	//camera = new EDCamera(new EDPoint(-10.0f, -2.25f, 0.705), new EDPoint(-0.75f, -2.25f, -0.909f), 0.05f, 300.0f, 45.0f);
 	camera = new EDCamera(new EDPoint(0.0f, -0.75f, -13.5), new EDPoint(0.0f, -0.75f, -4.2f), 0.05f, 300.0f, 45.0f);
 	camera->intCounter = 0;
 	camera->floatCounter = 0.0f;

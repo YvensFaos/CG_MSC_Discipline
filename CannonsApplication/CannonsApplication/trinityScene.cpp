@@ -364,7 +364,7 @@ void testCameraUpdate1(float elapsedTime, EDCamera* self)
 				float factor = 2.5f;
 				self->floatCounter += factor;
 				self->rotateToLookAt(EDPoint::Y, factor);
-				self->translateTo(new EDPoint(0.f, 0.01f, 0.f));
+				self->translateTo(new EDPoint(0.f, 0.02f, 0.f));
 				self->zoomIn();
 			}
 			else
@@ -385,10 +385,10 @@ void testCameraUpdate1(float elapsedTime, EDCamera* self)
 		{
 			if(self->timer < 4.5f)
 			{
+				/*self->zoomOut();
 				self->zoomOut();
 				self->zoomOut();
-				self->zoomOut();
-				self->rotateToLookAt(EDPoint::Y, 1.25f);
+				self->rotateToLookAt(EDPoint::Y, 1.25f);*/
 			}
 		}
 		break;
