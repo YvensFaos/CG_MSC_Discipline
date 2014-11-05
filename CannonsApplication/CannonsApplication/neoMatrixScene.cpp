@@ -163,6 +163,96 @@ void neoAnimation(float elapsedTime, GObject* object)
 	}
 }
 
+void neoAnimation2(float elapsedTime, GObject* object)
+{
+	EDGroupedMesh* neo = (EDGroupedMesh*)object;
+	EDMesh* cintura = neo->getGroup("Cintura");
+	EDMesh* coxae = neo->getGroup("Coxa.E");
+	EDMesh* coxad = neo->getGroup("Coxa.D");
+	EDMesh* pernae = neo->getGroup("Perna.E");
+	EDMesh* pernad = neo->getGroup("Perna.D");
+	EDMesh* pee = neo->getGroup("Pe.E");
+	EDMesh* ped = neo->getGroup("Pe.D");
+	EDMesh* bracoe = neo->getGroup("Braco.E");
+	EDMesh* bracod = neo->getGroup("Braco.D");
+	EDMesh* antee = neo->getGroup("Ante.E");
+	EDMesh* anted = neo->getGroup("Ante.D");
+	EDMesh* maoe = neo->getGroup("Mao.E");
+	EDMesh* maod = neo->getGroup("Mao.D");
+	EDMesh* barriga = neo->getGroup("Barriga");
+	EDMesh* peito = neo->getGroup("Peito");
+	EDMesh* cabeca = neo->getGroup("Cabeca");
+
+	neo->floatCounter += elapsedTime;
+	
+	float factor = .5f;
+
+	switch(neo->intCounter)
+	{
+	case 0:
+		{
+			
+			if(neo->floatCounter <= 1.0f*factor)
+			{
+				barriga->rotate(*EDPoint::X, (-.75f/factor));
+				peito->rotate(*EDPoint::Y, (.25f/factor));
+				cabeca->rotate(*EDPoint::X, (.75f/factor));
+
+				antee->rotate(*EDPoint::Z, (-.5f/factor));
+				bracod->rotate(*EDPoint::Z, (-.5f/factor));
+
+				coxae->rotate(*EDPoint::X, (-1.2f/factor));
+				pernae->rotate(*EDPoint::X, (1.5f/factor));
+				pee->rotate(*EDPoint::X, (-.25f/factor));
+
+				coxad->rotate(*EDPoint::X, (-1.2f/factor));
+				pernad->rotate(*EDPoint::X, (1.5f/factor));
+				ped->rotate(*EDPoint::X, (-.25f/factor));
+
+				cintura->translate(EDPoint(0.0f, (-0.025f/factor), 0.0f));
+			}
+			else if(neo->floatCounter <= 2.0f*factor)
+			{
+				barriga->rotate(*EDPoint::Y, (-.325f/factor));
+				barriga->rotate(*EDPoint::Z, (.325f/factor));
+				peito->rotate(*EDPoint::Y, (-.5f/factor));
+				peito->rotate(*EDPoint::Z, (.5f/factor));
+
+				cabeca->rotate(*EDPoint::Z, (-.5f/factor));
+
+				bracod->rotate(*EDPoint::Z, (2.25f/factor));
+				anted->rotate(*EDPoint::Z, (.5f/factor));
+
+				bracoe->rotate(*EDPoint::Z, (2.25f/factor));
+				antee->rotate(*EDPoint::Z, (-.125f/factor));
+			}
+			else if(neo->floatCounter <= 3.0f*factor)
+			{
+				barriga->rotate(*EDPoint::X, (-.5f/factor));
+				peito->rotate(*EDPoint::X, (-.125f/factor));
+
+				cabeca->rotate(*EDPoint::X, (-1.f/factor));
+
+				bracoe->rotate(*EDPoint::Z, (-1.25f/factor));
+				antee->rotate(*EDPoint::Z, (1.f/factor));
+
+				bracod->rotate(*EDPoint::X, (-1.25f/factor));
+				maod->rotate(*EDPoint::Z, (-1.25f/factor));
+			}
+			else if(neo->floatCounter <= 4.0f*factor)
+			{
+				cabeca->rotate(*EDPoint::Z, (-1.f/factor));
+
+				bracoe->rotate(*EDPoint::Z, (-1.25f/factor));
+
+				bracod->rotate(*EDPoint::X, (-1.25f/factor));
+				anted->rotate(*EDPoint::X, (1.5f/factor));
+			}
+		}
+		break;
+	}
+}
+
 void testCameraUpdate2(float elapsedTime, EDCamera* self)
 {
 	self->timer += elapsedTime;
@@ -183,16 +273,18 @@ void testCameraUpdate3(float elapsedTime, EDCamera* self)
 
 NeoMatrixScene::NeoMatrixScene(void) : Scene()
 {
-	//camera = new EDCamera(new EDPoint(-10.0f, -2.25f, 0.705), new EDPoint(-0.75f, -2.25f, -0.909f), 0.05f, 300.0f, 45.0f);
+	camera = new EDCamera(new EDPoint(7.43f, -0.75f, 6.9), new EDPoint(0.31f, -0.75f, 0.92f), 0.05f, 300.0f, 45.0f);
+	camera = new EDCamera(new EDPoint(10.13f, -0.75f, -7.15), new EDPoint(2.076f, -0.75f, -2.5f), 0.05f, 300.0f, 45.0f);
 	camera = new EDCamera(new EDPoint(0.0f, -0.75f, -13.5), new EDPoint(0.0f, -0.75f, -4.2f), 0.05f, 300.0f, 45.0f);
+	camera = new EDCamera(new EDPoint(-10.0f, -2.25f, 0.705), new EDPoint(-0.75f, -2.25f, -0.909f), 0.05f, 300.0f, 45.0f);
 	camera->intCounter = 0;
 	camera->floatCounter = 0.0f;
 	camera->timer = 0.0f;
 	camera->setCallUpdate(testCameraUpdate2);
 	scenario = new Scenario();
 
-	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
-	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename1 = "human.txt";
 
 	float r, g, b;
@@ -351,25 +443,35 @@ NeoMatrixScene::NeoMatrixScene(void) : Scene()
 #pragma endregion
 
 #pragma region preparando posicao inicial
-	bracoe->rotate(*EDPoint::Z,  80.0f);
-	bracoe->rotate(*EDPoint::X,  30.0f);
-	maoe->rotate(*EDPoint::Z,    30.0f);
-
 	bracod->rotate(*EDPoint::Z, -80.0f);
-	bracod->rotate(*EDPoint::X,  30.0f);
-	maod->rotate(*EDPoint::Z,   -30.0f);
+	bracod->rotate(*EDPoint::X,  50.0f);
+	bracod->rotate(*EDPoint::Y, -30.0f);
 
 	coxae->rotate(*EDPoint::Z,  -10.0f);
 	pernae->rotate(*EDPoint::Z,  10.0f);
 	coxad->rotate(*EDPoint::Z,   10.0f);
 	pernad->rotate(*EDPoint::Z, -10.0f);
+
+	cintura->rotate(*EDPoint::Y,  15.0f);
+	barriga->rotate(*EDPoint::Y,  20.0f);
+	peito->rotate(*EDPoint::Y,    20.0f);
+	cabeca->rotate(*EDPoint::Y,  -55.0f);
+	cabeca->rotate(*EDPoint::Z,  -15.0f);
+
+	maod->rotate(*EDPoint::Y,    20.0f);
+	maod->rotate(*EDPoint::X,    20.0f);
+	maod->rotate(*EDPoint::Z,    60.0f);
+
+	bracoe->rotate(*EDPoint::Y,  50.0f);
+	bracoe->rotate(*EDPoint::X, -10.0f);
+	antee->rotate(*EDPoint::Y,   40.0f);
 #pragma endregion
 
 	luxor->intCounter = 0; 
 	luxor->floatCounter = 0.0f;
 
 	//luxor->setCallUpdate(trinityAnimation);
-	luxor->setCallUpdate(neoAnimation);
+	luxor->setCallUpdate(neoAnimation2);
 	scenario->objects.push_back(luxor);
 }
 
