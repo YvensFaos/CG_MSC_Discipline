@@ -30,15 +30,51 @@ void EDCamera::print(void)
 	printf("Position %f %f %f\nLook At %f %f %f\nRotation: %d\nField of View: %f\n\n", position->x, position->y, position->z, lookAt->x, lookAt->y, lookAt->z, rotation, pFOV);
 }
 
-void EDCamera::move(Movement movement)
+void EDCamera::move(Movement movement, float size)
 {
 	switch(movement)
 	{
+	case FARTHER:
+	{
+		EDPoint direction = EDPoint(lookAt->x - position->x, lookAt->y - position->y, lookAt->z - position->z);
+		direction = *direction.makeUnitary();
+		direction.multiply(size);
+
+		lookAt->sum(&direction);
+	}
+	break;
+	case CLOSER:
+	{
+		EDPoint direction = EDPoint(lookAt->x - position->x, lookAt->y - position->y, lookAt->z - position->z);
+		direction = *direction.makeUnitary();
+		direction.multiply(-1*size);
+
+		lookAt->sum(&direction);
+	}
+	break;
+	case ONWARD:
+		{
+			EDPoint direction = EDPoint(lookAt->x - position->x, lookAt->y - position->y, lookAt->z - position->z);
+			direction = *direction.makeUnitary();
+			direction.multiply(size);
+
+			position->sum(&direction);
+		}
+		break;
+	case AWAY:
+		{
+			EDPoint direction = EDPoint(lookAt->x - position->x, lookAt->y - position->y, lookAt->z - position->z);
+			direction = *direction.makeUnitary();
+			direction.multiply(-1*size);
+
+			position->sum(&direction);
+		}
+		break;
 	case FORWARD:
 		{
 			EDPoint direction = EDPoint(lookAt->x - position->x, lookAt->y - position->y, lookAt->z - position->z);
 			direction = *direction.makeUnitary();
-			direction.multiply(sizeStep);
+			direction.multiply(size);
 
 			position->sum(&direction);
 			lookAt->sum(&direction);
@@ -48,7 +84,7 @@ void EDCamera::move(Movement movement)
 		{
 			EDPoint direction = EDPoint(lookAt->x - position->x, lookAt->y - position->y, lookAt->z - position->z);
 			direction = *direction.makeUnitary();
-			direction.multiply(-1*sizeStep);
+			direction.multiply(-1*size);
 
 			position->sum(&direction);
 			lookAt->sum(&direction);
@@ -60,7 +96,7 @@ void EDCamera::move(Movement movement)
 			direction = *direction.makeUnitary();
 			EDPoint sizer = EDPoint::crossProduct(up, &direction);
 			sizer = *sizer.makeUnitary();
-			sizer.multiply(sizeStep);
+			sizer.multiply(size);
 
 			position->sum(&sizer);
 			lookAt->sum(&sizer);
@@ -72,7 +108,7 @@ void EDCamera::move(Movement movement)
 			direction = *direction.makeUnitary();
 			EDPoint sizer = EDPoint::crossProduct(up, &direction);
 			sizer = *sizer.makeUnitary();
-			sizer.multiply(-1*sizeStep);
+			sizer.multiply(-1*size);
 
 			position->sum(&sizer);
 			lookAt->sum(&sizer);
@@ -102,7 +138,7 @@ void EDCamera::move(Movement movement)
 		{
 			EDPoint direction = EDPoint(up->x, up->y, up->z);
 			direction = *direction.makeUnitary();
-			direction.multiply(sizeStep);
+			direction.multiply(size);
 
 			position->sum(&direction);
 			lookAt->sum(&direction);
@@ -112,13 +148,18 @@ void EDCamera::move(Movement movement)
 		{
 			EDPoint direction = EDPoint(up->x, up->y, up->z);
 			direction = *direction.makeUnitary();
-			direction.multiply(-1*sizeStep);
+			direction.multiply(-1*size);
 
 			position->sum(&direction);
 			lookAt->sum(&direction);
 		}
 		break;
 	}	
+}
+
+void EDCamera::move(Movement movement)
+{
+	move(movement, sizeStep);
 }
 
 void EDCamera::rotate(float angle)

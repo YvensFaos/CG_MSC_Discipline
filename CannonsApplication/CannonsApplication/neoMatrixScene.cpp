@@ -185,7 +185,7 @@ void neoAnimation2(float elapsedTime, GObject* object)
 
 	neo->floatCounter += elapsedTime;
 	
-	float factor = .5f;
+	float factor = 4.f;
 
 	switch(neo->intCounter)
 	{
@@ -269,18 +269,52 @@ void testCameraUpdate2(float elapsedTime, EDCamera* self)
 void testCameraUpdate3(float elapsedTime, EDCamera* self)
 {
 	self->timer += elapsedTime;
+	float factor = .25f;
+	self->floatCounter += factor;
+	if(self->floatCounter < 355.f)
+	{
+		if(self->floatCounter < 25.f)
+		{
+			self->move(AWAY, 0.02f);
+			self->zoom(-0.05f);
+		}
+		else if(self->floatCounter < 60.f)
+		{
+
+		}
+		else if(self->floatCounter < 160.f)
+		{
+			self->move(AWAY, 0.01f);
+			self->position->translateTo(new EDPoint(0.0f, 0.025f, 0.0f));
+		}
+		else if(self->floatCounter < 225.f)
+		{
+			self->move(ONWARD, 0.01f);
+			self->position->translateTo(new EDPoint(0.0f, -0.025f, 0.0f));
+		}
+		else
+		{
+			self->move(ONWARD, 0.015f);
+			self->position->translateTo(new EDPoint(0.0f, -0.0125f, 0.0f));
+		}
+
+		self->rotateToLookAt(EDPoint::Y, factor);
+	}
+	//self->move(AWAY);
 }
 
 NeoMatrixScene::NeoMatrixScene(void) : Scene()
 {
-	camera = new EDCamera(new EDPoint(7.43f, -0.75f, 6.9), new EDPoint(0.31f, -0.75f, 0.92f), 0.05f, 300.0f, 45.0f);
-	camera = new EDCamera(new EDPoint(10.13f, -0.75f, -7.15), new EDPoint(2.076f, -0.75f, -2.5f), 0.05f, 300.0f, 45.0f);
-	camera = new EDCamera(new EDPoint(0.0f, -0.75f, -13.5), new EDPoint(0.0f, -0.75f, -4.2f), 0.05f, 300.0f, 45.0f);
-	camera = new EDCamera(new EDPoint(-10.0f, -2.25f, 0.705), new EDPoint(-0.75f, -2.25f, -0.909f), 0.05f, 300.0f, 45.0f);
+	//camera = new EDCamera(new EDPoint(7.43f, -0.75f, 6.9), new EDPoint(0.31f, -0.75f, 0.92f), 0.05f, 300.0f, 45.0f);
+	//camera = new EDCamera(new EDPoint(10.13f, -0.75f, -7.15), new EDPoint(2.076f, -0.75f, -2.5f), 0.05f, 300.0f, 45.0f);
+	//camera = new EDCamera(new EDPoint(-10.0f, -2.25f, 0.705), new EDPoint(-0.75f, -2.25f, -0.909f), 0.05f, 300.0f, 45.0f);
+
+	camera = new EDCamera(new EDPoint(0.0f, -0.75f, -13.5), new EDPoint(0.0f, -0.75f, -2.2f), 0.05f, 300.0f, 45.0f);
+
 	camera->intCounter = 0;
 	camera->floatCounter = 0.0f;
 	camera->timer = 0.0f;
-	camera->setCallUpdate(testCameraUpdate2);
+	camera->setCallUpdate(testCameraUpdate3);
 	scenario = new Scenario();
 
 	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";

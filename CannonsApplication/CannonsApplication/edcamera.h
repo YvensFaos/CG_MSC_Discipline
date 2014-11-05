@@ -6,7 +6,7 @@
 
 enum Movement
 {
-	FORWARD, BACKWARD, LEFT, RIGHT, RUP, RDOWN, UP, DOWN, RLEFT, RRIGHT
+	FORWARD, BACKWARD, LEFT, RIGHT, RUP, RDOWN, UP, DOWN, RLEFT, RRIGHT, AWAY, ONWARD, CLOSER, FARTHER
 };
 
 class EDCamera;
@@ -45,10 +45,12 @@ public:
 	void print(void);
 
 	void move(Movement movement);
+	void move(Movement movement, float size);
 	void rotate(float angle);
 	void cameraLookAt(void);
 	void zoomIn(void);
 	void zoomOut(void);
+	void zoom(float value);
 
 	void translateTo(EDPoint* toTranslate);
 	void rotateToLookAt(EDPoint* axis, float angle);
@@ -58,7 +60,6 @@ public:
 	void setCallUpdate(updateCameraCallbackFunction function);
 
 private:
-	void zoom(float value);
 	void initializeValues(EDPoint* position, EDPoint* lookAt, float pNear, float pFar, float pFOV);
 };
 
