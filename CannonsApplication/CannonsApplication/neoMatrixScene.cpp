@@ -166,8 +166,8 @@ void neoAnimation(float elapsedTime, GObject* object)
 void neoAnimation2(float elapsedTime, GObject* object)
 {
 	EDGroupedMesh* neo = (EDGroupedMesh*)object;
-	EDMesh* cintura = neo->getGroup("Cintura");
-	EDMesh* coxae = neo->getGroup("Coxa.E");
+	EDMesh* cintura    = neo->getGroup("Cintura");
+	EDMesh* coxae      = neo->getGroup("Coxa.E");
 	EDMesh* coxad = neo->getGroup("Coxa.D");
 	EDMesh* pernae = neo->getGroup("Perna.E");
 	EDMesh* pernad = neo->getGroup("Perna.D");
@@ -248,6 +248,16 @@ void neoAnimation2(float elapsedTime, GObject* object)
 				bracod->rotate(*EDPoint::X, (-1.25f/factor));
 				anted->rotate(*EDPoint::X, (1.5f/factor));
 			}
+			else if(neo->floatCounter <= 5.75f*factor)
+			{
+				cabeca->rotate(*EDPoint::X, (0.25f/factor));
+
+				bracoe->rotate(*EDPoint::Z, (0.5f/factor));
+				bracod->rotate(*EDPoint::Z, (0.125f/factor));
+
+				pernae->rotate(*EDPoint::X, (-0.25f/factor));
+				pernad->rotate(*EDPoint::X, (-0.25f/factor));
+			}
 		}
 		break;
 	}
@@ -255,7 +265,7 @@ void neoAnimation2(float elapsedTime, GObject* object)
 
 void testCameraUpdate2(float elapsedTime, EDCamera* self)
 {
-	self->timer += elapsedTime;
+	/*self->timer += elapsedTime;
 	if(self->timer < 0.4f)
 	{
 		self->zoomIn();
@@ -263,7 +273,7 @@ void testCameraUpdate2(float elapsedTime, EDCamera* self)
 	else if(self->timer < 0.8f)
 	{
 		self->translateTo(new EDPoint(-0.01f, 0.0f, 0.0f));
-	}
+	}*/
 }
 
 void testCameraUpdate3(float elapsedTime, EDCamera* self)
@@ -278,24 +288,23 @@ void testCameraUpdate3(float elapsedTime, EDCamera* self)
 			self->move(AWAY, 0.02f);
 			self->zoom(-0.05f);
 		}
-		else if(self->floatCounter < 60.f)
-		{
-
-		}
-		else if(self->floatCounter < 160.f)
+		else if(self->floatCounter > 60.f && self->position->y < 10.0f && self->floatCounter < 110.5f)
 		{
 			self->move(AWAY, 0.01f);
-			self->position->translateTo(new EDPoint(0.0f, 0.025f, 0.0f));
+			self->position->translateTo(new EDPoint(0.0f, 0.05f, 0.0f));
 		}
-		else if(self->floatCounter < 225.f)
+		else if(self->position->y > -0.75f && self->floatCounter >= 110.5f)
 		{
 			self->move(ONWARD, 0.01f);
-			self->position->translateTo(new EDPoint(0.0f, -0.025f, 0.0f));
+			self->position->translateTo(new EDPoint(0.0f, -0.05f, 0.0f));
+		}
+		else if(self->floatCounter < 325.f)
+		{
+			self->move(ONWARD, 0.00725f);
 		}
 		else
 		{
-			self->move(ONWARD, 0.015f);
-			self->position->translateTo(new EDPoint(0.0f, -0.0125f, 0.0f));
+			self->zoom(-.1f);
 		}
 
 		self->rotateToLookAt(EDPoint::Y, factor);
@@ -317,8 +326,8 @@ NeoMatrixScene::NeoMatrixScene(void) : Scene()
 	camera->setCallUpdate(testCameraUpdate3);
 	scenario = new Scenario();
 
-	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
-	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
+	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename1 = "human.txt";
 
 	float r, g, b;
