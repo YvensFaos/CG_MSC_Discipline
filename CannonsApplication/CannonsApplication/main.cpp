@@ -13,6 +13,7 @@
 #include "articulatedLuxorScene.h"
 #include "trinityScene.h"
 #include "neoMatrixScene.h"
+#include "pendulumScene.h"
 
 Player* player;
 
@@ -43,7 +44,8 @@ int main()
 	//player->setUpScenario(new KickingLamp());
 	//player->setUpScenario(new ArticulatedLuxorScene());
 	//player->setUpScenario(new TrinityScene());
-	player->setUpScenario(new NeoMatrixScene());
+	//player->setUpScenario(new NeoMatrixScene());
+	player->setUpScenario(new PendulumScene());
 
 	GLFWWrapper::initialize(callBack);
 	player->initializeLights();

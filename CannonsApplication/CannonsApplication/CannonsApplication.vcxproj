@@ -95,6 +95,7 @@
     <ClCompile Include="loadObjScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="neoMatrixScene.cpp" />
+    <ClCompile Include="pendulumScene.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="scenario.cpp" />
     <ClCompile Include="specialObjects.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="kickingScene.h" />
     <ClInclude Include="loadObjScene.h" />
     <ClInclude Include="neoMatrixScene.h" />
+    <ClInclude Include="pendulumScene.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="scenario.h" />
     <ClInclude Include="scene.h" />
