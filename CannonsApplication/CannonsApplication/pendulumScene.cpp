@@ -84,8 +84,8 @@ PendulumScene::PendulumScene(void) : Scene()
 
 	scenario = new Scenario();
 
-	//char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
-	char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
+	char* path = "C:/Users/Yvens/Documents/Visual Studio 2012/Projects/DisciplinaCG/CannonsApplication/Objs/";
+	//char* path = "C:/Users/Yvens/Documents/GitHub/DisciplinaCG/CannonsApplication/Objs/";
 	char* filename1 = "pendulum.txt";
 
 	#pragma region pendulum1
@@ -135,7 +135,7 @@ PendulumScene::PendulumScene(void) : Scene()
 
 	float teta = 25.f;
 	chain->floatCounter = teta;
-	int length = 6.f;
+	int length = 3.f;
 	chain->intCounter = length;
 	chain->rotate(*EDPoint::Z, teta);
 
@@ -165,7 +165,7 @@ PendulumScene::PendulumScene(void) : Scene()
 	pendulum2->floatCounter = 25.f;
 
 	chain2->floatCounter = teta;
-	chain2->intCounter = 12.f;
+	chain2->intCounter = 2.f;
 	chain2->rotate(*EDPoint::Z, 205);
 
 	ball2->floatCounter = initialT;
