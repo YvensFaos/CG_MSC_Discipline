@@ -2,6 +2,9 @@
 
 #include "edgroupedmesh.h"
 
+void normalCameraStopped(float elapsedTime, EDCamera* self)
+{ }
+
 void testMethodX(float elapsedTime, GObject* object)
 {
 	EDMesh* luxor = (EDMesh*)object;
@@ -256,6 +259,7 @@ ArticulatedLuxorScene::ArticulatedLuxorScene(void) : Scene()
 	l2->moveAxis.y += l2->height / 2.f;
 	l3->selfAxis = l2->moveAxis;
 
+	camera->setCallUpdate(normalCameraStopped);
 	scenario->objects.push_back(luxor);
 
 	//Início

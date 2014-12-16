@@ -42,10 +42,10 @@ int main()
 	//player->setUpScenario(new LoadObjScene());
 	//player->setUpScenario(new StandLuxorScene());
 	//player->setUpScenario(new KickingLamp());
-	//player->setUpScenario(new ArticulatedLuxorScene());
+	player->setUpScenario(new ArticulatedLuxorScene());
 	//player->setUpScenario(new TrinityScene());
 	//player->setUpScenario(new NeoMatrixScene());
-	player->setUpScenario(new PendulumScene());
+	//player->setUpScenario(new PendulumScene());
 
 	GLFWWrapper::initialize(callBack);
 	player->initializeLights();

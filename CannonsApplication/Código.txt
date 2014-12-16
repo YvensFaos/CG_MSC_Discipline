@@ -1,0 +1,74 @@
+## Início ##
+
+O método main encontra-se na classe main.cpp
+
+Para executar as cenas, é necessário um objeto do tipo player,
+instanciado no início do método main. O player irá executar uma
+determinada cena, setada pelo método "setUpScenario(new *Scene*())".
+
+O restante do código main trata-se da inicialização do GLFW através
+do GLFWWrapper, em seguida, ponteiros para os métodos de callBack, 
+running e keyboardListener são passados para o framework.
+
+O método callBack é o método executado a cada quadro pelo player.
+Esse método realizará a atualização e desenho de todos os objetos da cena.
+
+O método running é o método que verifica se o código continua em execução
+ou se deve ser encerrado.
+
+O método keyboard é um ponteiro de indireção para um método do player
+responsável por responder à comandos do teclado.
+
+## Setando uma Cena ##
+
+Para setar uma cena no player, basta mudar qual o objeto cena no método
+"setUpScenario" no player.
+
+Cada cena precisa herdar da super classe Scene.
+
+Cada cena possui uma câmera e um array de objetos. Esses objetos compôem o 
+cenário da cena. A cada quadro, todos os objetos dentro do array de objetos
+é atualizado e desenhado na cena. Objetos fora do array não serão processados
+pelo programa.
+
+Cada objeto deve herdar de uma das seguintes super classes:
+* GObject - para objetos genéricos.
+* EDMesh - para objetos lidos em arquivos .obj.
+* EDGroupedMesh - para objetos lidos em arquivos .obj com vertexesGroups.
+
+Todos esses objetos terão obrigatoriamente os métodos:
+* draw() - método que diz o que deve ser feito para desenhar o objeto na cena.
+* update() - método de atualização das variáveis do objeto.
+* setCallUpdate() - método para setar um ponteiro de função para o update do objeto.
+* setMaterial() - método para setar as cores em vetores de GLfloat dos materiais do objeto.
+
+Adicionalmente todo objeto possui um identificador char* para ser referenciado
+no array do objetos do cenário.
+
+A câmera é controlada por comandos de teclado. No entanto, é necessário setar 
+algum método de atualização na câmera, em cada cena, através do método
+"setCallUpdate()" da mesma.
+
+## Cenas Existentes ##
+
+CannonScene = Cena dos canhões atirando bolas entre si
+TransformScene = Cena de teste de transformações geométricas
+KickingScene = Cena com uma esfera quicando no chão
+CameraScene = Cena de teste de câmera
+LoadObjScene = Cena de teste de loading de .obj
+StandLuxorScene = Cena de loading do Luxor
+KickingLamp = Cena do luxor quicando utilizando a fórmula dada em sala de aula
+ArticulatedLuxorScene = Cena do luxor articulado
+TrinityScene = Cena de Trinity do matrix
+NeoMatrixScene = Cena do Neo do Matrix
+PendulumScene = Cena do pêndulo utilizando a fórmula vista em sala de aula
+
+## Carregando .obj ##
+
+No construtor de cada cena, quando os parâmetros são inicializados
+o path para os arquivos .objs deve ser passado como parâmetro na
+inicialização dos mesmos. Por default, estão os paths do meu computador,
+esses valores devem ser alterados.
+
+
+ 

@@ -1,0 +1,50 @@
+## Início ##
+
+Todos os trabalhos da disciplina foram programados em
+um mesmo projeto, chamado Cannon's Application.
+
+Nele eu fiz um pequeno framework para utilizar o openGL
+semelhante a um game loop, com chamadas contínuas aos 
+métodos de draw e update.
+
+O projeto foi construído no Visual Studio 2012, e para
+abri-lo basta executar o arquivo CannonsApplication.sln.
+
+## Estrutura de Pastas ##
+
+CannonsApplication/
+
+* Pasta inicial do projeto, com os arquivos do projeto.
+
+CannonsApplication/CannonsApplication/
+
+* Pasta dos arquivos de código (cpp, h) do projeto.
+
+CannonsApplication/CannonsApplication/Debug/
+
+* Arquivos gerados pelo Visual Studio para depuração dos arquivos.
+
+CannonsApplication/CannonsApplication/GLFW/
+
+* Arquivos da biblioteca do GLFW.
+
+CannonsApplication/CannonsApplication/Resources/
+
+* Pasta vazia. Normalmente é utilizada por arquivos auto-gerados do Visual Studio.
+
+CannonsApplication/Debug
+
+* Pasta com os arquivos executáveis do projeto. O arquivo CannonsApplication.exe será
+a execução da versão atual do projeto (a cena atual).
+  Dentro dessa pasta estão pastas com os executáveis para os seguintes trabalhos:
+  - Neo Matrix
+  - Trinity Matrix
+  - Luxor Articulado
+  - Pêndulo
+
+CannonsApplication/Objs
+
+* Os arquivos .obj utilizados no projeto. Para facilitar, os arquivos que são lidos no
+projeto são .txt, eu abro o arquivo .obj no bloco de notas e salvo como .txt. Faço isso
+porque o GitHub não realiza o commit de arquivos .obj.
+  Também constam nessa pasta os arquivos .blend dos modelos 3D.
